@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/VizcaIno/Documents/Josh/programa/base-datos/modelo_db.sqlite3" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3593"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,13:mainRepresentante"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">CREATE TABLE Representante (
+  Cedula VARCHAR(16) not NULL,
+  Nombre_1  VARCHAR(20) not NULL,
+  Nombre_2 VARCHAR(20) NULL,
+  Apellido_1 VARCHAR(20) not NULL,
+  Apellido_2 VARCHAR(20) NULL,
+  telefono VARCHAR(45) NULL,
+  PRIMARY KEY (Cedula)
+  );
+  
+ CREATE TABLE Estudiante (
+   C_E INT NOT NULL,
+   Cedula VARCHAR(20) NULL,
+   Nombre1  VARCHAR(32) NOT NULL,
+  Nombre_2 VARCHAR(30) NULL,
+  Apellido_1 VARCHAR(45) NOT NULL,
+  Apellido_2 VARCHAR(45) NULL,
+  Fecha_de_nacimiento DATE NOT NULL,
+  Edad INT NOT NULL,
+  Año_escolar_plazo VARCHAR(16) NOT NULL,
+  Representante_Cedula VARCHAR(16) NOT NULL,
+  PRIMARY KEY (C_E),
+  CONSTRAINT fk_Estudiante_Año_escolar1
+    FOREIGN KEY (Año_escolar_plazo) REFERENCES Año_escolar (plazo),
+  CONSTRAINT fk_Estudiante_Representante1
+    FOREIGN KEY (Representante_Cedula) REFERENCES Representante (Cedula)
+    );
+    
+    CREATE TABLE Año_escolar (
+   plazo VARCHAR(16) NOT NULL,
+   Inicio VARCHAR(24) NULL,
+   Fin  VARCHAR(32) NOT NULL,
+  PRIMARY KEY (plazo)
+  );
+  
+	CREATE TABLE Grado (
+     id INT NOT NULL,
+  Inscritos VARCHAR(255) NULL,
+  Año_escolar_plazo VARCHAR(16) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_Grado_Año_escolar1
+    FOREIGN KEY (Año_escolar_plazo) REFERENCES Año_escolar (plazo)
+    );
+    
+    CREATE TABLE SECCION (
+  id VARCHAR(16) NOT NULL,
+  Grado_ID INT NOT NULL,
+  primary key (id),
+  FOREIGN KEY (Grado_ID) REFERENCES Grado (id)
+	);
+    
+    
+    CREATE TABLE Materia (
+  Codigo VARCHAR(16) NOT NULL,
+  Nombre VARCHAR(255) NULL,
+  Descripcion VARCHAR(32) NOT NULL,
+  PROFESOR_cedular VARCHAR(16) NOT NULL,
+  PRIMARY KEY (Codigo),
+  CONSTRAINT fk_Materia_PROFESOR1
+    FOREIGN KEY (PROFESOR_cedular) REFERENCES PROFESOR (cedular)
+    );
+    
+    CREATE TABLE asigna (
+  Grado_ID INT NOT NULL,
+  Materia_Codigo VARCHAR(16) NOT NULL,
+  PRIMARY KEY (Grado_ID, Materia_Codigo),
+    FOREIGN KEY (Grado_ID)
+    REFERENCES Grado (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Grado_has_Materia_Materia1`
+    FOREIGN KEY (Materia_Codigo)
+    REFERENCES Materia (Codigo)
+    );
+    
+    CREATE TABLE PROFESOR (
+  cedular VARCHAR(16) NOT NULL,
+  nombre_1 VARCHAR(255) NOT NULL,
+  nombre_2 VARCHAR(32) NULL,
+  apellido_1 VARCHAR(20) NOT NULL,
+  apellido_2 VARCHAR(20) NULL,
+  titulo VARCHAR(30) NOT NULL,
+  telefono VARCHAR(12) NULL,
+  PRIMARY KEY (cedular)
+  );
+  
+  CREATE TABLE EVALUACION (
+  unidad VARCHAR(16) NOT NULL,
+  contenido VARCHAR(255) NOT NULL,
+  metodologia VARCHAR(32) NOT NULL,
+  fecha DATE NOT NULL,
+  PROFESOR_cedular VARCHAR(16) NOT NULL,
+  PRIMARY KEY (unidad),
+  CONSTRAINT fk_EVALUACION_PROFESOR1
+    FOREIGN KEY (PROFESOR_cedular)
+    REFERENCES PROFESOR (cedular)
+    );
+    
+    CREATE TABLE NOTA (
+  ID_estudiante VARCHAR(16) NOT NULL,
+  valor INT NULL,
+  porcentaje VARCHAR(32) NOT NULL,
+  promedio INT NULL,
+  Materia_Codigo VARCHAR(16) NOT NULL,
+  EVALUACION_unidad VARCHAR(16) NOT NULL,
+  PRIMARY KEY (ID_estudiante),
+  CONSTRAINT fk_NOTA_Materia1
+    FOREIGN KEY (Materia_Codigo)
+    REFERENCES Materia (Codigo),
+  CONSTRAINT fk_NOTA_EVALUACION1
+    FOREIGN KEY (EVALUACION_unidad)
+    REFERENCES EVALUACION (unidad)
+    );
+  
+  CREATE TABLE LAPSO (
+  id VARCHAR(16) NOT NULL,
+  inicio DATE NULL,
+  fin DATE NOT NULL,
+  NOTA_ID_estudiante VARCHAR(16) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_LAPSO_NOTA1
+    FOREIGN KEY (NOTA_ID_estudiante)
+    REFERENCES NOTA (ID_estudiante)
+    );</sql><current_tab id="0"/></tab_sql></sqlb_project>
