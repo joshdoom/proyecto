@@ -16,6 +16,21 @@ def create_profesor(id: int):
                            
                     else:
                           raise ValueError("El profesor ya existe")
+                    
+def update_profesor(id: int):
+        with session(engine) as session:
+                try:
+                     session.query(Profesor).\
+                        filter(Profesor.identification == identification).\
+                        update({
+                              Profesor.course: course,
+                              Profesor.section: section
+                        })
+
+                    session.commit()
+                except:
+                    raise ValueError ("El profesor no existe") 
+                           
 
 def create_evaluacion(id: int):
         with session(engine) as session:
@@ -30,6 +45,20 @@ def create_evaluacion(id: int):
                            
                     else:
                           raise ValueError("La evaluacion esta registrada")
+
+def update_evaluacion(id: int):
+        with session(engine) as session:
+                try:
+                     session.query(Evaluacion).\
+                        filter(Evaluacion.identification == identification).\
+                        update({
+                              Evaluacion.course: course,
+                              Evaluacion.section: section
+                        })
+
+                    session.commit()
+                except:
+                    raise ValueError ("La evaluacion no existe")                    
 
 def create_nota(id: int):
         with session(engine) as session:
@@ -45,6 +74,20 @@ def create_nota(id: int):
                     else:
                           raise ValueError("La nota es igual")
 
+def update_nota(id: int):
+        with session(engine) as session:
+                try:
+                     session.query(Nota).\
+                        filter(Nota.identification == identification).\
+                        update({
+                              Nota.course: course,
+                              Nota.section: section
+                        })
+
+                    session.commit()
+                except:
+                    raise ValueError ("La nota no existe")
+
 def create_lapso(id: int):
         with session(engine) as session:
                 for Profesor in session.query(Lapso):
@@ -59,19 +102,22 @@ def create_lapso(id: int):
                     else:
                           raise ValueError("Lapso ya esta registrado")
                     
-def create_evaluacion(id: int):
+def update_lapso(id: int):
         with session(engine) as session:
-                for Profesor in session.query(Evaluacion):
-                    if not Evaluacion.id == id:
-                        new_evaluacion= Evaluacion(id=id)
-                        session.add(new_evaluacion)
-                        session.commit()
+                try:
+                     session.query(Lapso).\
+                        filter(Lapso.identification == identification).\
+                        update({
+                              Lapso.course: course,
+                              Lapso.section: section
+                        })
+
+                    session.commit()
+                except:
+                    raise ValueError ("El lapso no existe") 
 
 
-                            
-                           
-                    else:
-                          raise ValueError("La evaluacion esta registrada")
                     
 
-def update_profesor():
+
+        
