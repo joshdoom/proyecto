@@ -21,10 +21,11 @@ def update_profesor(id: int):
         with session(engine) as session:
                 try:
                      session.query(Profesor).\
-                        filter(Profesor.identification == identification).\
+                        filter(Profesor.id == id).\
                         update({
-                              Profesor.course: course,
-                              Profesor.section: section
+                              Profesor.id_materia: Materias, 
+                              Profesor.id_materia: Evaluacion                       
+                              
                         })
 
                     session.commit()
@@ -50,10 +51,10 @@ def update_evaluacion(id: int):
         with session(engine) as session:
                 try:
                      session.query(Evaluacion).\
-                        filter(Evaluacion.identification == identification).\
+                        filter(Evaluacion.id == id).\
                         update({
-                              Evaluacion.course: course,
-                              Evaluacion.section: section
+                              Evaluacion.id_profesor: Nota,     
+                              Evaluacion.id_profesor: Profesor                        
                         })
 
                     session.commit()
@@ -78,10 +79,10 @@ def update_nota(id: int):
         with session(engine) as session:
                 try:
                      session.query(Nota).\
-                        filter(Nota.identification == identification).\
+                        filter(Nota.id == id).\
                         update({
-                              Nota.course: course,
-                              Nota.section: section
+                              Nota.id_estudiante: Lapso,
+                              Nota.id_materia: Materias
                         })
 
                     session.commit()
@@ -106,18 +107,12 @@ def update_lapso(id: int):
         with session(engine) as session:
                 try:
                      session.query(Lapso).\
-                        filter(Lapso.identification == identification).\
+                        filter(Lapso.id == id).\
                         update({
-                              Lapso.course: course,
-                              Lapso.section: section
+                              Lapso.nota_id:Nota 
+                              
                         })
 
                     session.commit()
                 except:
                     raise ValueError ("El lapso no existe") 
-
-
-                    
-
-
-        
