@@ -5,7 +5,7 @@ from models import Estudiante, Representante, Seccion, AnioEscolar, Nota, Grado,
 
 def create_representante(id: int):
         with session(engine) as session:
-                for Representante in session.query(Representante):
+                for representante in session.query(Representante):
                     if not Representante.id == id:
                         new_Representante= Representante(id=id)
                         session.add(new_Representante)
@@ -29,7 +29,7 @@ def update_representante(id: int):
 
 def create_estudiante(id: int):
         with session(engine) as session:
-                for Estudiante in session.query(Estudiante):
+                for estudiante in session.query(Estudiante):
                     if not Estudiante.id == id:
                         new_Estudiante= Estudiante(id=id)
                         session.add(new_Estudiante)
@@ -58,7 +58,7 @@ def update_estudiante(id: int):
 
 def create_anioEscolar(id: int):
         with session(engine) as session:
-                for AnioEscolar in session.query(AnioEscolar):
+                for Anio_Escolar in session.query(AnioEscolar):
                     if not AnioEscolar.id == id:
                         new_AnioEscolar= AnioEscolar(id=id)
                         session.add(new_AnioEscolar)
@@ -87,7 +87,7 @@ def update_anioEscolar(id: int):
 
 def create_grado(id: int):
         with session(engine) as session:
-                for Grado in session.query(Grado):
+                for grado in session.query(Grado):
                     if not Grado.id == id:
                         new_Grado= Grado(id=id)
                         session.add(new_Grado)
@@ -116,7 +116,7 @@ def update_grador(id: int):
 
 def create_seccion(id: int):
         with session(engine) as session:
-                for Seccion in session.query(Seccion):
+                for seccion in session.query(Seccion):
                     if not Seccion.id == id:
                         new_Seccion= Seccion(id=id)
                         session.add(new_Seccion)
@@ -144,7 +144,7 @@ def update_seccion(id: int):
 
 def create_materias(id: int):
         with session(engine) as session:
-                for Materias in session.query(Materias):
+                for materias in session.query(Materias):
                     if not Materias.id == id:
                         new_Materias= Materias(id=id)
                         session.add(new_Materias)
@@ -173,7 +173,7 @@ def update_materias(id: int):
 
 def create_profesor(id: int):
         with session(engine) as session:
-                for Profesor in session.query(Profesor):
+                for profesor in session.query(Profesor):
                     if not Profesor.id == id:
                         new_profesor= Profesor(id=id)
                         session.add(new_profesor)
@@ -203,7 +203,7 @@ def update_profesor(id: int):
 
 def create_evaluacion(id: int):
         with session(engine) as session:
-                for Evaluacion in session.query(Evaluacion):
+                for evaluacion in session.query(Evaluacion):
                     if not Evaluacion.id == id:
                         new_evaluacion= Evaluacion(id=id)
                         session.add(new_evaluacion)
@@ -231,7 +231,7 @@ def update_evaluacion(id: int):
 
 def create_nota(id: int):
         with session(engine) as session:
-                for Nota in session.query(Nota):
+                for nota in session.query(Nota):
                     if not Nota.id == id:
                         new_nota= Nota(id=id)
                         session.add(new_nota)
@@ -259,7 +259,7 @@ def update_nota(id: int):
 
 def create_lapso(id: int):
         with session(engine) as session:
-                for Lapso in session.query(Lapso):
+                for lapso in session.query(Lapso):
                     if not Lapso.id == id:
                         new_lapso= Lapso(id=id)
                         session.add(new_lapso)
@@ -284,3 +284,125 @@ def update_lapso(id: int):
                      session.commit()
                 except:
                     raise ValueError ("El lapso no existe")
+
+
+
+def delele_estudiante():
+      with session(engine) as session:
+        try:
+              estudiante= session.query(Estudiante).\
+                filter(Estudiante.id== id).first()
+              session.delele(Estudiante)
+              session.commit()
+              
+        
+        
+        except:
+              raise ValueError("El estudiante no existe")
+        
+
+def delele_representante():
+      with session(engine) as session:
+        try:
+              representante= session.query(Representante).\
+                filter(Representante.id== id).first()
+              session.delele(Representante)
+              session.commit()
+              
+        
+        
+        except:
+              raise ValueError("El representante no existe")
+        
+
+def delele_anioescolar():
+      with session(engine) as session:
+        try:
+              Anio_Escolar= session.query(AnioEscolar).\
+                filter(AnioEscolar.id== id).first()
+              session.delele(AnioEscolar)
+              session.commit()
+              
+        
+        
+        except:
+              raise ValueError("El año escolar no existe")
+        
+
+def delele_grado():
+      with session(engine) as session:
+        try:
+              grado= session.query(Grado).\
+                filter(Grado.id== id).first()
+              session.delele(Grado)
+              session.commit()
+              
+        
+        
+        except:
+              raise ValueError("El Grado no existe")
+        
+def delele_materia():
+      with session(engine) as session:
+        try:
+              materias= session.query(Materias).\
+                filter(Materias.id== id).first()
+              session.delele(Materias)
+              session.commit()
+              
+        
+        
+        except:
+              raise ValueError("Ls msteria no existe")
+        
+def delele_profesor():
+      with session(engine) as session:
+        try:
+              profesor= session.query(Profesor).\
+                filter(Profesor.id== id).first()
+              session.delele(Profesor)
+              session.commit()
+              
+        
+        
+        except:
+              raise ValueError("el Profesor no existe")
+        
+def delele_evaluacion():
+      with session(engine) as session:
+        try:
+              evaluacion= session.query(Evaluacion).\
+                filter(Evaluacion.id== id).first()
+              session.delele(Evaluacion)
+              session.commit()
+              
+        
+        
+        except:
+              raise ValueError("La evaluacion no existe")
+        
+def delele_nota():
+      with session(engine) as session:
+        try:
+              nota= session.query(Nota).\
+                filter(Nota.id== id).first()
+              session.delele(Nota)
+              session.commit()
+              
+        
+        
+        except:
+              raise ValueError("La nota no existe")
+        
+def delele_lapso():
+      with session(engine) as session:
+        try:
+              lapso= session.query(Lapso).\
+                filter(Lapso.id== id).first()
+              session.delele(Lapso)
+              session.commit()
+              
+        
+        
+        except:
+              raise ValueError("La nota no existe")
