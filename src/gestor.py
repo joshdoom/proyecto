@@ -48,7 +48,7 @@ def update_estudiante(id: int):
                         filter(Estudiante.id == id).\
                         update({
                               Estudiante.id_representante: Representante, 
-                              Estudiante.id_representante: AnioEscolar                       
+                                                 
                               
                         })
 
@@ -77,7 +77,7 @@ def update_anioEscolar(id: int):
                         filter(AnioEscolar.id == id).\
                         update({
                               AnioEscolar.id_estudiante: Estudiante, 
-                              AnioEscolar.id_estudiante: Grado                       
+                                                    
                               
                         })
 
@@ -106,7 +106,7 @@ def update_grador(id: int):
                         filter(Grado.id == id).\
                         update({
                               Grado.id_estudiante: AnioEscolar, 
-                              Grado.id_estudiante: Materias                       
+                                                   
                               
                         })
 
@@ -163,7 +163,7 @@ def update_materias(id: int):
                         filter(Materias.id == id).\
                         update({
                               Materias.id_grado: Grado,
-                              Materias.id_grado: Profesor 
+                               
                                                                                    
                         })
 
@@ -192,7 +192,7 @@ def update_profesor(id: int):
                         filter(Profesor.id == id).\
                         update({
                               Profesor.id_materia: Materias, 
-                              Profesor.id_materia: Evaluacion                       
+                                                     
                               
                         })
 
@@ -222,7 +222,7 @@ def update_evaluacion(id: int):
                         filter(Evaluacion.id == id).\
                         update({
                               Evaluacion.id_profesor: Nota,     
-                              Evaluacion.id_profesor: Profesor                        
+                                                     
                         })
 
                      session.commit()
