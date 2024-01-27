@@ -1,204 +1,105 @@
+import sqlite3 
 from tkinter import *
-class quinto:
+from tkinter import ttk
+import tkinter as tk
+
+
+class Quinto:
         root = Tk()        
         root.title("Quinto año")
         root.geometry("1280x680")      
-        root.iconbitmap("Urbaneja.ico")
         root.config(bd=20)
         root.resizable(False, False)
-        miFrame=Frame()
+
+        miFrame=Frame(root)
         miFrame.pack()  
         miFrame.config(width="1200", height="250")
-        miFrame.config(bd=5)
-        miFrame.config(relief="groove")
-            #frame botones 1
 
-        miFrame1=Frame()
-        miFrame1.pack()   
-        miFrame1.config(width="1200", height="350")
-        miFrame1.config(bd=1)
-        miFrame1.place(x=800, y=210)
-        miFrame1.config(relief="raised")
-
-
-                #Boton 1
-
-        botonnuevo=Button(miFrame1, text="Nuevo")
+        botoneliminar=Button(root, text="Nuevo")
+        botoneliminar.pack()
+        botoneliminar.config(bg="white")
+        botoneliminar.config(fg="black")
+        botoneliminar.place(x=600, y=210)
+       
+    
+        botonnuevo=Button(root, text="Guardar")
         botonnuevo.pack()
         botonnuevo.config(bg="white")
         botonnuevo.config(fg="black")
-        botonnuevo.config(font=("Arial Black", 10))
-
-
-                #frame botones 2
-
-        miFrame12=Frame()
-        miFrame12.pack()
-        miFrame12.config(bg="white")
-        miFrame12.config(width="1200", height="350")
-        miFrame12.config(bd=1)
-        miFrame12.place(x=900, y=210)
-        miFrame12.config(relief="raised")
-
-
-                #Boton 2
-
-        botonguardar=Button(miFrame12, text="Guardar")
+        botonnuevo.place(x=800, y=210)
+        
+  
+    
+        botonguardar=Button(root, text="Eliminar")
         botonguardar.pack()
         botonguardar.config(bg="white")
         botonguardar.config(fg="black")
-        botonguardar.config(font=("Arial Black", 10))
+        botonguardar.place(x=700, y=210)
+       
 
-
-
-
-
-
-                #frame botones 3
-
-        miFrame13=Frame()
+        miFrame13=Frame(root)
         miFrame13.pack(side="bottom", anchor="w")
-        miFrame13.config(bg="red")
+      
         miFrame13.config(width="1200", height="350")
         miFrame13.config(bd=1)
-        miFrame13.config(relief="raised")
+       
 
-
-                #Boton 3
-
-        botoneditar=Button(miFrame13, text="Editar")
+        botoneditar=Button(miFrame13, text="Editar")        
         botoneditar.pack()
         botoneditar.config(bg="white")
-        botoneditar.config(fg="black")
-        botoneditar.config(font=("Arial Black", 10))
+        
+       
+          
+        milabel= Label(miFrame, text="Nombres:")
+        milabel.place(x=150, y=0)  
 
+        cuadrotexto=Entry(root)
+        cuadrotexto.place(x=255, y=7)
+       
 
+        milabel2= Label(miFrame, text="Apellidos:")
+        milabel2.place(x=150, y=50)
 
+        cuadrotexto2=Entry(root)       
+        cuadrotexto2.place(x=255, y=55)
 
+        milabel= Label(miFrame, text="Cedula:")
+        milabel.place(x=150, y=100) 
 
-                #Label
+        cuadrotexto=Entry(root)
+        cuadrotexto.place(x=255, y=107)
 
-        milabel= Label(miFrame, text="Nombre:")
-        milabel.place(x=150, y=0)    
-        milabel.config(font=("Arial Black", 15))
+        milabel= Label(miFrame, text="Telefono:")
+        milabel.place(x=150, y=150)  
 
+        cuadrotexto=Entry(root)
+        cuadrotexto.place(x=255, y=157)
 
+        milabel= Label(miFrame, text="Fecha de Nacimiento:")
+        milabel.place(x=150, y=200)  
 
-                #cuadro intrducir texto
+        cuadrotexto=Entry(root)
+        cuadrotexto.place(x=315, y=207)
 
-            #cuadrotexto=Entry(root)
-            #cuadrotexto.place(x=455, y=7)
-            #cuadrotexto.config(font=("Arial",20))
+        milabel= Label(miFrame, text="Representante:")
+        milabel.place(x=550, y=0)  
 
+        cuadrotexto=Entry(root)
+        cuadrotexto.place(x=670, y=7)
 
-
-                #Label 1.2
-
-        milabel2= Label(miFrame, text="Apellido:")
-        milabel2.place(x=150, y=80)   
-        milabel2.config(font=("Arial Black", 15))
-
-
-
-                #cuadro intrducir texto 2
-
-            #cuadrotexto2=Entry(root)
-            #cuadrotexto2.place(x=455, y=85)
-            #cuadrotexto2.config(font=("Arial",20))
-
-
-
-                #Label 1.3
-
-
-        milabel3= Label(miFrame, text="ID:")
-        milabel3.place(x=150, y=160)   
-        milabel3.config(font=("Arial Black", 15))
-
-
-                #cuadro intrducir texto 3
-
-            #cuadrotexto3=Entry(root)
-            #cuadrotexto3.place(x=455, y=165)
-            #cuadrotexto3.config(font=("Arial",20))
-
-
-
-
-
-                #frame2
-
-        miFrame2=Frame()
+        miFrame2=Frame(root)
         miFrame2.pack(fill="y", expand="true")
         miFrame2.pack(side="bottom")
         miFrame2.config(bg="white")
         miFrame2.config(width="1400", height="350")
-        miFrame2.config(bd=10)
-        miFrame2.config(relief="groove")
-
-
-                #label 2
-
-        milabel4= Label(miFrame2, text="ID")
-        milabel4.place(x=50, y=0)
-        milabel4.config(fg="black")
-        milabel4.config(bg="white")
-        milabel4.config(font=("Arial", 15))
-
-
-                #label 2.2
-
-        milabel5= Label(miFrame2, text="Nombre")
-        milabel5.place(x=250, y=0)
-        milabel5.config(fg="black")
-        milabel5.config(bg="white")
-        milabel5.config(font=("Arial", 15))
-
-                #label 2.3
-
-        milabel6= Label(miFrame2, text="Apellido")
-        milabel6.place(x=550, y=0)
-        milabel6.config(fg="black")
-        milabel6.config(bg="white")
-        milabel6.config(font=("Arial", 15))
-
-
-                #label 2.4
-
-        milabel7= Label(miFrame2, text="Nota")
-        milabel7.place(x=850, y=0)
-        milabel7.config(fg="black")
-        milabel7.config(bg="white")
-        milabel7.config(font=("Arial", 15))
-
-
-
-                #label 2.5
-
-
-        milabel8= Label(miFrame2, text="Promedio")
-        milabel8.place(x=1100, y=0)
-        milabel8.config(fg="black")
-        milabel8.config(bg="white")
-        milabel8.config(font=("Arial", 15))
-
-
-
-
-
-                #frame botones menu
-
-        miFramemenu=Frame()
+       
+        
+        miFramemenu=Frame(root)
         miFramemenu.pack()
-        miFramemenu.config(bg="orange")
         miFramemenu.config(width="10", height="35")
         miFramemenu.config(bd=1)
         miFramemenu.place(x=1010, y=210)
         miFramemenu.config(relief="raised")
-
-
-            
-
 
         var = StringVar(miFramemenu)
         var.set ("Materias")
@@ -209,6 +110,5 @@ class quinto:
         botonguardar.config(fg="black")
         botoneditar.config(font=("Arial Black", 10))
         opcion.pack()
-
 
         root.mainloop()

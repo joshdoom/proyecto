@@ -5,9 +5,11 @@ import tkinter as tk
 
 
 
-class Tercero:
-        root = Tk()        
-        root.title("Tercer año")
+
+class profesor():
+           
+        root = Tk()                   
+        root.title("Profesores")
         root.geometry("1280x680")      
         root.config(bd=20)
         root.resizable(False, False)
@@ -15,6 +17,11 @@ class Tercero:
         miFrame=Frame(root)
         miFrame.pack()  
         miFrame.config(width="1200", height="250")
+        miFrame.config(bd=5)
+        
+                           
+       
+
         
         botoneliminar=Button(root, text="Nuevo")
         botoneliminar.pack()
@@ -76,25 +83,33 @@ class Tercero:
         cuadrotexto=Entry(root)
         cuadrotexto.place(x=255, y=157)
 
-        milabel= Label(miFrame, text="Fecha de Nacimiento:")
+        milabel= Label(miFrame, text="Titulo:")
         milabel.place(x=150, y=200)  
 
         cuadrotexto=Entry(root)
-        cuadrotexto.place(x=315, y=207)
+        cuadrotexto.place(x=255, y=207)
 
-        milabel= Label(miFrame, text="Representante:")
+        milabel= Label(miFrame, text="Materia Asignada:")
         milabel.place(x=550, y=0)  
 
         cuadrotexto=Entry(root)
-        cuadrotexto.place(x=670, y=7)
+        cuadrotexto.place(x=700, y=7)
        
+
+
+        
+        
+
         miFrame2=Frame(root)
         miFrame2.pack(fill="y", expand="true")
         miFrame2.pack(side="bottom")
         miFrame2.config(bg="white")
         miFrame2.config(width="1400", height="350")
+        miFrame2.config(bd=10)
+             
 
-        
+       
+
         miFramemenu=Frame(root)
         miFramemenu.pack()
         miFramemenu.config(width="10", height="35")
@@ -102,17 +117,17 @@ class Tercero:
         miFramemenu.place(x=1010, y=210)
         miFramemenu.config(relief="raised")
 
-        var = StringVar(miFramemenu)
+        var = StringVar(root)
+        
         var.set ("Materias")
-        opciones=["Castellano","Ciencias Biologicas","Fisica","Quimica","Geografía, historia y ciudadanía (GHC)","Ingles","Matematicas","Orientación y convivencia ","Participación en grupos de creación, recreación y producción (G.E.R.P)"]
-        opcion=OptionMenu(miFramemenu, var, *opciones)
+        opciones=["Arte y patrimonio","Castellano","Ciencias Naturales","Educacion Fisica","Geografía, historia y ciudadanía (GHC)","Ingles","Matematicas","Orientación y convivencia ","Participación en grupos de creación, recreación y producción (G.E.R.P)","Fisica","Quimica"]
+        opcion=OptionMenu(miFramemenu, var, *opciones) 
+        opcion.place(x=1000,y=210)       
         opcion.config(width=15)
         opcion.config(bg="white")
         botonguardar.config(fg="black")
         botoneditar.config(font=("Arial Black", 10))
         opcion.pack()
 
-       
-
-        root.mainloop()
-      
+        
+        root.mainloop()        
