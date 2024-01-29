@@ -23,15 +23,17 @@ def screen_grado_v(tk: tkinter, window: Tk):
             table.delete(i)
         
         with Session(engine) as session:
-            estudiantes = session.query(ModelGrado).filter_by(inscrito=1).all()
+            estudiantes = session.query(Model).all()
 
-            for x in estudiantes:
-                estudiante = session.query(Model).filter_by(id=x.id_estudiante).first()
-                anioescolar = session.query(ModelAnioEscolar).filter_by(id_estudiante=x.id_estudiante).first()
+            for estudiante in estudiantes:
+                grado = session.query(ModelGrado).filter(ModelGrado.id_estudiante == estudiante.id, ModelGrado.inscrito == 5).first()
+                anioescolar = session.query(ModelAnioEscolar).filter_by(id_estudiante=estudiante.id).first()
                 seccion = "U"
 
-                table.insert('', 'end', values=(estudiante.id, estudiante.nombres, estudiante.apellidos, estudiante.cedula, estudiante.telefono, estudiante.fecha_nacimiento, x.inscrito, seccion, anioescolar.fin))
-        table.pack(fill="both", expand=True)
+                if grado is not None and anioescolar is not None:
+                    table.insert('', 'end', values=(estudiante.id, estudiante.nombres, estudiante.apellidos, estudiante.cedula, estudiante.telefono, estudiante.fecha_nacimiento, grado.inscrito, seccion, anioescolar.inicio, anioescolar.fin))
+            table.pack(fill="both", expand=True)
+
 
     def show_students():
         global table
@@ -61,15 +63,16 @@ def screen_grado_v(tk: tkinter, window: Tk):
         table.heading('Fin', text='Fin')
 
         with Session(engine) as session:
-            estudiantes = session.query(ModelGrado).filter_by(inscrito=5).all()
+            estudiantes = session.query(Model).all()
 
-            for x in estudiantes:
-                estudiante = session.query(Model).filter_by(id=x.id_estudiante).first()
-                anioescolar = session.query(ModelAnioEscolar).filter_by(id_estudiante=x.id_estudiante).first()
+            for estudiante in estudiantes:
+                grado = session.query(ModelGrado).filter(ModelGrado.id_estudiante == estudiante.id, ModelGrado.inscrito == 5).first()
+                anioescolar = session.query(ModelAnioEscolar).filter_by(id_estudiante=estudiante.id).first()
                 seccion = "U"
 
-                table.insert('', 'end', values=(estudiante.id, estudiante.nombres, estudiante.apellidos, estudiante.cedula, estudiante.telefono, estudiante.fecha_nacimiento, x.inscrito, seccion, anioescolar.inicio, anioescolar.fin))
-        table.pack(fill="both", expand=True)
+                if grado is not None and anioescolar is not None:
+                    table.insert('', 'end', values=(estudiante.id, estudiante.nombres, estudiante.apellidos, estudiante.cedula, estudiante.telefono, estudiante.fecha_nacimiento, grado.inscrito, seccion, anioescolar.inicio, anioescolar.fin))
+            table.pack(fill="both", expand=True)
    
     def nuevo():
         nombres = entries[0].get()
@@ -77,18 +80,17 @@ def screen_grado_v(tk: tkinter, window: Tk):
         cedula = entries[2].get()
         telefono = entries[3].get()
         fecha_nacimiento = datetime.strptime(entries[4].get(), '%m/%d/%y')
-        grado = entries[5].get()
-        seccion = entries[6].get()
-        inicio = datetime.strptime(entries[7].get(), '%m/%d/%y')
-        fin = datetime.strptime(entries[8].get(), '%m/%d/%y')
+        inicio = datetime.strptime(entries[5].get(), '%m/%d/%y')
+        fin = datetime.strptime(entries[6].get(), '%m/%d/%y')
 
         connect_estudiante.create(nombres, apellidos, cedula, telefono, fecha_nacimiento, 1)
         with Session(engine) as session:
             estudiante = session.query(Model).filter_by(cedula=cedula).first()
-            connect_grado.create(grado, estudiante.id)
+            connect_grado.create(5, estudiante.id)
             connect_anioescolar.create(inicio, fin, estudiante.id)
         
         update_table()
+        limpiar_campos()
 
     def eliminar():
         selected_item = table.selection()[0]
@@ -109,9 +111,17 @@ def screen_grado_v(tk: tkinter, window: Tk):
         global selected_estudiante
         selected_item = table.selection()[0]
         selected_estudiante = table.item(selected_item)['values']
+        omitir = selected_estudiante.pop(6)
+        omitir = selected_estudiante.pop(6)
         for i, entry in enumerate(entries):
-            entry.delete(0, 'end')
-            entry.insert(0, selected_estudiante[i+1])
+            if i >= 4:
+                dt = datetime.strptime(selected_estudiante[i+1], "%Y-%m-%d %H:%M:%S")
+                str_dt = dt.strftime('%m/%d/%y')
+                entry.delete(0, 'end')
+                entry.insert(0, str_dt)
+            else:
+                entry.delete(0, 'end')
+                entry.insert(0, selected_estudiante[i+1])
 
     def guardar():
         nombres = entries[0].get()
@@ -119,10 +129,8 @@ def screen_grado_v(tk: tkinter, window: Tk):
         cedula = entries[2].get()
         telefono = entries[3].get()
         fecha_nacimiento = datetime.strptime(entries[4].get(), '%m/%d/%y')
-        inscrito = entries[5].get()
-        seccion = entries[6].get()
-        inicio = datetime.strptime(entries[7].get(), '%m/%d/%y')
-        fin = datetime.strptime(entries[8].get(), '%m/%d/%y')
+        inicio = datetime.strptime(entries[5].get(), '%m/%d/%y')
+        fin = datetime.strptime(entries[6].get(), '%m/%d/%y')
 
         with Session(engine) as session:
             estudiante = session.query(Model).filter_by(id=selected_estudiante[0]).first()
@@ -131,10 +139,14 @@ def screen_grado_v(tk: tkinter, window: Tk):
 
             connect_estudiante.update(estudiante.id, nombres, apellidos, cedula, telefono, fecha_nacimiento, 1)
             connect_anioescolar.update(anio_escolar.id, inicio, fin, estudiante.id)
-            connect_grado.update(grado.id, inscrito, estudiante.id)
+            connect_grado.update(grado.id, 5, estudiante.id)
 
         update_table()
+        limpiar_campos()
 
+    def limpiar_campos():
+        for entry in entries:
+            entry.delete(0, 'end')
 
     window.title("Quinto año")
     window.geometry("1280x680")
@@ -143,7 +155,7 @@ def screen_grado_v(tk: tkinter, window: Tk):
     miFrame = tk.Frame(window, width="1200", height="250", bd=5)
     miFrame.pack()
 
-    labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Fecha de Nacimiento", "Grado", "Seccion", "Inicio", "Fin"]
+    labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Fecha de Nacimiento", "Inicio", "Fin"]
     entries = [tk.Entry(window) if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
 
     for i, (label, entry) in enumerate(zip(labels, entries)):
