@@ -21,10 +21,10 @@ class Estudiante(Base):
     id = Column(Integer, primary_key=True)
     nombres = Column(String(60), nullable=False)
     apellidos = Column(String(60), nullable=True)
-    cedula = Column(String(12), nullable=False)
+    cedula = Column(String(60), nullable=False)
     telefono = Column(String(60), nullable=True)
     fecha_nacimiento = Column(DateTime, nullable=False)
-    id_representante = Column(Integer, ForeignKey('representantes.id'))
+    id_representante = Column(Integer)
     
 class AnioEscolar(Base):
     __tablename__ = 'anio_escolar'
@@ -38,14 +38,14 @@ class Grado(Base):
     __tablename__ = 'grados'
 
     id = Column(Integer, primary_key=True)
-    inscrito = Column(DateTime, nullable=False)
+    inscrito = Column(String, nullable=False)
     id_estudiante = Column(Integer, ForeignKey('estudiantes.id'))
 
 class Seccion(Base):
     __tablename__ = 'secciones'
 
     id = Column(Integer, primary_key=True)
-    seccion = Column(String, nullable=False)
+    seccion = Column(String, default="U")
     id_grado = Column(Integer, ForeignKey('grados.id'))
 
 class Materias(Base):
@@ -55,7 +55,7 @@ class Materias(Base):
     codigo = Column(String, nullable=False)
     nombre = Column(String, nullable=False)
     descripcion = Column(String, nullable=True)
-    id_grado = Column(Integer, ForeignKey('grados.id'))
+    id_grado = Column(Integer)
 
 class Profesor(Base):
     __tablename__ = 'profesores'
@@ -66,7 +66,7 @@ class Profesor(Base):
     cedula = Column(String(12), nullable=False)
     telefono = Column(String(60), nullable=False)
     titulo = Column(String, nullable=False)
-    id_materia = Column(Integer, ForeignKey('materias.id'))
+    id_materia = Column(Integer)
 
 class Evaluacion(Base):
     __tablename__ = 'evaluaciones'
