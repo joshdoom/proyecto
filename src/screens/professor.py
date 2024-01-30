@@ -3,11 +3,14 @@ from tkinter import Tk, ttk
 from sqlalchemy.orm import Session
 
 from ..services.profesor import Profesor
+from ..services.materias import Materias
 from ..models import Profesor as Model
+from ..models import Materias as ModelMaterias
 from ..engine import engine
 
 def screen_professor(tk: tkinter, window: Tk):
     connect = Profesor(engine)
+    connect_materias = Materias(engine)
 
     def update_table():
         for i in table.get_children():
@@ -51,9 +54,15 @@ def screen_professor(tk: tkinter, window: Tk):
         cedula = entries[2].get()
         telefono = entries[3].get()
         titulo = entries[4].get()
-        id_materia = 2
 
-        connect.create(nombres, apellidos, cedula, telefono, titulo, id_materia)
+        with Session(engine) as session:
+            materia = session.query(ModelMaterias).filter_by(nombre=titulo).first()
+            if not materia:
+                connect_materias.create(titulo[0].upper(), titulo, None, 1)
+                materia = session.query(ModelMaterias).filter_by(nombre=titulo).first()
+            
+        connect.create(nombres, apellidos, cedula, telefono, titulo, materia.id)
+        limpiar_campos()
         update_table()
 
     def eliminar():
@@ -78,10 +87,20 @@ def screen_professor(tk: tkinter, window: Tk):
         cedula = entries[2].get()
         telefono = entries[3].get()
         titulo = entries[4].get()
-        id_materia = entries[5].get()
 
-        connect.update(id, nombres, apellidos, cedula, telefono, titulo, id_materia)
+        with Session(engine) as session:
+            materia = session.query(ModelMaterias).filter_by(nombre=titulo).first()
+            if not materia:
+                connect_materias.create(titulo[0].upper(), titulo, None, 1)
+                materia = session.query(ModelMaterias).filter_by(nombre=titulo).first()
+            
+        connect.update(id, nombres, apellidos, cedula, telefono, titulo, materia.id)
+        limpiar_campos()
         update_table()
+
+    def limpiar_campos():
+        for entry in entries:
+            entry.delete(0, 'end')
 
     window.title("Profesores")
     window.geometry("1280x680")
