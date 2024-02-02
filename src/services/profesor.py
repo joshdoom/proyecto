@@ -8,8 +8,6 @@ class Profesor:
     
     def create(self, nombres: str, apellidos: str, cedula: str, telefono: str, titulo: str, id_materia: int):
         with self.session() as session:
-            if session.query(Model).filter_by(cedula=cedula).first() is not None:
-                raise ValueError("Un profesor con esta cédula ya existe.")
             profesor = Model(nombres=nombres,
                                 apellidos=apellidos,
                                 cedula=cedula,

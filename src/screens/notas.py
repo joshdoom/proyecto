@@ -11,7 +11,7 @@ from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as Mod
 from ..engine import engine
 
 
-def screen_notas(tk: tkinter, window: Tk, degree: int=1):
+def screen_notas(tk: tkinter, window: Tk, degree: int=5):
     table = ttk.Treeview(window, columns=('ID', 'Nombre del estudiante', 'Cedula', 'Materia', 'Nota', 'Lapso'))
     table.pack()
     table.heading('ID', text='ID')
@@ -31,8 +31,9 @@ def screen_notas(tk: tkinter, window: Tk, degree: int=1):
 
     def buscar():
         with Session(engine) as session:
-            select_by_cedula = "31.123.458"
+            select_by_cedula = entryCedula.get()
             estudiante = session.query(Model).filter_by(cedula=select_by_cedula).first()
+
             if estudiante is not None:
                 materias = session.query(ModelMaterias).filter_by(id_grado=degree).all()
                 show_notas(estudiante, materias)
@@ -93,3 +94,21 @@ def screen_notas(tk: tkinter, window: Tk, degree: int=1):
     materiaSeleccionada.set('Materias')
     menuMaterias = tk.OptionMenu(miFrame, materiaSeleccionada, *materias)
     menuMaterias.pack(side='left', padx=5, pady=5)
+
+    labelNota = tk.Label(miFrame, text="Notas:")
+    labelNota.pack(side='left', padx=5, pady=5)
+
+    notas = [1, 2, 3, 4]
+    notasSeleccionada = tk.StringVar()
+    notasSeleccionada.set('Notas')
+    menuNotas = tk.OptionMenu(miFrame, notasSeleccionada, *notas)
+    menuNotas.pack(side='left', padx=5, pady=5)
+
+    labelLapso = tk.Label(miFrame, text="Lapso:")
+    labelLapso.pack(side='left', padx=5, pady=5)
+
+    lapso = [1, 2, 3]
+    lapsosSeleccionada = tk.StringVar()
+    lapsosSeleccionada.set('Lapsos')
+    menulapso = tk.OptionMenu(miFrame, lapsosSeleccionada, *lapso)
+    menulapso.pack(side='left', padx=5, pady=5)

@@ -53,17 +53,19 @@ def screen_professor(tk: tkinter, window: Tk):
         apellidos = entries[1].get()
         cedula = entries[2].get()
         telefono = entries[3].get()
-        titulo = entries[4].get()
+        titulo = MateriaAsignada.get()
+        grado = Grado.get()
 
         with Session(engine) as session:
-            materia = session.query(ModelMaterias).filter_by(nombre=titulo).first()
+            materia = session.query(ModelMaterias).filter(ModelMaterias.nombre == titulo, ModelMaterias.id_grado == grado).first()
             if not materia:
-                connect_materias.create(titulo[0].upper(), titulo, None, 1)
-                materia = session.query(ModelMaterias).filter_by(nombre=titulo).first()
+                connect_materias.create(titulo[0].upper(), titulo, None, grado)
+                materia = session.query(ModelMaterias).filter(ModelMaterias.nombre == titulo, ModelMaterias.id_grado == grado).first()
             
-        connect.create(nombres, apellidos, cedula, telefono, titulo, materia.id)
+        connect.update(id, nombres, apellidos, cedula, telefono, titulo, materia.id)
         limpiar_campos()
         update_table()
+
 
     def eliminar():
         selected_item = table.selection()[0]
@@ -86,13 +88,14 @@ def screen_professor(tk: tkinter, window: Tk):
         apellidos = entries[1].get()
         cedula = entries[2].get()
         telefono = entries[3].get()
-        titulo = entries[4].get()
+        titulo = MateriaAsignada.get()
+        grado = Grado.get()
 
         with Session(engine) as session:
-            materia = session.query(ModelMaterias).filter_by(nombre=titulo).first()
+            materia = session.query(ModelMaterias).filter(ModelMaterias.nombre == titulo, ModelMaterias.id_grado == grado).first()
             if not materia:
-                connect_materias.create(titulo[0].upper(), titulo, None, 1)
-                materia = session.query(ModelMaterias).filter_by(nombre=titulo).first()
+                connect_materias.create(titulo[0].upper(), titulo, None, grado)
+                materia = session.query(ModelMaterias).filter(ModelMaterias.nombre == titulo, ModelMaterias.id_grado == grado).first()
             
         connect.update(id, nombres, apellidos, cedula, telefono, titulo, materia.id)
         limpiar_campos()
@@ -109,12 +112,26 @@ def screen_professor(tk: tkinter, window: Tk):
     miFrame = tk.Frame(window, width="1200", height="250", bd=5)
     miFrame.pack()
 
-    labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Titulo", "Materia Asignada"]
+    labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Materia Asignada", "Grado"]
     entries = [tk.Entry(window) for _ in labels]
 
     for i, (label, entry) in enumerate(zip(labels, entries)):
+        if i < 4:  # Para los primeros cuatro labels y entries
             tk.Label(miFrame, text=label).place(x=150, y=i*50)
             entry.place(x=255, y=i*50+7)
+        elif i == 4:  # Para el quinto label y entry
+            MateriaAsignada = tk.StringVar(miFrame)
+            MateriaAsignada.set("Materias")
+            opciones = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "Geografía, historia y ciudadanía (GHC)", "Ingles", "Matematicas", "Orientación y convivencia", "Participación en grupos de creación, recreación y producción (G.E.R.P)", "Fisica", "Quimica"]
+            opcion = tk.OptionMenu(miFrame, MateriaAsignada, *opciones)
+            opcion.place(x=450, y=(i-4)*50+7)
+        else:  # Para el sexto label y entry
+            Grado = tk.StringVar(miFrame)
+            Grado.set("Grados")
+            grados = [str(i) for i in range(1, 6)]
+            opcion_grado = tk.OptionMenu(miFrame, Grado, *grados)
+            opcion_grado.place(x=450, y=(i-4)*50+7)
+
 
     button_new = tk.Button(window, text="Nuevo", command=nuevo, bg="white", fg="black")
     button_new.pack()
@@ -135,12 +152,5 @@ def screen_professor(tk: tkinter, window: Tk):
 
     miFramemenu = tk.Frame(window, width="10", height="35", bd=1, relief="raised")
     miFramemenu.place(x=1010, y=210)
-
-    var = tk.StringVar(window)
-    var.set("Materias")
-    opciones = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "Geografía, historia y ciudadanía (GHC)", "Ingles", "Matematicas", "Orientación y convivencia", "Participación en grupos de creación, recreación y producción (G.E.R.P)", "Fisica", "Quimica"]
-    opcion = tk.OptionMenu(miFramemenu, var, *opciones)
-    opcion.config(width=15, bg="white", fg="black", font=("Arial Black", 10))
-    opcion.pack()
 
     show_professores()
