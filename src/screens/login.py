@@ -18,6 +18,7 @@ def screen_login(tk: tkinter, window: Tk):
                 if username == user.nombre and password == user.contrasena:
                     window.destroy()
                     screen_index(tk, window=Tk())
+                    return
             else:
                 messagebox.showinfo("Error", "Usuario o contraseña es incorrecta")
     
