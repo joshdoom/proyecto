@@ -1,114 +1,142 @@
 import tkinter
-from datetime import datetime
 from tkinter import Tk, ttk
 from sqlalchemy.orm import Session
 
-from ..services.estudiante import Estudiante
-from ..services.materias import Materias
 from ..services.nota import Nota
-from ..services.lapso import Lapso
-from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as ModelNotas, Lapso as ModelLapso
+from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as ModelNotas, Lapso as ModelLapso, Evaluacion as ModelEvaluacion
 from ..engine import engine
 
+def screen_notas(tk: tkinter, window: Tk, degree: int):
+    connect_nota = Nota(engine)
 
-def screen_notas(tk: tkinter, window: Tk, degree: int=5):
-    table = ttk.Treeview(window, columns=('ID', 'Nombre del estudiante', 'Cedula', 'Materia', 'Nota', 'Lapso'))
-    table.pack()
-    table.heading('ID', text='ID')
-    table.heading('Nombre del estudiante', text='Nombre del estudiante')
-    table.heading('Cedula', text='Cedula')
-    table.heading('Materia', text='Materia')
-    table.heading('Nota', text='Nota')
-    table.heading('Lapso', text='Lapso')
+    def update_table():
+        for i in table.get_children():
+            table.delete(i)
 
-    def show_notas(estudiante, materias):
+    def create_table(frame, columns):
+        table = ttk.Treeview(frame, columns=columns)
+        table.pack(fill="both", expand=True)
+
+        for column in columns:
+            table.column(column, width=100, anchor='center')
+            table.heading(column, text=column)
+        
+        return table
+
+    def show_notas(table, estudiante, materias, lapso):
         with Session(engine) as session:
             for materia in materias:
                 notas = session.query(ModelNotas).filter_by(id_estudiante=estudiante.id, id_materia=materia.id).all()
                 for nota in notas:
-                    lapso = session.query(ModelLapso).filter_by(nota_id=nota.id).first()
-                    table.insert('', 'end', text=estudiante.nombres, values=(estudiante.id, estudiante.cedula, materia.nombre, nota.total, f'{lapso.inicio} - {lapso.fin}'))
+                    if str(nota.id_lapso) == str(lapso):
+                        lista = [nota.nota1, nota.nota2, nota.nota3, nota.nota4]
+                        table.insert('', 'end', values=(nota.id, estudiante.id, estudiante.nombres, estudiante.cedula, materia.nombre, nota.unidad, lista[int(nota.unidad) - 1], lapso))
+        table.pack(fill="both", expand=True)
+
+    frame = tk.Frame(window, bg="white", width="1400", height="350", bd=10)
+    frame.pack(fill="both", expand=True)
+    columns = ('ID', 'ID Estudiante', 'Nombre del estudiante', 'Cedula', 'Materia', 'Evaluacion', 'Nota', 'Lapso')
+    table = create_table(frame, columns)
 
     def buscar():
         with Session(engine) as session:
             select_by_cedula = entryCedula.get()
+            lapso = lapsosSeleccionada.get()
             estudiante = session.query(Model).filter_by(cedula=select_by_cedula).first()
 
             if estudiante is not None:
                 materias = session.query(ModelMaterias).filter_by(id_grado=degree).all()
-                show_notas(estudiante, materias)
-
-    def nuevo():
-        # Capturar los valores ingresados
-        nota = entryNota.get()
-        materia = materiaSeleccionada.get()
-
-        # Aquí puedes agregar el código para agregar una nueva nota con los valores capturados
-        print(f'Nota: {nota}, Materia: {materia}')
-
+                update_table()  # Llama a update_table para borrar el contenido existente
+                show_notas(table, estudiante, materias, lapso)
+    
     def guardar():
-        # Aquí va el código para guardar las notas
-        pass
+        with Session(engine) as session:
+            cedula = entryCedula.get() 
+            nota = entryNota.get()
+            materia = materiaSeleccionada.get()
+            evaluacion = notasSeleccionada.get()
+            lapso = lapsosSeleccionada.get()
+            
+            estudiante = session.query(Model).filter_by(cedula=cedula).first()
+            materia = session.query(ModelMaterias).filter_by(nombre=materia).first()
+            connect_nota.create(nota, evaluacion, lapso, estudiante.id, materia.id)
 
     def eliminar():
-        # Aquí va el código para eliminar una nota
-        pass
+        selected_item = table.selection()[0]
+        selected_nota = table.item(selected_item)['values'][0]
+        connect_nota.delete(selected_nota)
+        update_table()
+
+    def mostrar_detalles():
+        # Crear una nueva ventana
+        detalles_window = tk.Toplevel(window)
+        detalles_window.title("Detalles de las Notas")
+        detalles_window.geometry("600x400")
+
+        with Session(engine) as session:
+            select_by_cedula = entryCedula.get()
+            lapso = lapsosSeleccionada.get()
+            estudiante = session.query(Model).filter_by(cedula=select_by_cedula).first()
+
+            if estudiante is not None:
+                materias = session.query(ModelMaterias).filter_by(id_grado=degree).all()
+
+                # Crear y empaquetar una nueva etiqueta con el nombre y la cédula del estudiante
+                estudiante_label = tk.Label(detalles_window, text="Nombre del estudiante: " + estudiante.nombres + "\nCédula: " + estudiante.cedula, font=("Helvetica", 12, "bold"))
+                estudiante_label.pack()
+
+                for materia in materias:
+                    notas = session.query(ModelNotas).filter_by(id_estudiante=estudiante.id, id_materia=materia.id).all()
+                    for nota in notas:
+                        if str(nota.id_lapso) == str(lapso):
+                            # Crear y empaquetar una nueva etiqueta con los detalles de las notas para cada materia
+                            nota_label = tk.Label(detalles_window, text="Materia: " + materia.nombre + "\nValor: " + str((nota.nota1 + nota.nota2 + nota.nota3 + nota.nota4) / 4), font=("Helvetica", 12))
+                            nota_label.pack()
+
+                # Crear y empaquetar una nueva etiqueta con el lapso
+                lapso_label = tk.Label(detalles_window, text="Lapso: " + str(lapso), font=("Helvetica", 12, "bold"))
+                lapso_label.pack()
 
     window.title("Control de Notas")
     window.geometry("1280x680")
     window.config(bd=20)
     window.resizable(False, False)
 
+    def create_label_and_entry(miFrame, text, side='left', padx=5, pady=5):
+        label = tk.Label(miFrame, text=text)
+        label.pack(side=side, padx=padx, pady=pady)
+        entry = tk.Entry(miFrame)
+        entry.pack(side=side, padx=padx, pady=pady)
+        return entry
+
+    def create_button(miFrame, text, command, side='left', padx=5, pady=5):
+        button = tk.Button(miFrame, text=text, bg="white", fg="black", command=command)
+        button.pack(side=side, padx=padx, pady=pady)
+        return button
+
+    def create_option_menu(miFrame, options, initial_option, side='left', padx=5, pady=5):
+        selected_option = tk.StringVar()
+        selected_option.set(initial_option)
+        menu = tk.OptionMenu(miFrame, selected_option, *options)
+        menu.pack(side=side, padx=padx, pady=pady)
+        return selected_option
+
     miFrame = tk.Frame(window, width=1200, height=250, bd=5, relief="groove")
     miFrame.pack()
 
-    botonNuevo = tk.Button(miFrame, text="Nuevo", bg="white", fg="black", command=nuevo)
-    botonNuevo.pack(side='left', padx=5, pady=5)
+    botonGuardar = create_button(miFrame, "Guardar", guardar)
+    botonEliminar = create_button(miFrame, "Eliminar", eliminar)
+    botonBuscar = create_button(miFrame, "Buscar", buscar)
+    botonDetalles = create_button(miFrame, "Detalles", mostrar_detalles)
 
-    botonGuardar = tk.Button(miFrame, text="Guardar", bg="white", fg="black", command=guardar)
-    botonGuardar.pack(side='left', padx=5, pady=5)
-
-    botonEliminar = tk.Button(miFrame, text="Eliminar", bg="white", fg="black", command=eliminar)
-    botonEliminar.pack(side='left', padx=5, pady=5)
-
-    botonBuscar = tk.Button(miFrame, text="Buscar", bg="white", fg="black", command=buscar)
-    botonBuscar.pack(side='left', padx=5, pady=5)
-
-    labelNota = tk.Label(miFrame, text="Total de la nota:")
-    labelNota.pack(side='left', padx=5, pady=5)
-
-    entryNota = tk.Entry(miFrame)
-    entryNota.pack(side='left', padx=5, pady=5)
-
-    labelCedula = tk.Label(miFrame, text="Cedula:")
-    labelCedula.pack(side='left', padx=5, pady=5)
-
-    entryCedula = tk.Entry(miFrame)
-    entryCedula.pack(side='left', padx=5, pady=5)
-
-    labelMateria = tk.Label(miFrame, text="Materia:")
-    labelMateria.pack(side='left', padx=5, pady=5)
+    entryNota = create_label_and_entry(miFrame, "Total de la nota:")
+    entryCedula = create_label_and_entry(miFrame, "Cedula:")
 
     materias = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "Geografía, historia y ciudadanía (GHC)", "Ingles", "Matematicas", "Orientación y convivencia ", "Participación en grupos de creación, recreación y producción (G.E.R.P)"]
-    materiaSeleccionada = tk.StringVar()
-    materiaSeleccionada.set('Materias')
-    menuMaterias = tk.OptionMenu(miFrame, materiaSeleccionada, *materias)
-    menuMaterias.pack(side='left', padx=5, pady=5)
-
-    labelNota = tk.Label(miFrame, text="Notas:")
-    labelNota.pack(side='left', padx=5, pady=5)
+    materiaSeleccionada = create_option_menu(miFrame, materias, 'Materias')
 
     notas = [1, 2, 3, 4]
-    notasSeleccionada = tk.StringVar()
-    notasSeleccionada.set('Notas')
-    menuNotas = tk.OptionMenu(miFrame, notasSeleccionada, *notas)
-    menuNotas.pack(side='left', padx=5, pady=5)
-
-    labelLapso = tk.Label(miFrame, text="Lapso:")
-    labelLapso.pack(side='left', padx=5, pady=5)
+    notasSeleccionada = create_option_menu(miFrame, notas, 'Notas')
 
     lapso = [1, 2, 3]
-    lapsosSeleccionada = tk.StringVar()
-    lapsosSeleccionada.set('Lapsos')
-    menulapso = tk.OptionMenu(miFrame, lapsosSeleccionada, *lapso)
-    menulapso.pack(side='left', padx=5, pady=5)
+    lapsosSeleccionada = create_option_menu(miFrame, lapso, 'Lapsos')

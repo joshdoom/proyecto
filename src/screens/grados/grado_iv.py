@@ -11,6 +11,7 @@ from ...models import Estudiante as Model
 from ...models import Grado as ModelGrado
 from ...models import AnioEscolar as ModelAnioEscolar
 from ...engine import engine
+from ..notas import screen_notas
 
 
 def screen_grado_iv(tk: tkinter, window: Tk):
@@ -147,7 +148,12 @@ def screen_grado_iv(tk: tkinter, window: Tk):
     def limpiar_campos():
         for entry in entries:
             entry.delete(0, 'end')
-
+    
+    def notas():
+        from ..notas import screen_notas
+        window.destroy()
+        screen_notas(tkinter, window=tk.Toplevel(), degree=4)
+        
     window.title("Cuarto año")
     window.geometry("1280x680")
     window.resizable(False, False)
@@ -178,6 +184,10 @@ def screen_grado_iv(tk: tkinter, window: Tk):
     button_delete = tk.Button(window, text="Eliminar", command=eliminar, bg="white", fg="black")
     button_delete.pack()
     button_delete.place(x=700, y=210)
+
+    button_notas = tk.Button(window, text="Notas", command=notas, bg="white", fg="black")
+    button_notas.pack()
+    button_notas.place(x=900, y=210)
 
     miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
     miFrame13.pack(side="bottom", anchor="w")

@@ -7,10 +7,9 @@ class Lapso:
     def __init__(self, engine: Engine) -> None:
         self.session = sessionmaker(engine)
     
-    def create(self, inicio: datetime, fin: datetime, nota_id: int):
+    def create(self, inicio: datetime, nota_id: int):
         with self.session() as session:
             lapso = Model(inicio=inicio,
-                          fin=fin,
                           nota_id=nota_id)
             session.add(lapso)
             session.commit()

@@ -7,17 +7,16 @@ class Evaluacion:
     def __init__(self, engine: Engine) -> None:
         self.session = sessionmaker(engine)
     
-    def create(self, unidad: int, contenido: str, metodo: str, fecha: datetime, id_profesor: int):
+    def create(self, unidad: int, contenido: str, metodo: str, fecha: datetime, id_lapso: int):
         with self.session() as session:
-            if session.query(Model).filter_by(unidad=unidad, id_profesor=id_profesor).first() is not None:
-                raise ValueError("Una evaluación con esta unidad y profesor ya existe.")
             evaluacion = Model(unidad=unidad,
                                     contenido=contenido,
                                     metodo=metodo,
                                     fecha=fecha,
-                                    id_profesor=id_profesor)
+                                    id_lapso=id_lapso)
             session.add(evaluacion)
             session.commit()
+            return evaluacion.id
 
     def update(self, id: int, unidad: int, contenido: str, metodo: str, fecha: datetime, id_profesor: int):
         with self.session() as session:
