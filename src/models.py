@@ -5,9 +5,10 @@ from sqlalchemy.orm import DeclarativeBase
 class Base(DeclarativeBase):
     pass
 
-class usuarios(Base):
+class Usuario(Base):
     __tablename__= 'usuarios'
     id=Column(Integer, primary_key=True)
+    
     nombre=Column(String(60), nullable=True)
     rol= Column (String(60), nullable=False)
     contrasena = Column(String(60), nullable=True)

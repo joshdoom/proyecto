@@ -1,5 +1,9 @@
 import tkinter
-from tkinter import Tk
+from tkinter import Tk, messagebox
+from sqlalchemy.orm import Session
+from ..models import Usuario
+from ..engine import engine
+
 
 def screen_login(tk: tkinter, window: Tk):
     def login():
@@ -8,9 +12,14 @@ def screen_login(tk: tkinter, window: Tk):
         username = username_entry.get()
         password = password_entry.get()
 
-        if username == "admin" and password == "123":
-            window.destroy()
-            screen_index(tk, window=Tk())
+        with Session(engine) as session:
+            users = session.query(Usuario).all()
+            for user in users:
+                if username == user.nombre and password == user.contrasena:
+                    window.destroy()
+                    screen_index(tk, window=Tk())
+            else:
+                messagebox.showinfo("Error", "Usuario o contraseña es incorrecta")
     
     window.title("Iniciar Sesión")
     window.geometry("400x600")
