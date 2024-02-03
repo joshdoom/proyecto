@@ -73,18 +73,22 @@ class Evaluacion(Base):
 
     id = Column(Integer, primary_key=True)
     unidad = Column(Integer)
-    contenido = Column(String, nullable=False)
-    metodo = Column(String, nullable=False)
-    fecha = Column(DateTime, nullable=False)
-    id_profesor = Column(Integer, ForeignKey('profesores.id'))
+    contenido = Column(String, nullable=True)
+    metodo = Column(String, nullable=True)
+    fecha = Column(DateTime, nullable=True)
+    id_profesor = Column(Integer, nullable=True)
 
 class Nota(Base):
     __tablename__ = 'notas'
 
     id = Column(Integer, primary_key=True)
-    valor = Column(Numeric, nullable=False)
-    porcentaje = Column(Numeric, nullable=False)
-    total = Column(Numeric, nullable=False)
+    nota1 = Column(Integer, nullable=True, default=0)
+    nota2 = Column(Integer, nullable=True, default=0)
+    nota3 = Column(Integer, nullable=True, default=0)
+    nota4 = Column(Integer, nullable=True, default=0)
+    valor_neto = Column(Numeric, nullable=True)
+    unidad = Column(Integer)
+    id_lapso = Column(Integer)
     id_estudiante = Column(Integer, ForeignKey('estudiantes.id'))
     id_materia = Column(Integer, ForeignKey('materias.id'))
 
@@ -92,6 +96,5 @@ class Lapso(Base):
     __tablename__ = 'lapsos'
 
     id = Column (Integer, primary_key=True)
-    inicio = Column (DateTime, nullable=False)
-    fin = Column (DateTime, nullable=False)
+    inicio = Column (Integer, nullable=False)
     nota_id = Column(Integer, ForeignKey('notas.id'))
