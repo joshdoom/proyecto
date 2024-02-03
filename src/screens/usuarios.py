@@ -8,7 +8,7 @@ from ..engine import engine
 from sqlalchemy.orm import session
 
 def agregar_usuario(nombre, rol, contraseña, pregunta_seguridad, respuesta_seguridad):
-    nuevo_usuario = nombre(nombre=nombre, rol=rol, contraseña=contraseña, pregunta_seguridad=pregunta_seguridad, respuesta_seguridad=respuesta_seguridad)
+    nuevo_usuario = usuarios(nombre=nombre, rol=rol, contraseña=contraseña, pregunta_seguridad=pregunta_seguridad, respuesta_seguridad=respuesta_seguridad)
     session.add(nuevo_usuario)
     session.commit()
 
