@@ -18,9 +18,20 @@ def screen_login(tk: tkinter, window: Tk):
                 if username == user.nombre and password == user.contrasena:
                     window.destroy()
                     screen_index(tk, window=Tk())
+                    return
             else:
                 messagebox.showinfo("Error", "Usuario o contraseña es incorrecta")
     
+    def register():
+        from .register import screen_register
+        window.destroy()
+        screen_register(tk, window=Tk())
+    
+    def recovery():
+        from .recovery import screen_recovery
+        window.destroy()
+        screen_recovery(tk, window=Tk())
+
     window.title("Iniciar Sesión")
     window.geometry("400x600")
     window.resizable(0,0)
@@ -44,4 +55,10 @@ def screen_login(tk: tkinter, window: Tk):
     password_entry.pack(pady=10)
 
     login_button = tk.Button(loginFrame, text="Entrar", command=login, font=("Helvetica", 14), bg="white")
-    login_button.pack(pady=20)
+    login_button.pack(side="left", padx=10, pady=20)
+
+    register_button = tk.Button(loginFrame, text="Registrar", command=register, font=("Helvetica", 14), bg="white")
+    register_button.pack(side="left", padx=10, pady=20)
+
+    recuperar_button = tk.Button(window, text="Recuperar Sesión", command=recovery, font=("Helvetica", 14), bg="white")
+    recuperar_button.pack(pady=5)
