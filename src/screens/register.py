@@ -1,7 +1,5 @@
 import tkinter
 from tkinter import Tk, messagebox
-from sqlalchemy.orm import Session
-from ..models import Usuario
 from ..services.register import Usuario as UsuarioService
 from ..engine import engine
 
