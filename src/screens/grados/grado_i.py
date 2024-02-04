@@ -3,6 +3,8 @@ from datetime import datetime
 from tkinter import Tk, ttk
 from tkcalendar import DateEntry
 from sqlalchemy.orm import Session
+from reportlab.pdfgen import canvas
+from fpdf import FPDF
 
 from ...services.grado import Grado
 from ...services.estudiante import Estudiante
@@ -73,6 +75,9 @@ def screen_grado_i(tk: tkinter, window: Tk):
                 if grado is not None and anioescolar is not None:
                     table.insert('', 'end', values=(estudiante.id, estudiante.nombres, estudiante.apellidos, estudiante.cedula, estudiante.telefono, estudiante.fecha_nacimiento, grado.inscrito, seccion, anioescolar.inicio, anioescolar.fin))
             table.pack(fill="both", expand=True)
+
+
+
    
     def nuevo():
         nombres = entries[0].get()
@@ -153,6 +158,9 @@ def screen_grado_i(tk: tkinter, window: Tk):
         window.destroy()
         screen_notas(tkinter, window=tk.Toplevel(), degree=1)
 
+
+    
+
     window.title("Primer año")
     window.geometry("1280x680")
     window.resizable(False, False)
@@ -188,6 +196,10 @@ def screen_grado_i(tk: tkinter, window: Tk):
     button_notas.pack()
     button_notas.place(x=900, y=210)
 
+    boton_generar_pdf = tk.Button(window, text="Generar PDF", command=lambda: generar_pdf(table))
+    boton_generar_pdf.pack()
+    boton_generar_pdf.place(x=1100, y=180)
+
     miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
     miFrame13.pack(side="bottom", anchor="w")
 
@@ -202,5 +214,36 @@ def screen_grado_i(tk: tkinter, window: Tk):
     opcion = tk.OptionMenu(miFramemenu, var, *opciones)
     opcion.config(width=15, bg="white", fg="black", font=("Arial Black", 10))
     opcion.pack()
+
+    def generar_pdf(table):
+        contenido_pdf = [show_students]
+        contenido_pdf.append("Registro y Control de Notas Estudiantiles")
+        contenido_pdf.append("--------------------------------------")
+
+    # Obtener datos de la tabla y agregarlos al contenido del PDF
+        for item in table.get_children():
+            contenido_pdf.append(table.item(item, 'values'))
+
+        # Crear el archivo PDF
+        nombre_archivo = "registro_notas.pdf"
+        crear_pdf(nombre_archivo, contenido_pdf)
+
+    def crear_pdf(nombre_archivo, contenido):
+        try:
+            with open(nombre_archivo, 'w') as file:
+                pdf = canvas.Canvas(file)
+                pdf.drawString(100, 800, contenido[0])
+                pdf.drawString(100, 780, contenido[1])
+
+                # Imprimir el contenido en el PDF
+                y_position = 760
+                for linea in contenido[2:]:
+                    pdf.drawString(100, y_position, str(linea))
+                    y_position -= 20
+
+                pdf.save()
+            print(f"El archivo {nombre_archivo} se ha creado exitosamente.")
+        except Exception as e:
+            print(f"Error al crear el archivo PDF: {e}")
 
     show_students()
