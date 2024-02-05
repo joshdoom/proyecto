@@ -3,6 +3,7 @@ from tkinter import LEFT, TOP, Button, Frame, Tk
 
 negro="#00292d"
 verdeoscuro="#01212e"
+verde="#15a35b"
 
 
 def screen_index(tk: tk, window: Tk):
@@ -33,19 +34,20 @@ def screen_index(tk: tk, window: Tk):
 
 
     
-    window.title("sam")
-    window.geometry("1000x650")
+    window.title("Menu principal")
+    window.geometry("1000x650")    
     color = "#20232a" 
     color2 = "#32363f"
     window.config(bg="white")
     window.resizable(0,0)
+    window.iconbitmap('C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\LUMASIS.ico')
 
     
     barra_superior= Frame(window)
     barra_superior.config(bg=verdeoscuro,height=60)    
     barra_superior.pack(side=TOP, fill="both")
-    #Urbaneja= Label(barra_superior,text="Jose Rafael Urbaeja Achepolh", fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
-    #Urbaneja.pack(side="left")
+    Urbaneja= tk.Label(barra_superior,text="Luis Manuel Urbaneja Achepolh", fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
+    Urbaneja.pack(side="left")
     
     menu_lateral= Frame(window)
     menu_lateral.config(bg=negro,width="100",height=150)
@@ -53,23 +55,23 @@ def screen_index(tk: tk, window: Tk):
                 
                 
 
-    imagen = tk.PhotoImage(file='src/screens/disenos/boton1t.png')
+    imagen = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\boton1t.png')
     buttonDashBoard = Button(menu_lateral,command=primero, bg=color,image=imagen)    
     buttonDashBoard.place(x=0, y=0)
     buttonDashBoard.pack()
-    imagen2 = tk.PhotoImage(file='src/screens/disenos/boton2t.png')
+    imagen2 = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\boton2t.png')
     buttonDashBoard2 = Button(menu_lateral, command=segundo, bg=color,image=imagen2)    
     buttonDashBoard2.pack() 
-    imagen3 = tk.PhotoImage(file='src/screens/disenos/boton3t.png')
+    imagen3 = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\boton3t.png')
     buttonDashBoard3 = Button(menu_lateral,command=tercero, bg=color,image=imagen3)    
     buttonDashBoard3.pack() 
-    imagen4 = tk.PhotoImage(file='src/screens/disenos/boton4t.png')
+    imagen4 = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\boton4t.png')
     buttonDashBoard4 = Button(menu_lateral,command=cuarto, bg=color,image=imagen4)    
     buttonDashBoard4.pack()
-    imagen5 = tk.PhotoImage(file='src/screens/disenos/boton5t.png')
+    imagen5 = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\boton5t.png')
     buttonDashBoard5 = Button(menu_lateral,command=quinto, bg=color,image=imagen5)    
     buttonDashBoard5.pack()
-    imagen6 = tk.PhotoImage(file='src/screens/disenos/boton6t.png')
+    imagen6 = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\boton6t.png')
     buttonDashBoard6 = Button(menu_lateral,command=profesores, bg=color,image=imagen6)    
     buttonDashBoard6.pack()
             

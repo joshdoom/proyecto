@@ -1,5 +1,5 @@
-import tkinter
-from tkinter import Tk, messagebox
+import tkinter 
+from tkinter import RIGHT, Button, Entry, Frame, Label, Tk, messagebox
 from sqlalchemy.orm import Session
 from ..models import Usuario
 from ..engine import engine
@@ -32,33 +32,72 @@ def screen_login(tk: tkinter, window: Tk):
         window.destroy()
         screen_recovery(tk, window=Tk())
 
-    window.title("Iniciar Sesión")
-    window.geometry("400x600")
+    verde="#15a35b"
+    verdeoscuro="#01212e"    
+    window.title("Login")    
+    window.geometry("1000x650")    
     window.resizable(0,0)
+    window.iconbitmap('C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\LUMASIS.ico')    
+    window.config(bg=verdeoscuro)
+    
 
-    loginFrame = tk.Frame(window)
-    loginFrame.pack()
+    loginFrameright=Frame(window)
+    loginFrameright.configure(width="400", height="650")
+    loginFrameright.pack(side=RIGHT)
 
-    titulo = tk.Label(loginFrame, text="Iniciar Sesión", font=("Helvetica", 18))
-    titulo.pack(pady=20)
+    Framefondo=Frame(window)
+    Framefondo.pack()
+    fondo = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\fono2.png')
+    imagenfondo = tk.Label(Framefondo,image=fondo)
+    imagenfondo.pack()
 
-    username_label = tk.Label(loginFrame, text="Usuario:", font=("Helvetica", 14))
-    username_label.pack(pady=10)
+    loginlabel= Label(window, text="Iniciar Sesion", bg="white")
+    loginlabel.pack()
+    loginlabel.place(x=170, y=100)
+    loginlabel.configure(font=("Calisto Mt", 30, "bold"))
 
-    username_entry = tk.Entry(loginFrame, font=("Helvetica", 12))
-    username_entry.pack(pady=10)
+    username_label = Label(window, text="Usuario:", bg="white")
+    username_label.pack()
+    username_label.place(x=250, y=220)
+    username_label.config(font=("Calisto Mt", 18, "bold"))
 
-    password_label = tk.Label(loginFrame, text="Clave:", font=("Helvetica", 14))
-    password_label.pack(pady=10)
+    username_entry = Entry(window)
+    username_entry.pack()
+    username_entry.place(x=185, y=290)
+    username_entry.config(font=("Arial",15))
 
-    password_entry = tk.Entry(loginFrame, show="*", font=("Helvetica", 12))
-    password_entry.pack(pady=10)
 
-    login_button = tk.Button(loginFrame, text="Entrar", command=login, font=("Helvetica", 14), bg="white")
-    login_button.pack(side="left", padx=10, pady=20)
+    password_label = Label(window, text="Contraseña:", bg="white")
+    password_label.pack()
+    password_label.place(x=233, y=350)
+    password_label.config(font=("Calisto Mt", 18, "bold"))
 
-    register_button = tk.Button(loginFrame, text="Registrar", command=register, font=("Helvetica", 14), bg="white")
-    register_button.pack(side="left", padx=10, pady=20)
 
-    recuperar_button = tk.Button(window, text="Recuperar Sesión", command=recovery, font=("Helvetica", 14), bg="white")
-    recuperar_button.pack(pady=5)
+    password_entry = Entry(window)
+    password_entry.pack()
+    password_entry.place(x=185, y=420)
+    password_entry.config(font=("Arial",15))
+    password_entry.config(show="*")
+
+    botoninicio = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\botones\\botoneslogin\\botoninicio3.png')
+    login_button = Button(window, image=botoninicio,command=login,bg=verde)
+    login_button.pack()
+    login_button.place(x=175, y=480)
+
+    botonregis = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\botones\\botoneslogin\\botonesregistrar.png')
+    login_button2 = Button(window, image=botonregis,command=register,bg=verde)
+    login_button2.pack()
+    login_button2.place(x=95, y=550)
+
+    botonrecu = tk.PhotoImage(file='c:\\Users\\VizcaIno\\Desktop\\proyecto-main\\login\\login\\disenos\\botones\\botoneslogin\\botonesrecuperar2.png')
+    login_button2 = Button(window, image=botonrecu,command=recovery,bg=verde)
+    login_button2.pack()
+    login_button2.place(x=350, y=550)
+
+    fondoright= Frame(window)
+    fondoright.pack()
+    imagenfondo2= tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\mejorescuela2.png')
+    imagenfondoright = tk.Label(loginFrameright, image=imagenfondo2)
+    imagenfondoright.pack()
+
+    window.mainloop()   
