@@ -187,6 +187,10 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
     window.title(f"{grado[degree - 1]} año")
     window.geometry("1280x680")
     window.resizable(False, False)
+    window.iconbitmap('C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\LUMASIS.ico')
+    verdeclaro="#b8f2ca"
+    verde="#15a35b"
+    window.config(bg=verdeclaro)
 
     miFrame = tk.Frame(window, width="1200", height="250", bd=5)
     miFrame.pack()
@@ -200,24 +204,28 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
             entry.place(x=255, y=i*50+7)
         else:  # Para los siguientes labels y entries
             tk.Label(miFrame, text=label).place(x=450, y=(i-4)*50)
-            entry.place(x=555, y=(i-4)*50+7)
+            entry.place(x=655, y=(i-4)*50+7)
 
 
-    button_new = tk.Button(window, text="Nuevo", command=nuevo, bg="white", fg="black")
+    button_new = tk.Button(window, text="Nuevo", command=nuevo, bg=verdeclaro, fg="black")
     button_new.pack()
-    button_new.place(x=600, y=210)
+    button_new.place(x=750, y=210)
 
-    button_save = tk.Button(window, text="Guardar", command=guardar, bg="white", fg="black")
+    button_save = tk.Button(window, text="Guardar", command=guardar, bg=verdeclaro, fg="black")
     button_save.pack()
-    button_save.place(x=800, y=210)
+    button_save.place(x=850, y=210)
 
-    button_delete = tk.Button(window, text="Eliminar", command=eliminar, bg="white", fg="black")
+    button_delete = tk.Button(window, text="Eliminar", command=eliminar, bg=verdeclaro, fg="black")
     button_delete.pack()
-    button_delete.place(x=700, y=210)
+    button_delete.place(x=950, y=210)
 
-    button_notas = tk.Button(window, text="Notas", command=notas, bg="white", fg="black")
+    button_notas = tk.Button(window, text="Notas", command=notas, bg=verdeclaro, fg="black")
     button_notas.pack()
-    button_notas.place(x=900, y=210)
+    button_notas.place(x=1050, y=210)
+
+    button_descargar = tk.Button(window, text="Descargar", command=notas, bg=verdeclaro, fg="black")
+    button_descargar.pack()
+    button_descargar.place(x=1150, y=210)
 
     boton_generar_pdf = tk.Button(window, text="Generar PDF", command=generar_pdf)
     boton_generar_pdf.pack()
@@ -226,16 +234,10 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
     miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
     miFrame13.pack(side="bottom", anchor="w")
 
-    tk.Button(miFrame13, text="Editar", command=editar, bg="white").pack()
+    tk.Button(miFrame13, text="Editar", command=editar, bg=verdeclaro).pack()
 
-    miFramemenu = tk.Frame(window, width="10", height="35", bd=1, relief="raised")
-    miFramemenu.place(x=1010, y=210)
+    
 
-    var = tk.StringVar(window)
-    var.set("Materias")
-    opciones = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "Geografía, historia y ciudadanía (GHC)", "Ingles", "Matematicas", "Orientación y convivencia", "Participación en grupos de creación, recreación y producción (G.E.R.P)", "Fisica", "Quimica"]
-    opcion = tk.OptionMenu(miFramemenu, var, *opciones)
-    opcion.config(width=15, bg="white", fg="black", font=("Arial Black", 10))
-    opcion.pack()
+   
 
     show_students()

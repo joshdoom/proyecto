@@ -53,9 +53,13 @@ def screen_recovery(tk: tkinter, window: Tk):
     window.title("Recuperar Sesión")
     window.geometry("400x600")
     window.resizable(0,0)
+    window.iconbitmap('C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\LUMASIS.ico')
+    verde="#15a35b"
+    
 
     registerFrame = tk.Frame(window)
     registerFrame.pack()
+    
 
     titulo = tk.Label(registerFrame, text="Recuperar Sesión", font=("Helvetica", 18))
     titulo.pack(pady=20)
@@ -68,3 +72,5 @@ def screen_recovery(tk: tkinter, window: Tk):
 
     check_button = tk.Button(registerFrame, text="Verificar usuario", command=check_user, font=("Helvetica", 14), bg="white")
     check_button.pack(pady=20)
+
+    window.mainloop()
