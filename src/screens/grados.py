@@ -11,6 +11,7 @@ from ..models import Estudiante as Model
 from ..models import Grado as ModelGrado
 from ..models import AnioEscolar as ModelAnioEscolar
 from ..engine import engine
+from ..utils.table_to_pdf import PDF
 
 grado = ["Primer", "Segundo", "Tercero", "Cuarto", "Quinto"]
 
@@ -139,7 +140,7 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
 
             connect_estudiante.update(estudiante.id, nombres, apellidos, cedula, telefono, fecha_nacimiento, 1)
             connect_anioescolar.update(anio_escolar.id, inicio, fin, estudiante.id)
-            connect_grado.update(grado.id, 2, estudiante.id)
+            connect_grado.update(grado.id, degree, estudiante.id)
 
         update_table()
         limpiar_campos()
@@ -148,6 +149,36 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
         for entry in entries:
             entry.delete(0, 'end')
 
+    def generar_pdf():
+        pdf = PDF('L', 'mm', 'A4')
+        pdf.degree = degree
+        pdf.add_page()
+        pdf.set_font("Helvetica","", 10)
+
+        with Session(engine) as session:
+            estudiantes = session.query(Model).all()
+
+            for estudiante in estudiantes:
+                grado = session.query(ModelGrado).filter(ModelGrado.id_estudiante == estudiante.id, ModelGrado.inscrito == degree).first()
+                anioescolar = session.query(ModelAnioEscolar).filter_by(id_estudiante=estudiante.id).first()
+                seccion = "U"
+
+                if grado is not None and anioescolar is not None:
+                    datos = [estudiante.id, estudiante.nombres, estudiante.apellidos, estudiante.cedula, estudiante.telefono, estudiante.fecha_nacimiento, grado.inscrito, seccion, anioescolar.inicio, anioescolar.fin]
+                    for dato in datos:
+                        str_dato = str(dato)
+                        if str_dato == str(datos[5]):
+                            dt = datetime.strptime(str_dato, "%Y-%m-%d %H:%M:%S")
+                            str_dt = dt.strftime('%m/%d/%y')
+                            pdf.cell(40, 5, txt = str_dt, border=1, align = 'C')
+                        elif str_dato == str(datos[8]) or str_dato == str(datos[9]):
+                            dt = datetime.strptime(str_dato, "%Y-%m-%d %H:%M:%S")
+                            str_dt = dt.strftime('%m/%d/%y')
+                            pdf.cell(26, 5, txt = str_dt, border=1, align = 'C')
+                        else:
+                            pdf.cell(26, 5, txt = str_dato, border=1, align = 'C')
+                    pdf.ln(5)
+        pdf.output(f"src/pdfs/tabla_de_grado{degree}.pdf")
     def notas():
         from .notas import screen_notas
         window.destroy()
@@ -187,6 +218,10 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
     button_notas = tk.Button(window, text="Notas", command=notas, bg="white", fg="black")
     button_notas.pack()
     button_notas.place(x=900, y=210)
+
+    boton_generar_pdf = tk.Button(window, text="Generar PDF", command=generar_pdf)
+    boton_generar_pdf.pack()
+    boton_generar_pdf.place(x=1100, y=180)
 
     miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
     miFrame13.pack(side="bottom", anchor="w")
