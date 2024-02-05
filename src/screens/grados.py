@@ -3,19 +3,18 @@ from datetime import datetime
 from tkinter import Tk, ttk
 from tkcalendar import DateEntry
 from sqlalchemy.orm import Session
-from reportlab.pdfgen import canvas
-from fpdf import FPDF
 
-from ...services.grado import Grado
-from ...services.estudiante import Estudiante
-from ...services.anioescolar import AnioEscolar
-from ...models import Estudiante as Model
-from ...models import Grado as ModelGrado
-from ...models import AnioEscolar as ModelAnioEscolar
-from ...engine import engine
+from ..services.grado import Grado
+from ..services.estudiante import Estudiante
+from ..services.anioescolar import AnioEscolar
+from ..models import Estudiante as Model
+from ..models import Grado as ModelGrado
+from ..models import AnioEscolar as ModelAnioEscolar
+from ..engine import engine
 
+grado = ["Primer", "Segundo", "Tercero", "Cuarto", "Quinto"]
 
-def screen_grado_i(tk: tkinter, window: Tk):
+def screen_grado(tk: tkinter, window: Tk, degree: int):
     connect_grado = Grado(engine)
     connect_estudiante = Estudiante(engine)
     connect_anioescolar = AnioEscolar(engine)
@@ -28,14 +27,13 @@ def screen_grado_i(tk: tkinter, window: Tk):
             estudiantes = session.query(Model).all()
 
             for estudiante in estudiantes:
-                grado = session.query(ModelGrado).filter(ModelGrado.id_estudiante == estudiante.id, ModelGrado.inscrito == 1).first()
+                grado = session.query(ModelGrado).filter(ModelGrado.id_estudiante == estudiante.id, ModelGrado.inscrito == degree).first()
                 anioescolar = session.query(ModelAnioEscolar).filter_by(id_estudiante=estudiante.id).first()
                 seccion = "U"
 
                 if grado is not None and anioescolar is not None:
                     table.insert('', 'end', values=(estudiante.id, estudiante.nombres, estudiante.apellidos, estudiante.cedula, estudiante.telefono, estudiante.fecha_nacimiento, grado.inscrito, seccion, anioescolar.inicio, anioescolar.fin))
             table.pack(fill="both", expand=True)
-
 
     def show_students():
         global table
@@ -68,16 +66,13 @@ def screen_grado_i(tk: tkinter, window: Tk):
             estudiantes = session.query(Model).all()
 
             for estudiante in estudiantes:
-                grado = session.query(ModelGrado).filter(ModelGrado.id_estudiante == estudiante.id, ModelGrado.inscrito == 1).first()
+                grado = session.query(ModelGrado).filter(ModelGrado.id_estudiante == estudiante.id, ModelGrado.inscrito == degree).first()
                 anioescolar = session.query(ModelAnioEscolar).filter_by(id_estudiante=estudiante.id).first()
                 seccion = "U"
 
                 if grado is not None and anioescolar is not None:
                     table.insert('', 'end', values=(estudiante.id, estudiante.nombres, estudiante.apellidos, estudiante.cedula, estudiante.telefono, estudiante.fecha_nacimiento, grado.inscrito, seccion, anioescolar.inicio, anioescolar.fin))
             table.pack(fill="both", expand=True)
-
-
-
    
     def nuevo():
         nombres = entries[0].get()
@@ -91,7 +86,7 @@ def screen_grado_i(tk: tkinter, window: Tk):
         connect_estudiante.create(nombres, apellidos, cedula, telefono, fecha_nacimiento, 1)
         with Session(engine) as session:
             estudiante = session.query(Model).filter_by(cedula=cedula).first()
-            connect_grado.create(1, estudiante.id)
+            connect_grado.create(degree, estudiante.id)
             connect_anioescolar.create(inicio, fin, estudiante.id)
         
         update_table()
@@ -144,7 +139,7 @@ def screen_grado_i(tk: tkinter, window: Tk):
 
             connect_estudiante.update(estudiante.id, nombres, apellidos, cedula, telefono, fecha_nacimiento, 1)
             connect_anioescolar.update(anio_escolar.id, inicio, fin, estudiante.id)
-            connect_grado.update(grado.id, 1, estudiante.id)
+            connect_grado.update(grado.id, 2, estudiante.id)
 
         update_table()
         limpiar_campos()
@@ -154,14 +149,11 @@ def screen_grado_i(tk: tkinter, window: Tk):
             entry.delete(0, 'end')
 
     def notas():
-        from ..notas import screen_notas
+        from .notas import screen_notas
         window.destroy()
-        screen_notas(tkinter, window=tk.Toplevel(), degree=1)
+        screen_notas(tkinter, window=tk.Toplevel(), degree=degree)
 
-
-    
-
-    window.title("Primer año")
+    window.title(f"{grado[degree - 1]} año")
     window.geometry("1280x680")
     window.resizable(False, False)
 
@@ -196,10 +188,6 @@ def screen_grado_i(tk: tkinter, window: Tk):
     button_notas.pack()
     button_notas.place(x=900, y=210)
 
-    boton_generar_pdf = tk.Button(window, text="Generar PDF", command=lambda: generar_pdf(table))
-    boton_generar_pdf.pack()
-    boton_generar_pdf.place(x=1100, y=180)
-
     miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
     miFrame13.pack(side="bottom", anchor="w")
 
@@ -214,36 +202,5 @@ def screen_grado_i(tk: tkinter, window: Tk):
     opcion = tk.OptionMenu(miFramemenu, var, *opciones)
     opcion.config(width=15, bg="white", fg="black", font=("Arial Black", 10))
     opcion.pack()
-
-    def generar_pdf(table):
-        contenido_pdf = [show_students]
-        contenido_pdf.append("Registro y Control de Notas Estudiantiles")
-        contenido_pdf.append("--------------------------------------")
-
-    # Obtener datos de la tabla y agregarlos al contenido del PDF
-        for item in table.get_children():
-            contenido_pdf.append(table.item(item, 'values'))
-
-        # Crear el archivo PDF
-        nombre_archivo = "registro_notas.pdf"
-        crear_pdf(nombre_archivo, contenido_pdf)
-
-    def crear_pdf(nombre_archivo, contenido):
-        try:
-            with open(nombre_archivo, 'w') as file:
-                pdf = canvas.Canvas(file)
-                pdf.drawString(100, 800, contenido[0])
-                pdf.drawString(100, 780, contenido[1])
-
-                # Imprimir el contenido en el PDF
-                y_position = 760
-                for linea in contenido[2:]:
-                    pdf.drawString(100, y_position, str(linea))
-                    y_position -= 20
-
-                pdf.save()
-            print(f"El archivo {nombre_archivo} se ha creado exitosamente.")
-        except Exception as e:
-            print(f"Error al crear el archivo PDF: {e}")
 
     show_students()

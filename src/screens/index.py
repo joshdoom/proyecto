@@ -1,36 +1,32 @@
 import tkinter as tk
 from tkinter import LEFT, TOP, Button, Frame, Tk
 
-from sqlalchemy import Label
-
 negro="#00292d"
 verdeoscuro="#01212e"
+
+
 def screen_index(tk: tk, window: Tk):
     def create_button(bg, command, image):
         button = tk.Button(Frame,command=command,bg=bg,image=image)
         button.pack(pady=10)
     
     from .professor import screen_professor
-    from .grados.grado_i import screen_grado_i
-    from .grados.grado_ii import screen_grado_ii
-    from .grados.grado_iii import screen_grado_iii
-    from .grados.grado_iv import screen_grado_iv
-    from .grados.grado_v import screen_grado_v
+    from .grados import screen_grado
 
     def primero():
-        screen_grado_i(tk, window=Tk())
+        screen_grado(tk, window=Tk(), degree=1)
 
     def segundo():
-        screen_grado_ii(tk, window=Tk())
+        screen_grado(tk, window=Tk(), degree=2)
 
     def tercero():
-        screen_grado_iii(tk, window=Tk())
+        screen_grado(tk, window=Tk(), degree=3)
 
     def cuarto():
-        screen_grado_iv(tk, window=Tk())
+        screen_grado(tk, window=Tk(), degree=4)
 
     def quinto():
-        screen_grado_v(tk, window=Tk())
+        screen_grado(tk, window=Tk(), degree=5)
 
     def profesores():
         screen_professor(tk, window=Tk())
