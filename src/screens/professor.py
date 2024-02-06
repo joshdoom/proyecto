@@ -108,6 +108,10 @@ def screen_professor(tk: tkinter, window: Tk):
     window.title("Profesores")
     window.geometry("1280x680")
     window.resizable(False, False)
+    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
+    verdeclaro="#b8f2ca"
+    verde="#15a35b"
+    window.config(bg=verdeclaro)
 
     miFrame = tk.Frame(window, width="1200", height="250", bd=5)
     miFrame.pack()
@@ -133,15 +137,15 @@ def screen_professor(tk: tkinter, window: Tk):
             opcion_grado.place(x=450, y=(i-4)*50+7)
 
 
-    button_new = tk.Button(window, text="Nuevo", command=nuevo, bg="white", fg="black")
+    button_new = tk.Button(window, text="Nuevo", command=nuevo, bg=verdeclaro, fg="black")
     button_new.pack()
     button_new.place(x=600, y=210)
 
-    button_save = tk.Button(window, text="Guardar", command=guardar, bg="white", fg="black")
+    button_save = tk.Button(window, text="Guardar", command=guardar, bg=verdeclaro, fg="black")
     button_save.pack()
     button_save.place(x=800, y=210)
 
-    button_delete = tk.Button(window, text="Eliminar", command=eliminar, bg="white", fg="black")
+    button_delete = tk.Button(window, text="Eliminar", command=eliminar, bg=verdeclaro, fg="black")
     button_delete.pack()
     button_delete.place(x=700, y=210)
 
@@ -150,7 +154,6 @@ def screen_professor(tk: tkinter, window: Tk):
 
     tk.Button(miFrame13, text="Editar", bg="white", command=editar).pack()
 
-    miFramemenu = tk.Frame(window, width="10", height="35", bd=1, relief="raised")
-    miFramemenu.place(x=1010, y=210)
+    
 
     show_professores()

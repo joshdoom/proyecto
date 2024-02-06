@@ -28,12 +28,12 @@ def screen_register(tk: tkinter, window: Tk):
     window.title("Registrar")
     window.geometry("400x600")
     window.resizable(0,0)
-    window.iconbitmap('C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\LUMASIS.ico')
+    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
     verde="#15a35b"
 
     registerFrame = tk.Frame(window)
     registerFrame.pack()
-    fondo = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\fondoregistro.png')
+    fondo = tk.PhotoImage(file='src/screens/disenos/fondoregistro.png')
     imagenfondo = tk.Label(registerFrame,image=fondo)
     imagenfondo.pack()
     
@@ -84,7 +84,7 @@ def screen_register(tk: tkinter, window: Tk):
     respuesta_entry.pack()
     respuesta_entry.place(x=110,y=510)
 
-    botonregistro = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\botones\\botoneslogin\\botonesregistrar.png')
+    botonregistro = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botonesregistrar.png')
     register_button = tk.Button(registerFrame, image=botonregistro, command=register, font=("Helvetica", 14), bg=verde)
     register_button.pack()
     register_button.place(x=150,y=550)

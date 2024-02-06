@@ -184,10 +184,15 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
         window.destroy()
         screen_notas(tkinter, window=tk.Toplevel(), degree=degree)
 
+    def notas():
+        from .notas import screen_notas
+        window.destroy()
+        screen_notas(tkinter, window=tk.Toplevel(), degree=degree)
+
     window.title(f"{grado[degree - 1]} año")
     window.geometry("1280x680")
     window.resizable(False, False)
-    window.iconbitmap('C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\LUMASIS.ico')
+    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
     verdeclaro="#b8f2ca"
     verde="#15a35b"
     window.config(bg=verdeclaro)
@@ -223,13 +228,9 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
     button_notas.pack()
     button_notas.place(x=1050, y=210)
 
-    button_descargar = tk.Button(window, text="Descargar", command=notas, bg=verdeclaro, fg="black")
+    button_descargar = tk.Button(window, text="Descargar", command=generar_pdf, bg=verdeclaro, fg="black")
     button_descargar.pack()
     button_descargar.place(x=1150, y=210)
-
-    boton_generar_pdf = tk.Button(window, text="Generar PDF", command=generar_pdf)
-    boton_generar_pdf.pack()
-    boton_generar_pdf.place(x=1100, y=180)
 
     miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
     miFrame13.pack(side="bottom", anchor="w")

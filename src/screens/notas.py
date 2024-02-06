@@ -101,7 +101,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int):
     window.geometry("1280x680")
     window.config(bd=20)
     window.resizable(False, False)
-    window.iconbitmap('C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\LUMASIS.ico')
+    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
     verdeclaro="#b8f2ca"
     window.config(bg=verdeclaro)
 

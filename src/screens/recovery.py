@@ -34,43 +34,55 @@ def screen_recovery(tk: tkinter, window: Tk):
         global respuesta_entry
         global password_entry
 
-        respuesta_label = tk.Label(registerFrame, text="Respuesta:", font=("Helvetica", 14))
-        respuesta_label.pack(pady=10)
+        respuesta_label = tk.Label(registerFrame, text="Respuesta:",bg="white", font=("Helvetica", 14))
+        respuesta_label.pack()
+        respuesta_label.place(x=150,y=260)
 
         respuesta_entry = tk.Entry(registerFrame, show="*", font=("Helvetica", 12))
-        respuesta_entry.pack(pady=10)
+        respuesta_entry.pack()
+        respuesta_entry.place(x=110, y=300)
 
-        password_label = tk.Label(registerFrame, text="Clave:", font=("Helvetica", 14))
-        password_label.pack(pady=10)
+        password_label = tk.Label(registerFrame, text="Clave:",bg="white", font=("Helvetica", 14))
+        password_label.pack()
+        password_label.place(x=170,y=370)
 
         password_entry = tk.Entry(registerFrame, show="*", font=("Helvetica", 12))
-        password_entry.pack(pady=10)
+        password_entry.pack()
+        password_entry.place(x=110,y=450)
 
         check_button = tk.Button(registerFrame, text="Actualizar", command=update, font=("Helvetica", 14), bg="white")
-        check_button.pack(pady=20)
+        check_button.pack()
+        check_button.place(x=155,y=500)
 
 
     window.title("Recuperar Sesión")
     window.geometry("400x600")
     window.resizable(0,0)
-    window.iconbitmap('C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\LUMASIS.ico')
+    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
     verde="#15a35b"
     
 
     registerFrame = tk.Frame(window)
     registerFrame.pack()
+    fondo = tk.PhotoImage(file='src/screens/disenos/fondoregistro.png')
+    imagenfondo = tk.Label(registerFrame,image=fondo)
+    imagenfondo.pack()
     
 
-    titulo = tk.Label(registerFrame, text="Recuperar Sesión", font=("Helvetica", 18))
-    titulo.pack(pady=20)
+    titulo = tk.Label(registerFrame, text="Recuperar Sesión",bg="white", font=("Helvetica", 18))
+    titulo.pack()
+    titulo.place(x=110,y=20)
 
-    username_label = tk.Label(registerFrame, text="Usuario:", font=("Helvetica", 14))
-    username_label.pack(pady=10)
+    username_label = tk.Label(registerFrame, text="Usuario:",bg="white", font=("Helvetica", 14))
+    username_label.pack()
+    username_label.place(x=165,y=100)
 
     username_entry = tk.Entry(registerFrame, font=("Helvetica", 12))
-    username_entry.pack(pady=10)
+    username_entry.pack()
+    username_entry.place(x=110,y=150)
 
     check_button = tk.Button(registerFrame, text="Verificar usuario", command=check_user, font=("Helvetica", 14), bg="white")
-    check_button.pack(pady=20)
+    check_button.pack()
+    check_button.place(x=130,y=210)
 
     window.mainloop()

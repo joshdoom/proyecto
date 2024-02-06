@@ -40,7 +40,7 @@ def screen_index(tk: tk, window: Tk):
     color2 = "#32363f"
     window.config(bg="white")
     window.resizable(0,0)
-    window.iconbitmap('C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\LUMASIS.ico')
+    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
 
     
     barra_superior= Frame(window)
@@ -55,23 +55,23 @@ def screen_index(tk: tk, window: Tk):
                 
                 
 
-    imagen = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\boton1t.png')
+    imagen = tk.PhotoImage(file='src/screens/disenos/boton1t.png')
     buttonDashBoard = Button(menu_lateral,command=primero, bg=color,image=imagen)    
     buttonDashBoard.place(x=0, y=0)
     buttonDashBoard.pack()
-    imagen2 = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\boton2t.png')
+    imagen2 = tk.PhotoImage(file='src/screens/disenos/boton2t.png')
     buttonDashBoard2 = Button(menu_lateral, command=segundo, bg=color,image=imagen2)    
     buttonDashBoard2.pack() 
-    imagen3 = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\boton3t.png')
+    imagen3 = tk.PhotoImage(file='src/screens/disenos/boton3t.png')  
     buttonDashBoard3 = Button(menu_lateral,command=tercero, bg=color,image=imagen3)    
     buttonDashBoard3.pack() 
-    imagen4 = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\boton4t.png')
+    imagen4 = tk.PhotoImage(file='src/screens/disenos/boton4t.png')
     buttonDashBoard4 = Button(menu_lateral,command=cuarto, bg=color,image=imagen4)    
     buttonDashBoard4.pack()
-    imagen5 = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\boton5t.png')
+    imagen5 = tk.PhotoImage(file='src/screens/disenos/boton5t.png')
     buttonDashBoard5 = Button(menu_lateral,command=quinto, bg=color,image=imagen5)    
     buttonDashBoard5.pack()
-    imagen6 = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\boton6t.png')
+    imagen6 = tk.PhotoImage(file='src/screens/disenos/boton6t.png')
     buttonDashBoard6 = Button(menu_lateral,command=profesores, bg=color,image=imagen6)    
     buttonDashBoard6.pack()
             

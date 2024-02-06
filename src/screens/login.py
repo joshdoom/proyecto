@@ -37,7 +37,7 @@ def screen_login(tk: tkinter, window: Tk):
     window.title("Login")    
     window.geometry("1000x650")    
     window.resizable(0,0)
-    window.iconbitmap('C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\LUMASIS.ico')    
+    window.iconbitmap('src/screens/disenos/LUMASIS.ico')   
     window.config(bg=verdeoscuro)
     
 
@@ -47,7 +47,7 @@ def screen_login(tk: tkinter, window: Tk):
 
     Framefondo=Frame(window)
     Framefondo.pack()
-    fondo = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\fono2.png')
+    fondo = tk.PhotoImage(file='src/screens/disenos/fono2.png')
     imagenfondo = tk.Label(Framefondo,image=fondo)
     imagenfondo.pack()
 
@@ -79,24 +79,24 @@ def screen_login(tk: tkinter, window: Tk):
     password_entry.config(font=("Arial",15))
     password_entry.config(show="*")
 
-    botoninicio = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\botones\\botoneslogin\\botoninicio3.png')
+    botoninicio = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botoninicio3.png')
     login_button = Button(window, image=botoninicio,command=login,bg=verde)
     login_button.pack()
     login_button.place(x=175, y=480)
 
-    botonregis = tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\botones\\botoneslogin\\botonesregistrar.png')
+    botonregis = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botonesregistrar.png')
     login_button2 = Button(window, image=botonregis,command=register,bg=verde)
     login_button2.pack()
     login_button2.place(x=95, y=550)
 
-    botonrecu = tk.PhotoImage(file='c:\\Users\\VizcaIno\\Desktop\\proyecto-main\\login\\login\\disenos\\botones\\botoneslogin\\botonesrecuperar2.png')
+    botonrecu = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botonesrecuperar2.png')
     login_button2 = Button(window, image=botonrecu,command=recovery,bg=verde)
     login_button2.pack()
     login_button2.place(x=350, y=550)
 
     fondoright= Frame(window)
     fondoright.pack()
-    imagenfondo2= tk.PhotoImage(file='C:\\Users\\VizcaIno\\Desktop\\proyecto-main\\src\\screens\\disenos\\mejorescuela2.png')
+    imagenfondo2= tk.PhotoImage(file='src/screens/disenos/mejorescuela2.png')
     imagenfondoright = tk.Label(loginFrameright, image=imagenfondo2)
     imagenfondoright.pack()
 
