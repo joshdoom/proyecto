@@ -11,7 +11,7 @@ from ..models import Estudiante as Model
 from ..models import Grado as ModelGrado
 from ..models import AnioEscolar as ModelAnioEscolar
 from ..engine import engine
-from ..utils.table_to_pdf import PDF
+from ..utils.table_to_pdf import PDFGrado
 
 grado = ["Primer", "Segundo", "Tercero", "Cuarto", "Quinto"]
 
@@ -150,7 +150,7 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
             entry.delete(0, 'end')
 
     def generar_pdf():
-        pdf = PDF('L', 'mm', 'A4')
+        pdf = PDFGrado('L', 'mm', 'A4')
         pdf.degree = degree
         pdf.add_page()
         pdf.set_font("Helvetica","", 10)

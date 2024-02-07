@@ -3,8 +3,9 @@ from tkinter import Tk, ttk
 from sqlalchemy.orm import Session
 
 from ..services.nota import Nota
-from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as ModelNotas, Lapso as ModelLapso, Evaluacion as ModelEvaluacion
+from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as ModelNotas
 from ..engine import engine
+from ..utils.table_to_pdf import PDFNotas
 
 def screen_notas(tk: tkinter, window: Tk, degree: int):
     connect_nota = Nota(engine)
@@ -86,16 +87,68 @@ def screen_notas(tk: tkinter, window: Tk, degree: int):
                 estudiante_label.pack()
 
                 for materia in materias:
-                    notas = session.query(ModelNotas).filter_by(id_estudiante=estudiante.id, id_materia=materia.id).all()
-                    for nota in notas:
-                        if str(nota.id_lapso) == str(lapso):
-                            # Crear y empaquetar una nueva etiqueta con los detalles de las notas para cada materia
-                            nota_label = tk.Label(detalles_window, text="Materia: " + materia.nombre + "\nValor: " + str((nota.nota1 + nota.nota2 + nota.nota3 + nota.nota4) / 4), font=("Helvetica", 12))
-                            nota_label.pack()
+                    notas = session.query(ModelNotas).filter_by(id_estudiante=estudiante.id, id_materia=materia.id, id_lapso=lapso).all()
+                    valores = []
+                    for nota_obj in notas:
+                        if nota_obj.unidad == 1:
+                            valores.append(nota_obj.nota1)
+                        elif nota_obj.unidad == 2:
+                            valores.append(nota_obj.nota2)
+                        elif nota_obj.unidad == 3:
+                            valores.append(nota_obj.nota3)
+                        elif nota_obj.unidad == 4:
+                            valores.append(nota_obj.nota4)
+
+                    nota_label = tk.Label(detalles_window, text="Materia: " + materia.nombre + "\nValor: " + str((sum(valores)) / 4), font=("Helvetica", 12))
+                    nota_label.pack()
 
                 # Crear y empaquetar una nueva etiqueta con el lapso
                 lapso_label = tk.Label(detalles_window, text="Lapso: " + str(lapso), font=("Helvetica", 12, "bold"))
                 lapso_label.pack()
+
+    def generar_pdf():
+        pdf = PDFNotas('L', 'mm', 'A4')
+        pdf.degree = degree
+
+        with Session(engine) as session:
+            select_by_cedula = entryCedula.get()
+            lapso = lapsosSeleccionada.get()
+            estudiante = session.query(Model).filter_by(cedula=select_by_cedula).first()
+            pdf.cedula = estudiante.cedula
+            pdf.estudiante = f"{estudiante.nombres} {estudiante.apellidos}"
+
+            if estudiante is not None:
+                pdf.cedula = estudiante.cedula
+                pdf.estudiante = f"{estudiante.nombres} {estudiante.apellidos}"
+                pdf.add_page()
+                pdf.set_font("Helvetica","", 10)
+
+                materias = session.query(ModelMaterias).filter_by(id_grado=degree).all()
+                for materia in materias:
+                    pdf.cell(20)
+                    notas = session.query(ModelNotas).filter_by(id_estudiante=estudiante.id, id_materia=materia.id, id_lapso=lapso).all()
+                    valores = []
+                    for nota_obj in notas:
+                        if nota_obj.unidad == 1:
+                            valores.append(nota_obj.nota1)
+                        elif nota_obj.unidad == 2:
+                            valores.append(nota_obj.nota2)
+                        elif nota_obj.unidad == 3:
+                            valores.append(nota_obj.nota3)
+                        elif nota_obj.unidad == 4:
+                            valores.append(nota_obj.nota4)
+                        valor_neto = (sum(valores)) / 4
+
+                    if not len(valores) == 4:
+                        for x in range(4 - len(valores)):
+                            valores.append(0)
+
+                    datos = [materia.nombre, *valores, valor_neto]
+                    for dato in datos:
+                        pdf.cell(40, 5, txt=str(dato), border=1, align='C')
+                    pdf.ln(5)
+
+        pdf.output(f"src/pdfs/nota_de_grado{degree}_de_{estudiante.cedula}.pdf")
 
     window.title("Control de Notas")
     window.geometry("1280x680")
@@ -131,6 +184,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int):
     botonEliminar = create_button(miFrame, "Eliminar", eliminar)
     botonBuscar = create_button(miFrame, "Buscar", buscar)
     botonDetalles = create_button(miFrame, "Detalles", mostrar_detalles)
+    botonDescargar = create_button(miFrame, "Descargar", generar_pdf)
 
     entryNota = create_label_and_entry(miFrame, "Total de la nota:")
     entryCedula = create_label_and_entry(miFrame, "Cedula:")
