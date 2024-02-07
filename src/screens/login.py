@@ -1,4 +1,5 @@
 import tkinter 
+import os
 from tkinter import RIGHT, Button, Entry, Frame, Label, Tk, messagebox
 from sqlalchemy.orm import Session
 from ..models import Usuario
@@ -31,6 +32,10 @@ def screen_login(tk: tkinter, window: Tk):
         from .recovery import screen_recovery
         window.destroy()
         screen_recovery(tk, window=Tk())
+
+    def abrir_manual():
+        os.startfile('src\\pdfs\\Manual_de_usuario.pdf')
+
 
     verde="#15a35b"
     verdeoscuro="#01212e"    
@@ -94,10 +99,16 @@ def screen_login(tk: tkinter, window: Tk):
     login_button2.pack()
     login_button2.place(x=350, y=550)
 
+    botonmanu= tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/manual.png')
+    Manu_button= Button(window,image=botonmanu, command=abrir_manual,bg="white")
+    Manu_button.pack()
+    Manu_button.place(x=60,y=70)
+
     fondoright= Frame(window)
     fondoright.pack()
     imagenfondo2= tk.PhotoImage(file='src/screens/disenos/mejorescuela2.png')
     imagenfondoright = tk.Label(loginFrameright, image=imagenfondo2)
     imagenfondoright.pack()
+
 
     window.mainloop()   
