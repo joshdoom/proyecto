@@ -92,10 +92,10 @@ class Nota(Base):
     __tablename__ = 'notas'
 
     id = Column(Integer, primary_key=True)
-    nota1 = Column(Integer, nullable=True, default=0)
-    nota2 = Column(Integer, nullable=True, default=0)
-    nota3 = Column(Integer, nullable=True, default=0)
-    nota4 = Column(Integer, nullable=True, default=0)
+    nota1 = Column(Integer, default=0)
+    nota2 = Column(Integer, default=0)
+    nota3 = Column(Integer, default=0)
+    nota4 = Column(Integer, default=0)
     valor_neto = Column(Numeric, nullable=True)
     unidad = Column(Integer)
     id_lapso = Column(Integer)
