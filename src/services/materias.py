@@ -8,7 +8,7 @@ class Materias:
     
     def create(self, codigo: str, nombre: str, descripcion: str, id_grado: int):
         with self.session() as session:
-            if session.query(Model).filter_by(codigo=codigo, id_grado=id_grado).first() is not None:
+            if session.query(Model).filter_by(nombre=nombre, id_grado=id_grado).first() is not None:
                 raise ValueError("Una materia con este código y grado ya existe.")
             materia = Model(codigo=codigo,
                                nombre=nombre,

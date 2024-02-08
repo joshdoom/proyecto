@@ -30,6 +30,7 @@ def screen_recovery(tk: tkinter, window: Tk):
                 screen_login(tk, window=Tk())
             else:
                 tk.messagebox.showerror("Error", "Usuario no encontrado")
+                
     def recovery():
         global respuesta_entry
         global password_entry

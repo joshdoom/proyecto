@@ -1,5 +1,5 @@
 import tkinter
-from tkinter import Tk, ttk
+from tkinter import Tk, ttk, messagebox
 from sqlalchemy.orm import Session
 
 from ..services.profesor import Profesor
@@ -49,23 +49,29 @@ def screen_professor(tk: tkinter, window: Tk):
         table.pack(fill="both", expand=True)
 
     def nuevo():
-        nombres = entries[0].get()
-        apellidos = entries[1].get()
-        cedula = entries[2].get()
-        telefono = entries[3].get()
-        titulo = MateriaAsignada.get()
-        grado = Grado.get()
+        try:
+            nombres = entries[0].get()
+            apellidos = entries[1].get()
+            cedula = entries[2].get()
+            telefono = entries[3].get()
+            titulo = MateriaAsignada.get()
+            grado = Grado.get()
 
-        with Session(engine) as session:
-            materia = session.query(ModelMaterias).filter(ModelMaterias.nombre == titulo, ModelMaterias.id_grado == grado).first()
-            if not materia:
-                connect_materias.create(titulo[0].upper(), titulo, None, grado)
+            if not all([nombres, apellidos, cedula, telefono, titulo, grado]):
+                messagebox.showerror("Error", "Todos los campos deben estar rellenos")
+                return
+
+            with Session(engine) as session:
                 materia = session.query(ModelMaterias).filter(ModelMaterias.nombre == titulo, ModelMaterias.id_grado == grado).first()
-            
-        connect.create(nombres, apellidos, cedula, telefono, titulo, materia.id)
-        limpiar_campos()
-        update_table()
-
+                if not materia:
+                    connect_materias.create(titulo[0].upper(), titulo, None, grado)
+                    materia = session.query(ModelMaterias).filter(ModelMaterias.nombre == titulo, ModelMaterias.id_grado == grado).first()
+                
+            connect.create(nombres, apellidos, cedula, telefono, titulo, materia.id)
+            limpiar_campos()
+            update_table()
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
 
     def eliminar():
         selected_item = table.selection()[0]
@@ -83,23 +89,30 @@ def screen_professor(tk: tkinter, window: Tk):
             entry.insert(0, selected_profesor[i+1])
 
     def guardar():
-        id, nombres, apellidos, cedula, telefono, titulo, id_materia = selected_profesor
-        nombres = entries[0].get()
-        apellidos = entries[1].get()
-        cedula = entries[2].get()
-        telefono = entries[3].get()
-        titulo = MateriaAsignada.get()
-        grado = Grado.get()
+        try:
+            id, nombres, apellidos, cedula, telefono, titulo, id_materia = selected_profesor
+            nombres = entries[0].get()
+            apellidos = entries[1].get()
+            cedula = entries[2].get()
+            telefono = entries[3].get()
+            titulo = MateriaAsignada.get()
+            grado = Grado.get()
 
-        with Session(engine) as session:
-            materia = session.query(ModelMaterias).filter(ModelMaterias.nombre == titulo, ModelMaterias.id_grado == grado).first()
-            if not materia:
-                connect_materias.create(titulo[0].upper(), titulo, None, grado)
+            if not all([nombres, apellidos, cedula, telefono, titulo, grado]):
+                messagebox.showerror("Error", "Todos los campos deben estar rellenos")
+                return
+
+            with Session(engine) as session:
                 materia = session.query(ModelMaterias).filter(ModelMaterias.nombre == titulo, ModelMaterias.id_grado == grado).first()
-            
-        connect.update(id, nombres, apellidos, cedula, telefono, titulo, materia.id)
-        limpiar_campos()
-        update_table()
+                if not materia:
+                    connect_materias.create(titulo[0].upper(), titulo, None, grado)
+                    materia = session.query(ModelMaterias).filter(ModelMaterias.nombre == titulo, ModelMaterias.id_grado == grado).first()
+                
+            connect.update(id, nombres, apellidos, cedula, telefono, titulo, materia.id)
+            limpiar_campos()
+            update_table()
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
 
     def limpiar_campos():
         for entry in entries:
@@ -126,7 +139,7 @@ def screen_professor(tk: tkinter, window: Tk):
         elif i == 4:  # Para el quinto label y entry
             MateriaAsignada = tk.StringVar(miFrame)
             MateriaAsignada.set("Materias")
-            opciones = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "Geografía, historia y ciudadanía (GHC)", "Ingles", "Matematicas", "Orientación y convivencia", "Participación en grupos de creación, recreación y producción (G.E.R.P)", "Fisica", "Quimica"]
+            opciones = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "G.H.C", "Ingles", "Matematicas", "Orientación y convivencia", "G.E.R.P", "Fisica", "Quimica"]
             opcion = tk.OptionMenu(miFrame, MateriaAsignada, *opciones)
             opcion.place(x=450, y=(i-4)*50+7)
         else:  # Para el sexto label y entry
