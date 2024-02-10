@@ -1,5 +1,5 @@
 import tkinter
-from tkinter import Tk, ttk
+from tkinter import Tk, ttk, messagebox
 from sqlalchemy.orm import Session
 
 from ..services.nota import Nota
@@ -51,16 +51,23 @@ def screen_notas(tk: tkinter, window: Tk, degree: int):
                 show_notas(table, estudiante, materias, lapso)
     
     def guardar():
-        with Session(engine) as session:
-            cedula = entryCedula.get() 
-            nota = entryNota.get()
-            materia = materiaSeleccionada.get()
-            evaluacion = notasSeleccionada.get()
-            lapso = lapsosSeleccionada.get()
-            
-            estudiante = session.query(Model).filter_by(cedula=cedula).first()
-            materia = session.query(ModelMaterias).filter_by(nombre=materia).first()
-            connect_nota.create(nota, evaluacion, lapso, estudiante.id, materia.id)
+        try:
+            with Session(engine) as session:
+                cedula = entryCedula.get() 
+                nota = entryNota.get()
+                materia = materiaSeleccionada.get()
+                evaluacion = notasSeleccionada.get()
+                lapso = lapsosSeleccionada.get()
+
+                if not all([cedula, nota, materia, evaluacion, lapso]):
+                    messagebox.showerror("Error", "Todos los campos deben estar rellenos")
+                    return
+                
+                estudiante = session.query(Model).filter_by(cedula=cedula).first()
+                materia = session.query(ModelMaterias).filter_by(nombre=materia).first()
+                connect_nota.create(nota, evaluacion, lapso, estudiante.id, materia.id)
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
 
     def eliminar():
         selected_item = table.selection()[0]
@@ -137,12 +144,12 @@ def screen_notas(tk: tkinter, window: Tk, degree: int):
                             valores.append(nota_obj.nota3)
                         elif nota_obj.unidad == 4:
                             valores.append(nota_obj.nota4)
-                        valor_neto = (sum(valores)) / 4
 
                     if not len(valores) == 4:
                         for x in range(4 - len(valores)):
                             valores.append(0)
 
+                    valor_neto = (sum(valores)) / 4
                     datos = [materia.nombre, *valores, valor_neto]
                     for dato in datos:
                         pdf.cell(40, 5, txt=str(dato), border=1, align='C')
@@ -189,7 +196,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int):
     entryNota = create_label_and_entry(miFrame, "Total de la nota:")
     entryCedula = create_label_and_entry(miFrame, "Cedula:")
 
-    materias = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "Geografía, historia y ciudadanía (GHC)", "Ingles", "Matematicas", "Orientación y convivencia ", "Participación en grupos de creación, recreación y producción (G.E.R.P)"]
+    materias = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "G.H.C", "Ingles", "Matematicas", "Orientación y convivencia", "G.E.R.P", "Fisica", "Quimica"]
     materiaSeleccionada = create_option_menu(miFrame, materias, 'Materias')
 
     notas = [1, 2, 3, 4]

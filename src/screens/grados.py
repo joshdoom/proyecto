@@ -1,6 +1,6 @@
 import tkinter
 from datetime import datetime
-from tkinter import Tk, ttk
+from tkinter import Tk, ttk, messagebox
 from tkcalendar import DateEntry
 from sqlalchemy.orm import Session
 
@@ -76,22 +76,29 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
             table.pack(fill="both", expand=True)
    
     def nuevo():
-        nombres = entries[0].get()
-        apellidos = entries[1].get()
-        cedula = entries[2].get()
-        telefono = entries[3].get()
-        fecha_nacimiento = datetime.strptime(entries[4].get(), '%m/%d/%y')
-        inicio = datetime.strptime(entries[5].get(), '%m/%d/%y')
-        fin = datetime.strptime(entries[6].get(), '%m/%d/%y')
+        try:
+            nombres = entries[0].get()
+            apellidos = entries[1].get()
+            cedula = entries[2].get()
+            telefono = entries[3].get()
+            fecha_nacimiento = datetime.strptime(entries[4].get(), '%m/%d/%y')
+            inicio = datetime.strptime(entries[5].get(), '%m/%d/%y')
+            fin = datetime.strptime(entries[6].get(), '%m/%d/%y')
 
-        connect_estudiante.create(nombres, apellidos, cedula, telefono, fecha_nacimiento, 1)
-        with Session(engine) as session:
-            estudiante = session.query(Model).filter_by(cedula=cedula).first()
-            connect_grado.create(degree, estudiante.id)
-            connect_anioescolar.create(inicio, fin, estudiante.id)
-        
-        update_table()
-        limpiar_campos()
+            if not all([nombres, apellidos, cedula, telefono, fecha_nacimiento, inicio, fin]):
+                messagebox.showerror("Error", "Todos los campos deben estar rellenos")
+                return
+
+            connect_estudiante.create(nombres, apellidos, cedula, telefono, fecha_nacimiento, 1)
+            with Session(engine) as session:
+                estudiante = session.query(Model).filter_by(cedula=cedula).first()
+                connect_grado.create(degree, estudiante.id)
+                connect_anioescolar.create(inicio, fin, estudiante.id)
+            
+            update_table()
+            limpiar_campos()
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
 
     def eliminar():
         selected_item = table.selection()[0]
@@ -125,25 +132,32 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
                 entry.insert(0, selected_estudiante[i+1])
 
     def guardar():
-        nombres = entries[0].get()
-        apellidos = entries[1].get()
-        cedula = entries[2].get()
-        telefono = entries[3].get()
-        fecha_nacimiento = datetime.strptime(entries[4].get(), '%m/%d/%y')
-        inicio = datetime.strptime(entries[5].get(), '%m/%d/%y')
-        fin = datetime.strptime(entries[6].get(), '%m/%d/%y')
+        try:
+            nombres = entries[0].get()
+            apellidos = entries[1].get()
+            cedula = entries[2].get()
+            telefono = entries[3].get()
+            fecha_nacimiento = datetime.strptime(entries[4].get(), '%m/%d/%y')
+            inicio = datetime.strptime(entries[5].get(), '%m/%d/%y')
+            fin = datetime.strptime(entries[6].get(), '%m/%d/%y')
 
-        with Session(engine) as session:
-            estudiante = session.query(Model).filter_by(id=selected_estudiante[0]).first()
-            anio_escolar = session.query(ModelAnioEscolar).filter_by(id_estudiante=estudiante.id).first()
-            grado = session.query(ModelGrado).filter_by(id_estudiante=estudiante.id).first()
+            if not all([nombres, apellidos, cedula, telefono, fecha_nacimiento, inicio, fin]):
+                messagebox.showerror("Error", "Todos los campos deben estar rellenos")
+                return
 
-            connect_estudiante.update(estudiante.id, nombres, apellidos, cedula, telefono, fecha_nacimiento, 1)
-            connect_anioescolar.update(anio_escolar.id, inicio, fin, estudiante.id)
-            connect_grado.update(grado.id, degree, estudiante.id)
+            with Session(engine) as session:
+                estudiante = session.query(Model).filter_by(id=selected_estudiante[0]).first()
+                anio_escolar = session.query(ModelAnioEscolar).filter_by(id_estudiante=estudiante.id).first()
+                grado = session.query(ModelGrado).filter_by(id_estudiante=estudiante.id).first()
 
-        update_table()
-        limpiar_campos()
+                connect_estudiante.update(estudiante.id, nombres, apellidos, cedula, telefono, fecha_nacimiento, 1)
+                connect_anioescolar.update(anio_escolar.id, inicio, fin, estudiante.id)
+                connect_grado.update(grado.id, degree, estudiante.id)
+
+            update_table()
+            limpiar_campos()
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
 
     def limpiar_campos():
         for entry in entries:
