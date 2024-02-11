@@ -15,22 +15,22 @@ def screen_index(tk: tk, window: Tk):
     from .grados import screen_grado
 
     def primero():
-        screen_grado(tk, window=Tk(), degree=1)
+        screen_grado(tk, window=tk.Toplevel(), degree=1)
 
     def segundo():
-        screen_grado(tk, window=Tk(), degree=2)
+        screen_grado(tk, window=tk.Toplevel(), degree=2)
 
     def tercero():
-        screen_grado(tk, window=Tk(), degree=3)
+        screen_grado(tk, window=tk.Toplevel(), degree=3)
 
     def cuarto():
-        screen_grado(tk, window=Tk(), degree=4)
+        screen_grado(tk, window=tk.Toplevel(), degree=4)
 
     def quinto():
-        screen_grado(tk, window=Tk(), degree=5)
+        screen_grado(tk, window=tk.Toplevel(), degree=5)
 
     def profesores():
-        screen_professor(tk, window=Tk())
+        screen_professor(tk, window=tk.Toplevel())
 
 
     

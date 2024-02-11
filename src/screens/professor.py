@@ -7,6 +7,7 @@ from ..services.materias import Materias
 from ..models import Profesor as Model
 from ..models import Materias as ModelMaterias
 from ..engine import engine
+from ..utils.validate import is_number
 
 def screen_professor(tk: tkinter, window: Tk):
     connect = Profesor(engine)
@@ -116,7 +117,10 @@ def screen_professor(tk: tkinter, window: Tk):
 
     def limpiar_campos():
         for entry in entries:
+            entry.config(validate="none")
             entry.delete(0, 'end')
+            if entry in [entries[2], entries[3]]:
+                entry.config(validate="key")
 
     window.title("Profesores")
     window.geometry("1280x680")
@@ -129,8 +133,9 @@ def screen_professor(tk: tkinter, window: Tk):
     miFrame = tk.Frame(window, width="1200", height="250", bd=5)
     miFrame.pack()
 
+    vcomd = window.register(is_number)
     labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Materia Asignada", "Grado"]
-    entries = [tk.Entry(window) for _ in labels]
+    entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P')) if label in ["Cedula", "Telefono"] else tk.Entry(window) for label in labels]
 
     for i, (label, entry) in enumerate(zip(labels, entries)):
         if i < 4:  # Para los primeros cuatro labels y entries
