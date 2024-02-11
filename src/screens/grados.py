@@ -193,11 +193,7 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
                             pdf.cell(26, 5, txt = str_dato, border=1, align = 'C')
                     pdf.ln(5)
         pdf.output(f"src/pdfs/tabla_de_grado{degree}.pdf")
-    def notas():
-        from .notas import screen_notas
-        window.destroy()
-        screen_notas(tkinter, window=tk.Toplevel(), degree=degree)
-
+    
     def notas():
         from .notas import screen_notas
         window.destroy()
