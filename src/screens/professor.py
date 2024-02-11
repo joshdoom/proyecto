@@ -147,7 +147,7 @@ def screen_professor(tk: tkinter, window: Tk):
     for i, (label, entry) in enumerate(zip(labels, entries)):
         if i < 4:  # Para los primeros cuatro labels y entries
             tk.Label(miFrame, text=label).place(x=350, y=30+i*50)
-            entry.place(x=455, y=80+i*50+7)
+            entry.place(x=455, y=125+i*50+7)
         elif i == 4:  # Para el quinto label y entry
             MateriaAsignada = tk.StringVar(miFrame)
             MateriaAsignada.set("Materias")
