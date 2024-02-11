@@ -6,6 +6,7 @@ from ..services.nota import Nota
 from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as ModelNotas
 from ..engine import engine
 from ..utils.table_to_pdf import PDFNotas
+from ..utils.validate import is_number
 
 def screen_notas(tk: tkinter, window: Tk, degree: int):
     connect_nota = Nota(engine)
@@ -166,9 +167,11 @@ def screen_notas(tk: tkinter, window: Tk, degree: int):
     window.config(bg=verdeclaro)
 
     def create_label_and_entry(miFrame, text, side='left', padx=5, pady=5):
+        vcomd = window.register(is_number)
+
         label = tk.Label(miFrame, text=text)
         label.pack(side=side, padx=padx, pady=pady)
-        entry = tk.Entry(miFrame)
+        entry = tk.Entry(miFrame, validate='key', validatecommand=(vcomd, '%P'))
         entry.pack(side=side, padx=padx, pady=pady)
         return entry
 

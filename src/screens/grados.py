@@ -12,6 +12,7 @@ from ..models import Grado as ModelGrado
 from ..models import AnioEscolar as ModelAnioEscolar
 from ..engine import engine
 from ..utils.table_to_pdf import PDFGrado
+from ..utils.validate import is_number
 
 grado = ["Primer", "Segundo", "Tercero", "Cuarto", "Quinto"]
 
@@ -161,7 +162,10 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
 
     def limpiar_campos():
         for entry in entries:
+            entry.config(validate="none")
             entry.delete(0, 'end')
+            if entry in [entries[2], entries[3]]:
+                entry.config(validate="key")
 
     def generar_pdf():
         pdf = PDFGrado('L', 'mm', 'A4')
@@ -210,8 +214,9 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
     miFrame = tk.Frame(window, width="1200", height="250", bd=5)
     miFrame.pack()
 
+    vcomd = window.register(is_number)
     labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Fecha de Nacimiento", "Inicio", "Fin"]
-    entries = [tk.Entry(window) if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
+    entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P')) if label in ["Cedula", "Telefono"] else tk.Entry(window) if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
 
     for i, (label, entry) in enumerate(zip(labels, entries)):
         if i < 4:  # Para los primeros cuatro labels y entries
