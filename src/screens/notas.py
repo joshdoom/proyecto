@@ -1,5 +1,6 @@
 import tkinter
 from tkinter import Tk, ttk, messagebox
+from ttkthemes import ThemedStyle
 from sqlalchemy.orm import Session
 
 from ..services.nota import Nota
@@ -7,6 +8,8 @@ from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as Mod
 from ..engine import engine
 from ..utils.table_to_pdf import PDFNotas
 from ..utils.validate import is_number
+
+
 
 def screen_notas(tk: tkinter, window: Tk, degree: int):
     connect_nota = Nota(engine)
@@ -34,6 +37,9 @@ def screen_notas(tk: tkinter, window: Tk, degree: int):
                         lista = [nota.nota1, nota.nota2, nota.nota3, nota.nota4]
                         table.insert('', 'end', values=(nota.id, estudiante.id, estudiante.nombres, estudiante.cedula, materia.nombre, nota.unidad, lista[int(nota.unidad) - 1], lapso))
         table.pack(fill="both", expand=True)
+
+    style = ThemedStyle (window) # Cargar el archivo de estilo personalizado
+    style.set_theme("adapta")
 
     frame = tk.Frame(window, bg="white", width="1400", height="350", bd=10)
     frame.pack(fill="both", expand=True)
@@ -186,6 +192,8 @@ def screen_notas(tk: tkinter, window: Tk, degree: int):
         menu = tk.OptionMenu(miFrame, selected_option, *options)
         menu.pack(side=side, padx=padx, pady=pady)
         return selected_option
+    
+    
 
     miFrame = tk.Frame(window, width=1200, height=250, bd=5, relief="groove")
     miFrame.pack()

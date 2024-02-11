@@ -2,6 +2,7 @@ import tkinter
 from datetime import datetime
 from tkinter import Tk, ttk, messagebox
 from tkcalendar import DateEntry
+from ttkthemes import ThemedStyle
 from sqlalchemy.orm import Session
 
 from ..services.grado import Grado
@@ -219,7 +220,12 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
 
     miFrame = tk.Frame(window, width="1200", height="250", bd=5)
     miFrame.pack()
-
+    
+    
+    style = ThemedStyle (window) # Cargar el archivo de estilo personalizado
+    style.set_theme("adapta")
+    
+        
     
 
     vcomd = window.register(is_number)
@@ -233,6 +239,8 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
         else:  # Para los siguientes labels y entries
             tk.Label(miFrame, text=label).place(x=550, y=30+(i-4)*50)
             entry.place(x=755, y=120+(i-4)*50+7)
+
+    
 
     botonew = tk.PhotoImage(file='src/screens/disenos/botones/botonestablas/botonesnuevo.png')
     button_new = tk.Button(window, text="Nuevo", command=nuevo, bg=verdeclaro, fg="black")

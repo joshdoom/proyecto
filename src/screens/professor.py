@@ -1,5 +1,6 @@
 import tkinter
 from tkinter import Tk, ttk, messagebox
+from ttkthemes import ThemedStyle
 from sqlalchemy.orm import Session
 
 from ..services.profesor import Profesor
@@ -140,6 +141,9 @@ def screen_professor(tk: tkinter, window: Tk):
     miFrame = tk.Frame(window, width="1200", height="250", bd=5)
     miFrame.pack()
 
+    style = ThemedStyle (window) # Cargar el archivo de estilo personalizado
+    style.set_theme("adapta")
+
     vcomd = window.register(is_number)
     labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Materia Asignada", "Grado"]
     entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P')) if label in ["Cedula", "Telefono"] else tk.Entry(window) for label in labels]
@@ -164,15 +168,15 @@ def screen_professor(tk: tkinter, window: Tk):
 
     button_new = tk.Button(window, text="Nuevo", command=nuevo, bg=verdeclaro, fg="black")
     button_new.pack()
-    button_new.place(x=800, y=250)
+    button_new.place(x=800, y=300)
 
     button_save = tk.Button(window, text="Guardar", command=guardar, bg=verdeclaro, fg="black")
     button_save.pack()
-    button_save.place(x=1000, y=250)
+    button_save.place(x=1000, y=300)
 
     button_delete = tk.Button(window, text="Eliminar", command=eliminar, bg=verdeclaro, fg="black")
     button_delete.pack()
-    button_delete.place(x=900, y=250)
+    button_delete.place(x=900, y=300)
 
     miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
     miFrame13.pack(side="bottom", anchor="w")
