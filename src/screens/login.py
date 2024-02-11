@@ -99,7 +99,7 @@ def screen_login(tk: tkinter, window: Tk):
     login_button2.pack()
     login_button2.place(x=350, y=550)
 
-    botonmanu= tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/manual.png')
+    botonmanu= tk.PhotoImage(file='src/screens/disenos/urbaneja.png')
     Manu_button= Button(window,image=botonmanu, command=abrir_manual,bg="white")
     Manu_button.pack()
     Manu_button.place(x=60,y=70)

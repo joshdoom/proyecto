@@ -130,6 +130,13 @@ def screen_professor(tk: tkinter, window: Tk):
     verde="#15a35b"
     window.config(bg=verdeclaro)
 
+    icono= tk.PhotoImage(file='src/screens/disenos/urbaneja.png')
+    cintillo = tk.Label(window, text="Registros de Profesores",bd=5, bg=verdeclaro,relief="groove", fg="black", font=("Calisto Mt", 16), padx=20, pady=10)
+    cintillo.config(image=icono, compound=tk.LEFT)  # Establecer la imagen a la izquierda del texto
+    cintillo.image = icono 
+    cintillo.pack(side="top")
+
+
     miFrame = tk.Frame(window, width="1200", height="250", bd=5)
     miFrame.pack()
 
@@ -139,33 +146,33 @@ def screen_professor(tk: tkinter, window: Tk):
 
     for i, (label, entry) in enumerate(zip(labels, entries)):
         if i < 4:  # Para los primeros cuatro labels y entries
-            tk.Label(miFrame, text=label).place(x=150, y=i*50)
-            entry.place(x=255, y=i*50+7)
+            tk.Label(miFrame, text=label).place(x=350, y=30+i*50)
+            entry.place(x=455, y=80+i*50+7)
         elif i == 4:  # Para el quinto label y entry
             MateriaAsignada = tk.StringVar(miFrame)
             MateriaAsignada.set("Materias")
             opciones = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "G.H.C", "Ingles", "Matematicas", "Orientación y convivencia", "G.E.R.P", "Fisica", "Quimica"]
             opcion = tk.OptionMenu(miFrame, MateriaAsignada, *opciones)
-            opcion.place(x=450, y=(i-4)*50+7)
+            opcion.place(x=650, y=30+(i-4)*50+7)
         else:  # Para el sexto label y entry
             Grado = tk.StringVar(miFrame)
             Grado.set("Grados")
             grados = [str(i) for i in range(1, 6)]
             opcion_grado = tk.OptionMenu(miFrame, Grado, *grados)
-            opcion_grado.place(x=450, y=(i-4)*50+7)
+            opcion_grado.place(x=650, y=30+(i-4)*50+7)
 
 
     button_new = tk.Button(window, text="Nuevo", command=nuevo, bg=verdeclaro, fg="black")
     button_new.pack()
-    button_new.place(x=600, y=210)
+    button_new.place(x=800, y=250)
 
     button_save = tk.Button(window, text="Guardar", command=guardar, bg=verdeclaro, fg="black")
     button_save.pack()
-    button_save.place(x=800, y=210)
+    button_save.place(x=1000, y=250)
 
     button_delete = tk.Button(window, text="Eliminar", command=eliminar, bg=verdeclaro, fg="black")
     button_delete.pack()
-    button_delete.place(x=700, y=210)
+    button_delete.place(x=900, y=250)
 
     miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
     miFrame13.pack(side="bottom", anchor="w")
