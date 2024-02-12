@@ -86,4 +86,8 @@ def screen_recovery(tk: tkinter, window: Tk):
     check_button.pack()
     check_button.place(x=130,y=210)
 
+    gobackbutton = tk.Button(registerFrame, text="regresar",font=("Helvetica", 10), bg=verde)
+    gobackbutton.pack()
+    gobackbutton.place(x=20,y=20)
+
     window.mainloop()

@@ -89,6 +89,8 @@ def screen_register(tk: tkinter, window: Tk):
     register_button.pack()
     register_button.place(x=150,y=550)
 
-    
+    gobackbutton = tk.Button(registerFrame, text="regresar",font=("Helvetica", 10), bg=verde)
+    gobackbutton.pack()
+    gobackbutton.place(x=20,y=20)
     
     window.mainloop()
