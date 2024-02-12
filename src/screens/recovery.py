@@ -7,6 +7,11 @@ from ..engine import engine
 def screen_recovery(tk: tkinter, window: Tk):
     connect = UsuarioService(engine)
 
+    def volver():
+        from .login import screen_login
+        window.destroy()
+        screen_login(tk, window=Tk())
+
     def check_user():
         user = username_entry.get()
         with Session(engine) as session:
@@ -86,7 +91,7 @@ def screen_recovery(tk: tkinter, window: Tk):
     check_button.pack()
     check_button.place(x=130,y=210)
 
-    gobackbutton = tk.Button(registerFrame, text="regresar",font=("Helvetica", 10), bg=verde)
+    gobackbutton = tk.Button(registerFrame, text="regresar",font=("Helvetica", 10), bg=verde, command=volver)
     gobackbutton.pack()
     gobackbutton.place(x=20,y=20)
 

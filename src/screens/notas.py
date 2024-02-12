@@ -3,7 +3,6 @@ from tkinter import Tk, ttk, messagebox
 from ttkthemes import ThemedStyle
 from sqlalchemy.orm import Session
 
-from .grados import screen_grado
 from ..services.nota import Nota
 from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as ModelNotas
 from ..engine import engine
@@ -194,9 +193,11 @@ def screen_notas(tk: tkinter, window: Tk, degree: int):
         menu.pack(side=side, padx=padx, pady=pady)
         return selected_option
     
-    def go_back(tk: tkinter, window: Tk, degree: int):
+    def go_back():
+        from .grados import screen_grado
         window.destroy()
-        screen_grado()
+        screen_grado(tk, window=tk.Toplevel(), degree=degree)
+        
     
     miFrame = tk.Frame(window, width=1200, height=250, bd=5, relief="groove")
     miFrame.pack()
@@ -206,6 +207,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int):
     botonBuscar = create_button(miFrame, "Buscar", buscar)
     botonDetalles = create_button(miFrame, "Detalles", mostrar_detalles)
     botonDescargar = create_button(miFrame, "Descargar", generar_pdf)
+
     botonvoler = tk.Button(window, text="Volver", command=go_back, bg=verdeclaro)
     botonvoler.pack()
     botonvoler.place(x=30,y=540)
