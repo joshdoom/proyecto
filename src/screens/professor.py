@@ -10,7 +10,7 @@ from ..models import Materias as ModelMaterias
 from ..engine import engine
 from ..utils.validate import is_number
 
-def screen_professor(tk: tkinter, window: Tk):
+def screen_professor(tk: tkinter, window: Tk, rol: str):
     connect = Profesor(engine)
     connect_materias = Materias(engine)
 
