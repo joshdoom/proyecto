@@ -17,10 +17,66 @@ from ..utils.validate import is_number
 
 grado = ["Primer", "Segundo", "Tercero", "Cuarto", "Quinto"]
 
-def screen_grado(tk: tkinter, window: Tk, degree: int):
+def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
     connect_grado = Grado(engine)
     connect_estudiante = Estudiante(engine)
     connect_anioescolar = AnioEscolar(engine)
+
+    def verificar_rol():
+        if rol == "Profesor":
+            button_notas = tk.Button(window, text="Notas", command=notas, bg=verdeclaro, fg="black")
+            button_notas.pack()
+            button_notas.place(x=1050, y=300)
+
+        elif rol == "Secretaria":
+            botonew = tk.PhotoImage(file='src/screens/disenos/botones/botonestablas/botonesnuevo.png')
+            button_new = tk.Button(window, text="Nuevo", command=nuevo, bg=verdeclaro, fg="black")
+            button_new.pack()
+            button_new.place(x=750, y=300)
+
+            button_save = tk.Button(window, text="Guardar", command=guardar, bg=verdeclaro, fg="black")
+            button_save.pack()
+            button_save.place(x=850, y=300)
+
+            button_notas = tk.Button(window, text="Notas", command=notas, bg=verdeclaro, fg="black")
+            button_notas.pack()
+            button_notas.place(x=950, y=300)
+
+            button_descargar = tk.Button(window, text="Descargar", command=generar_pdf, bg=verdeclaro, fg="black")
+            button_descargar.pack()
+            button_descargar.place(x=1050, y=300)
+
+            miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
+            miFrame13.pack(side="bottom", anchor="w")
+
+            tk.Button(miFrame13, text="Editar", command=editar, bg=verdeclaro).pack()
+
+        else:
+            botonew = tk.PhotoImage(file='src/screens/disenos/botones/botonestablas/botonesnuevo.png')
+            button_new = tk.Button(window, text="Nuevo", command=nuevo, bg=verdeclaro, fg="black")
+            button_new.pack()
+            button_new.place(x=750, y=300)
+
+            button_save = tk.Button(window, text="Guardar", command=guardar, bg=verdeclaro, fg="black")
+            button_save.pack()
+            button_save.place(x=850, y=300)
+
+            button_delete = tk.Button(window, text="Eliminar", command=eliminar, bg=verdeclaro, fg="black")
+            button_delete.pack()
+            button_delete.place(x=950, y=300)
+
+            button_notas = tk.Button(window, text="Notas", command=notas, bg=verdeclaro, fg="black")
+            button_notas.pack()
+            button_notas.place(x=1050, y=300)
+
+            button_descargar = tk.Button(window, text="Descargar", command=generar_pdf, bg=verdeclaro, fg="black")
+            button_descargar.pack()
+            button_descargar.place(x=1150, y=300)
+
+            miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
+            miFrame13.pack(side="bottom", anchor="w")
+
+            tk.Button(miFrame13, text="Editar", command=editar, bg=verdeclaro).pack()
 
     def update_table():
         for i in table.get_children():
@@ -202,7 +258,7 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
     def notas():
         from .notas import screen_notas
         window.destroy()
-        screen_notas(tkinter, window=tk.Toplevel(), degree=degree)
+        screen_notas(tkinter, window=tk.Toplevel(), degree=degree, rol=rol)
 
     window.title(f"{grado[degree - 1]} año")
     window.geometry("1280x680")
@@ -240,37 +296,5 @@ def screen_grado(tk: tkinter, window: Tk, degree: int):
             tk.Label(miFrame, text=label).place(x=550, y=30+(i-4)*50)
             entry.place(x=755, y=120+(i-4)*50+7)
 
-    
-
-    botonew = tk.PhotoImage(file='src/screens/disenos/botones/botonestablas/botonesnuevo.png')
-    button_new = tk.Button(window, text="Nuevo", command=nuevo, bg=verdeclaro, fg="black")
-    button_new.pack()
-    button_new.place(x=750, y=300)
-
-   
-    button_save = tk.Button(window, text="Guardar", command=guardar, bg=verdeclaro, fg="black")
-    button_save.pack()
-    button_save.place(x=850, y=300)
-
-    button_delete = tk.Button(window, text="Eliminar", command=eliminar, bg=verdeclaro, fg="black")
-    button_delete.pack()
-    button_delete.place(x=950, y=300)
-
-    button_notas = tk.Button(window, text="Notas", command=notas, bg=verdeclaro, fg="black")
-    button_notas.pack()
-    button_notas.place(x=1050, y=300)
-
-    button_descargar = tk.Button(window, text="Descargar", command=generar_pdf, bg=verdeclaro, fg="black")
-    button_descargar.pack()
-    button_descargar.place(x=1150, y=300)
-
-    miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
-    miFrame13.pack(side="bottom", anchor="w")
-
-    tk.Button(miFrame13, text="Editar", command=editar, bg=verdeclaro).pack()
-
-    
-
-   
-
+    verificar_rol()
     show_students()

@@ -1,10 +1,9 @@
 import tkinter 
-import tkinter as tk
-from tkinter import*
 from tkinter import Tk, messagebox
+from sqlalchemy.orm import Session
+from ..models import Usuario
 from ..services.register import Usuario as UsuarioService
 from ..engine import engine
-
 
 def screen_register(tk: tkinter, window: Tk):
     connect = UsuarioService(engine)
@@ -23,13 +22,21 @@ def screen_register(tk: tkinter, window: Tk):
         question = pregunta_entry.get()
         answer = respuesta_entry.get()
 
-        try:
-            connect.create(username, password, rol_select, question, answer)
-            window.destroy()
-            screen_login(tk, window=Tk())
-        except:
-            messagebox.showinfo("Error", "Usuario o contraseña es incorrecta")
-    
+        with Session(engine) as session:
+            usuarios = session.query(Usuario).all()
+
+            for usuario in usuarios:
+                if usuario.rol == rol_select:
+                    messagebox.showinfo("Error", "No esta permitido crear mas de un director.")
+                    return
+            else:
+                try:
+                    connect.create(username, password, rol_select, question, answer)
+                    window.destroy()
+                    screen_login(tk, window=Tk())
+                except:
+                    messagebox.showinfo("Error", "Usuario o contraseña es incorrecta")
+        
     window.title("Registrar")
     window.geometry("400x600")
     window.resizable(0,0)

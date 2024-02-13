@@ -3,17 +3,32 @@ from tkinter import Tk, ttk, messagebox
 from ttkthemes import ThemedStyle
 from sqlalchemy.orm import Session
 
-from .grados import screen_grado
 from ..services.nota import Nota
 from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as ModelNotas
 from ..engine import engine
 from ..utils.table_to_pdf import PDFNotas
 from ..utils.validate import is_number
 
-
-
-def screen_notas(tk: tkinter, window: Tk, degree: int):
+def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
     connect_nota = Nota(engine)
+
+    def verificar_rol():
+        if rol == "Profesor":
+            botonGuardar = create_button(miFrame, "Guardar", guardar)
+            botonBuscar = create_button(miFrame, "Buscar", buscar)
+            botonDetalles = create_button(miFrame, "Detalles", mostrar_detalles)
+        elif rol == "Secretaria":
+            botonGuardar = create_button(miFrame, "Guardar", guardar)
+            botonBuscar = create_button(miFrame, "Buscar", buscar)
+            botonDetalles = create_button(miFrame, "Detalles", mostrar_detalles)
+            botonDescargar = create_button(miFrame, "Descargar", generar_pdf)
+        else:
+            botonGuardar = create_button(miFrame, "Guardar", guardar)
+            botonEliminar = create_button(miFrame, "Eliminar", eliminar)
+            botonBuscar = create_button(miFrame, "Buscar", buscar)
+            botonDetalles = create_button(miFrame, "Detalles", mostrar_detalles)
+            botonDescargar = create_button(miFrame, "Descargar", generar_pdf)
+            
 
     def update_table():
         for i in table.get_children():
@@ -197,17 +212,13 @@ def screen_notas(tk: tkinter, window: Tk, degree: int):
     def go_back():
         from .grados import screen_grado
         window.destroy()
-        screen_grado(tk, window=tk.Toplevel(), degree=degree)
+        screen_grado(tk, window=tk.Toplevel(), degree=degree, rol=rol)
     
     miFrame = tk.Frame(window, width=1200, height=250, bd=5, relief="groove")
     miFrame.pack()
 
-    botonGuardar = create_button(miFrame, "Guardar", guardar)
-    botonEliminar = create_button(miFrame, "Eliminar", eliminar)
-    botonBuscar = create_button(miFrame, "Buscar", buscar)
-    botonDetalles = create_button(miFrame, "Detalles", mostrar_detalles)
-    botonDescargar = create_button(miFrame, "Descargar", generar_pdf)
-    
+    verificar_rol()
+
     gobackboton = tk.Button(window, text="Volver", command=go_back, bg=verdeclaro)
     gobackboton.pack()
     gobackboton.place(x=30,y=540)
