@@ -1,5 +1,5 @@
 def is_number(value):
-    if value.isdigit():
+    if value.isdigit() or value == '':
         return True
     else:
         return False
