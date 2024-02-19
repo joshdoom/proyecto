@@ -4,7 +4,7 @@ from tkinter import Tk, ttk, messagebox
 from tkcalendar import DateEntry
 from ttkthemes import ThemedStyle
 from sqlalchemy.orm import Session
-
+import customtkinter
 from ..services.grado import Grado
 from ..services.estudiante import Estudiante
 from ..services.anioescolar import AnioEscolar
@@ -14,6 +14,7 @@ from ..models import AnioEscolar as ModelAnioEscolar
 from ..engine import engine
 from ..utils.table_to_pdf import PDFGrado
 from ..utils.validate import is_number
+from PIL import Image
 
 grado = ["Primer", "Segundo", "Tercero", "Cuarto", "Quinto"]
 
@@ -24,59 +25,80 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
 
     def verificar_rol():
         if rol == "Profesor":
-            button_notas = tk.Button(window, text="Notas", command=notas, bg=verdeclaro, fg="black")
-            button_notas.pack()
-            button_notas.place(x=1050, y=300)
-
+            button_notas = customtkinter.customtkinter.CTkButton(master=window, width=95, height=37, text="Notas",
+                                              text_color="#fff", fg_color="#0d487e", command=notas, font=("bold", 15),
+                                              hover_color=blue)
+            
+            #tk.Button(window, text="Notas", command=notas, bg=verdeclaro, fg="black")
+            
+            button_notas.place(x=640, y=295)
+            
         elif rol == "Secretaria":
-            botonew = tk.PhotoImage(file='src/screens/disenos/botones/botonestablas/botonesnuevo.png')
-            button_new = tk.Button(window, text="Nuevo", command=nuevo, bg=verdeclaro, fg="black")
-            button_new.pack()
-            button_new.place(x=750, y=300)
+            #botonew = tk.PhotoImage(file='src/screens/disenos/botones/botonestablas/botonesnuevo.png')
+            
+            button_new = customtkinter.CTkButton(master=window, width=95, height=37, text="Nuevo",
+                                              text_color="#fff", fg_color="#0d487e", command=nuevo, font=("bold", 15),
+                                              hover_color=blue)
+            
+            button_new.place(x=640, y=295)
 
-            button_save = tk.Button(window, text="Guardar", command=guardar, bg=verdeclaro, fg="black")
-            button_save.pack()
-            button_save.place(x=850, y=300)
+            button_save = customtkinter.CTkButton(master=window, width=95, height=37, text="Guardar",
+                                              text_color="#fff", fg_color="#0d487e", command=guardar, font=("bold", 15),
+                                              hover_color=blue)
+            
+            button_save.place(x=740, y=295)
+            
+            button_editar = customtkinter.CTkButton(master=window, width=95, height=37, text="Editar",
+                                              text_color="#fff", fg_color="#0d487e", command=editar, font=(0, 15),
+                                              hover_color=blue)
+            
+            button_editar.place(x=840, y=295)
 
-            button_notas = tk.Button(window, text="Notas", command=notas, bg=verdeclaro, fg="black")
-            button_notas.pack()
-            button_notas.place(x=950, y=300)
+            button_notas = customtkinter.CTkButton(master=window, width=95, height=37, text="Notas",
+                                              text_color="#fff", fg_color="#0d487e", command=notas, font=(0, 15),
+                                              hover_color=blue)
+            button_notas.place(x=940, y=295)
 
-            button_descargar = tk.Button(window, text="Descargar", command=generar_pdf, bg=verdeclaro, fg="black")
-            button_descargar.pack()
-            button_descargar.place(x=1050, y=300)
-
-            miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
-            miFrame13.pack(side="bottom", anchor="w")
-
-            tk.Button(miFrame13, text="Editar", command=editar, bg=verdeclaro).pack()
+            button_descargar = customtkinter.CTkButton(master=window, width=95, height=37, text="Descargar",
+                                              text_color="#fff", fg_color="#0d487e", command=generar_pdf, font=(0, 15),
+                                              hover_color=blue)
+            
+            button_descargar.place(x=1040, y=295)
 
         else:
-            botonew = tk.PhotoImage(file='src/screens/disenos/botones/botonestablas/botonesnuevo.png')
-            button_new = tk.Button(window, text="Nuevo", command=nuevo, bg=verdeclaro, fg="black")
-            button_new.pack()
-            button_new.place(x=750, y=300)
+            
+            button_new = customtkinter.CTkButton(master=window, width=95, height=37, text="Nuevo",
+                                              text_color="#fff", fg_color="#0d487e", command=nuevo, font=("bold", 15),
+                                              hover_color=blue)
+            button_new.place(x=640, y=295)
 
-            button_save = tk.Button(window, text="Guardar", command=guardar, bg=verdeclaro, fg="black")
-            button_save.pack()
-            button_save.place(x=850, y=300)
+            button_save = customtkinter.CTkButton(master=window, width=95, height=37, text="Guardar",
+                                              text_color="#fff", fg_color="#0d487e", command=guardar, font=("bold", 15),
+                                              hover_color=blue)
+            button_save.place(x=740, y=295)
 
-            button_delete = tk.Button(window, text="Eliminar", command=eliminar, bg=verdeclaro, fg="black")
-            button_delete.pack()
-            button_delete.place(x=950, y=300)
+            button_editar = customtkinter.CTkButton(master=window, width=95, height=37, text="Editar",
+                                              text_color="#fff", fg_color="#0d487e", command=editar, font=(0, 15),
+                                              hover_color=blue)
+            
+            button_editar.place(x=840, y=295)
+            
+            button_delete = customtkinter.CTkButton(master=window, width=95, height=37, text="Eliminar",
+                                              text_color="#fff", fg_color="#0d487e", command=eliminar, font=(0, 15),
+                                              hover_color=blue)
+            button_delete.place(x=940, y=295)
 
-            button_notas = tk.Button(window, text="Notas", command=notas, bg=verdeclaro, fg="black")
-            button_notas.pack()
-            button_notas.place(x=1050, y=300)
+            button_notas = customtkinter.CTkButton(master=window, width=95, height=37, text="Notas",
+                                              text_color="#fff", fg_color="#0d487e", command=notas, font=(0, 15),
+                                              hover_color=blue)
+            button_notas.place(x=1040, y=295)
+            
+            button_descargar = customtkinter.CTkButton(master=window, width=95, height=37, text="Descargar",
+                                              text_color="#fff", fg_color="#0d487e", command=generar_pdf, font=(0, 15),
+                                              hover_color=blue)
+            button_descargar.place(x=1140, y=295)
 
-            button_descargar = tk.Button(window, text="Descargar", command=generar_pdf, bg=verdeclaro, fg="black")
-            button_descargar.pack()
-            button_descargar.place(x=1150, y=300)
-
-            miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
-            miFrame13.pack(side="bottom", anchor="w")
-
-            tk.Button(miFrame13, text="Editar", command=editar, bg=verdeclaro).pack()
+            
 
     def update_table():
         for i in table.get_children():
@@ -97,15 +119,19 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
     def show_students():
         global table
 
-        frame = tk.Frame(window, bg="white", width="1400", height="350", bd=10)
+        frame = tk.Frame(window, bg="white", width="1400", height="200", bd=10)
         frame.pack(fill="both", expand=True)
         table = ttk.Treeview(frame, columns=('ID', 'Nombres', 'Apellidos', 'Cedula', 'Telefono', 'Fecha de Nacimiento', 'Grado', 'Seccion', 'Inicio', 'Fin'), show='headings')
-        table.column('ID', width=100, anchor='center')
+        estilo_tablaA = ttk.Style()
+
+        estilo_tablaA.configure("Treeview.Heading", background="#565b5e", foreground="#000",
+                                                relief="flat", font=(None, 13))
+        table.column('ID', width=70, anchor='center')
         table.column('Nombres', width=100, anchor='center')
         table.column('Apellidos', width=100, anchor='center')
         table.column('Cedula', width=100, anchor='center')
         table.column('Telefono', width=100, anchor='center')
-        table.column('Fecha de Nacimiento', width=100, anchor='center')
+        table.column('Fecha de Nacimiento', width=140, anchor='center')
         table.column('Grado', width=100, anchor='center')
         table.column('Seccion', width=100, anchor='center')
         table.column('Inicio', width=100, anchor='center')
@@ -155,8 +181,9 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
             
             update_table()
             limpiar_campos()
-        except Exception as e:
-            messagebox.showerror("Error", str(e))
+        except Exception:
+            print("a")
+            #messagebox.showerror("Error", "olis")
 
     def eliminar():
         selected_item = table.selection()[0]
@@ -215,7 +242,8 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
             update_table()
             limpiar_campos()
         except Exception as e:
-            messagebox.showerror("Error", str(e))
+            print("hola")
+            #messagebox.showerror("Error", "olis")
 
     def limpiar_campos():
         for entry in entries:
@@ -264,37 +292,58 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
     window.geometry("1280x680")
     window.resizable(False, False)
     window.iconbitmap('src/screens/disenos/LUMASIS.ico')
-    verdeclaro="#b8f2ca"
-    verde="#15a35b"
+    azul =  "#7beaf5"
+    blue = "#288a94"
+    verdeclaro="#287678"
+    verde="#fff"
     window.config(bg=verdeclaro)
 
     icono= tk.PhotoImage(file='src/screens/disenos/urbaneja.png')
-    cintillo = tk.Label(window, text="Registros de Estudiantes",bd=5, bg=verdeclaro,relief="groove", fg="black", font=("Calisto Mt", 16), padx=20, pady=10)
+    
+    cintillo = tk.Label(window, text="Registro de Estudiantes", bd=5, bg=verdeclaro, fg="white", 
+                        font=("Calisto Mt", 16), padx=20, pady=10)
     cintillo.config(image=icono, compound=tk.LEFT)  # Establecer la imagen a la izquierda del texto
     cintillo.image = icono 
     cintillo.pack(side="top")
-
-    miFrame = tk.Frame(window, width="1200", height="250", bd=5)
+    
+    miFrame = tk.Frame(window, width="1200", height="250", bd=5, bg="#287678")
     miFrame.pack()
     
     
     style = ThemedStyle (window) # Cargar el archivo de estilo personalizado
     style.set_theme("adapta")
     
-        
+    pizarra = tk.PhotoImage(file='imagen.png')
+    cosa = tk.Label(miFrame, image=pizarra, width="1200", height="250")
+    #cosa.config(image=pizarra)
+    cosa.place(x=0, y=0)
+    cosa.image = pizarra
     
-
     vcomd = window.register(is_number)
     labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Fecha de Nacimiento", "Inicio", "Fin"]
-    entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P')) if label in ["Cedula", "Telefono"] else tk.Entry(window) if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
+    entries = [customtkinter.CTkEntry(master=miFrame, width=150, height=30, border_width=0, corner_radius=10, font=(0, 16), 
+                        validate='key', validatecommand=(vcomd, '%P'), ) if label in ["Cedula", "Telefono"] else customtkinter.CTkEntry(master=miFrame,  width=150, height=30, border_width=0, corner_radius=10, font=(0, 16)) 
+                        if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
+    #entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P'), ) if label in ["Cedula", "Telefono"] else tk.Entry(window) if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
 
     for i, (label, entry) in enumerate(zip(labels, entries)):
         if i < 4:  # Para los primeros cuatro labels y entries
-            tk.Label(miFrame, text=label).place(x=250, y=30+i*50)
-            entry.place(x=355, y=120+i*50+7)
+            tt = customtkinter.CTkLabel(master=miFrame, text=label, width=120, height=25,
+                                               fg_color="#287678", text_color="#fff", corner_radius=8,
+                                               font=customtkinter.CTkFont(size=18))
+            
+            tt.place(x=190, y=30+i*50)
+            
+            entry.place(x=325, y=21+i*50+7)
+            
         else:  # Para los siguientes labels y entries
-            tk.Label(miFrame, text=label).place(x=550, y=30+(i-4)*50)
-            entry.place(x=755, y=120+(i-4)*50+7)
+             tt = customtkinter.CTkLabel(master=miFrame, text=label, width=120, height=25,
+                                               fg_color="#287678", text_color="#fff", corner_radius=8,
+                                               font=customtkinter.CTkFont(size=18))
+             
+             tt.place(x=570, y=30+(i-4)*50)
+             
+             entry.place(x=810, y=120+(i-4)*50+7)
 
     verificar_rol()
     show_students()

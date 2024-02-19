@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from ..models import Usuario
 from ..services.register import Usuario as UsuarioService
 from ..engine import engine
+import customtkinter
+
 def screen_recovery(tk: tkinter, window: Tk):
     connect = UsuarioService(engine)
 
@@ -40,59 +42,65 @@ def screen_recovery(tk: tkinter, window: Tk):
         global respuesta_entry
         global password_entry
 
-        respuesta_label = tk.Label(registerFrame, text="Respuesta:",bg="white", font=("Helvetica", 14))
-        respuesta_label.pack()
-        respuesta_label.place(x=150,y=260)
+        respuesta_label = tk.Label(window, text="Respuesta:", bg="white", font=("Helvetica", 16))
+        respuesta_label.place(x=200,y=180)
 
-        respuesta_entry = tk.Entry(registerFrame, show="*", font=("Helvetica", 12))
-        respuesta_entry.pack()
-        respuesta_entry.place(x=110, y=300)
+        respuesta_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,
+                                       font=(0, 18), show="*") 
+                                       
+        #tk.Entry(window, show="*", font=("Helvetica", 12))
+        respuesta_entry.place(x=330, y=180)
 
-        password_label = tk.Label(registerFrame, text="Clave:",bg="white", font=("Helvetica", 14))
-        password_label.pack()
-        password_label.place(x=170,y=370)
+        password_label = tk.Label(window, text="Clave:",bg="white", font=("Helvetica", 16))
+        password_label.place(x=200,y=260)
 
-        password_entry = tk.Entry(registerFrame, show="*", font=("Helvetica", 12))
-        password_entry.pack()
-        password_entry.place(x=110,y=450)
+        password_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,
+                                       font=(0, 18), show="*")
+        
+        #tk.Entry(window, show="*", font=("Helvetica", 12))
+        password_entry.place(x=330,y=260)
 
-        check_button = tk.Button(registerFrame, text="Actualizar", command=update, font=("Helvetica", 14), bg="white")
-        check_button.pack()
-        check_button.place(x=155,y=500)
+        check_button = customtkinter.CTkButton(master=window, width=160, height=40, text="Actualizar Datos",
+                                              text_color="#fff", fg_color=verde, command=update, font=(0, 20),
+                                              hover_color="#209c62")
+        #tk.Button(window, text="Actualizar", command=update, font=("Helvetica", 14), bg="white")
+        check_button.place(x=400,y=380)
 
 
     window.title("Recuperar Sesión")
-    window.geometry("400x600")
+    window.geometry("800x500")
     window.resizable(0,0)
     window.iconbitmap('src/screens/disenos/LUMASIS.ico')
+    
     verde="#15a35b"
     
-
-    registerFrame = tk.Frame(window)
-    registerFrame.pack()
-    fondo = tk.PhotoImage(file='src/screens/disenos/fondoregistro.png')
-    imagenfondo = tk.Label(registerFrame,image=fondo)
-    imagenfondo.pack()
+    fondo = tk.PhotoImage(file='src/screens/disenos/fono2.png')
+    image = tk.Label(window, image=fondo, width="800", height="500")
+    image.place(x=0, y=0)
+    image.image = fondo
     
 
-    titulo = tk.Label(registerFrame, text="Recuperar Sesión",bg="white", font=("Helvetica", 18))
-    titulo.pack()
-    titulo.place(x=110,y=20)
+    titulo = tk.Label(window, text="Recuperar Sesión",bg="white", font=("Helvetica", 20))
+    titulo.place(x=300,y=20)
 
-    username_label = tk.Label(registerFrame, text="Usuario:",bg="white", font=("Helvetica", 14))
-    username_label.pack()
-    username_label.place(x=165,y=100)
+    username_label = tk.Label(window, text="Usuario:", bg="white", font=("Helvetica", 16))
+    username_label.place(x=200,y=100)
 
-    username_entry = tk.Entry(registerFrame, font=("Helvetica", 12))
-    username_entry.pack()
-    username_entry.place(x=110,y=150)
+    username_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,
+                                       font=(0, 18)) 
+    #tk.Entry(window, font=("Helvetica", 12))
+    username_entry.place(x=330,y=100)
 
-    check_button = tk.Button(registerFrame, text="Verificar usuario", command=check_user, font=("Helvetica", 14), bg="white")
-    check_button.pack()
-    check_button.place(x=130,y=210)
+    check_button =customtkinter.CTkButton(master=window, width=160, height=40, text="Verificar Usuario",
+                                              text_color="#fff", fg_color=verde, command=check_user, font=(0, 20),
+                                              hover_color="#209c62")
+    #tk.Button(window, text="Verificar usuario", command=check_user, font=("Helvetica", 14), bg="white")
+    check_button.place(x=200,y=380)
 
-    gobackbutton = tk.Button(registerFrame, text="regresar", command=volver,font=("Helvetica", 10), bg=verde)
-    gobackbutton.pack()
-    gobackbutton.place(x=20,y=20)
+    gobackbutton = customtkinter.CTkButton(master=window, width=140, height=40, text="Regresar",
+                                              text_color="#fff", fg_color=verde, command=volver, font=(0, 17),
+                                              hover_color="#209c62")
+    #tk.Button(window, text="regresar", command=volver,font=("Helvetica", 10), bg=verde)
+    gobackbutton.place(x=10,y=20)
 
     window.mainloop()

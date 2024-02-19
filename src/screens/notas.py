@@ -2,7 +2,7 @@ import tkinter
 from tkinter import Tk, ttk, messagebox
 from ttkthemes import ThemedStyle
 from sqlalchemy.orm import Session
-
+import customtkinter
 from ..services.nota import Nota
 from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as ModelNotas
 from ..engine import engine
@@ -14,32 +14,32 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
 
     def verificar_rol():
         if rol == "Profesor":
-            botonGuardar = create_button(miFrame, "Guardar", guardar)
-            botonBuscar = create_button(miFrame, "Buscar", buscar)
-            botonDetalles = create_button(miFrame, "Detalles", mostrar_detalles)
+            botonGuardar = create_button(rame, 620, 280, "Guardar", guardar)
+            botonBuscar = create_button(rame, 730, 280, "Buscar", buscar)
+            botonDetalles = create_button(rame, "Detalles", mostrar_detalles)
         elif rol == "Secretaria":
-            botonGuardar = create_button(miFrame, "Guardar", guardar)
-            botonBuscar = create_button(miFrame, "Buscar", buscar)
-            botonDetalles = create_button(miFrame, "Detalles", mostrar_detalles)
-            botonDescargar = create_button(miFrame, "Descargar", generar_pdf)
+            botonGuardar = create_button(rame, 620, 280, "Guardar", guardar)
+            botonBuscar = create_button(rame, 730, 280, "Buscar", buscar)
+            botonDetalles = create_button(rame, 840, 280, "Detalles", mostrar_detalles)
+            botonDescargar = create_button(rame, 950, 280, "Descargar", generar_pdf)
         else:
-            botonGuardar = create_button(miFrame, "Guardar", guardar)
-            botonEliminar = create_button(miFrame, "Eliminar", eliminar)
-            botonBuscar = create_button(miFrame, "Buscar", buscar)
-            botonDetalles = create_button(miFrame, "Detalles", mostrar_detalles)
-            botonDescargar = create_button(miFrame, "Descargar", generar_pdf)
-            
-
+            botonGuardar = create_button(rame, 620, 280, "Guardar", guardar)
+            botonEliminar = create_button(rame, 730, 280, "Eliminar", eliminar)
+            botonBuscar = create_button(rame, 840, 280, "Buscar", buscar)
+            botonDetalles = create_button(rame, 950, 280, "Detalles", mostrar_detalles)
+            botonDescargar = create_button(rame, 1060, 280, "Descargar", generar_pdf)
+    
     def update_table():
         for i in table.get_children():
             table.delete(i)
 
     def create_table(frame, columns):
-        table = ttk.Treeview(frame, columns=columns)
+        
+        table = ttk.Treeview(frame, columns=columns, show="headings")
         table.pack(fill="both", expand=True)
 
         for column in columns:
-            table.column(column, width=100, anchor='center')
+            table.column(column, width=150, anchor='center')
             table.heading(column, text=column)
         
         return table
@@ -54,14 +54,14 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
                         table.insert('', 'end', values=(nota.id, estudiante.id, estudiante.nombres, estudiante.cedula, materia.nombre, nota.unidad, lista[int(nota.unidad) - 1], lapso))
         table.pack(fill="both", expand=True)
 
-    style = ThemedStyle (window) # Cargar el archivo de estilo personalizado
-    style.set_theme("adapta")
-
-    frame = tk.Frame(window, bg="white", width="1400", height="350", bd=10)
+    #style = ThemedStyle (window)
+    #style.set_theme("adapta")
+    frame = tk.Frame(window, bg="white", width="1200", height="400")
     frame.pack(fill="both", expand=True)
-    columns = ('ID', 'ID Estudiante', 'Nombre del estudiante', 'Cedula', 'Materia', 'Evaluacion', 'Nota', 'Lapso')
+    frame.place(x=0, y=350)
+    columns = ('ID', 'ID Estudiante', 'Nombre Estudiante', 'Cedula', 'Materia', 'Evaluacion', 'Nota', 'Lapso')
     table = create_table(frame, columns)
-
+    
     def buscar():
         with Session(engine) as session:
             select_by_cedula = entryCedula.get()
@@ -102,8 +102,13 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
         # Crear una nueva ventana
         detalles_window = tk.Toplevel(window)
         detalles_window.title("Detalles de las Notas")
-        detalles_window.geometry("600x400")
-
+        detalles_window.geometry("600x500")
+        
+        fondo = tk.PhotoImage(file='src/screens/disenos/fono2.png')
+        image = tk.Label(detalles_window, image=fondo, width="600", height="500")
+        image.place(x=0, y=0)
+        image.image = fondo
+        
         with Session(engine) as session:
             select_by_cedula = entryCedula.get()
             lapso = lapsosSeleccionada.get()
@@ -113,8 +118,10 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
                 materias = session.query(ModelMaterias).filter_by(id_grado=degree).all()
 
                 # Crear y empaquetar una nueva etiqueta con el nombre y la cédula del estudiante
-                estudiante_label = tk.Label(detalles_window, text="Nombre del estudiante: " + estudiante.nombres + "\nCédula: " + estudiante.cedula, font=("Helvetica", 12, "bold"))
-                estudiante_label.pack()
+                estudiante_label = customtkinter.CTkLabel(master=detalles_window, text=f"Nombre del Estudiante: {estudiante.nombres}\n\nCédula: {estudiante.cedula}", 
+                                                          width=120, height=25, fg_color="#fff", text_color="#000", corner_radius=8, font=customtkinter.CTkFont(size=18))
+            
+                estudiante_label.place(x=150,y=50)
 
                 for materia in materias:
                     notas = session.query(ModelNotas).filter_by(id_estudiante=estudiante.id, id_materia=materia.id, id_lapso=lapso).all()
@@ -129,12 +136,16 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
                         elif nota_obj.unidad == 4:
                             valores.append(nota_obj.nota4)
 
-                    nota_label = tk.Label(detalles_window, text="Materia: " + materia.nombre + "\nValor: " + str((sum(valores)) / 4), font=("Helvetica", 12))
-                    nota_label.pack()
+                    nota_label = customtkinter.CTkLabel(master=detalles_window, text=f"Materia: {materia.nombre}\n\nValor: {str((sum(valores)) / 4)}", 
+                                                          width=120, height=25, fg_color="#fff", text_color="#000", corner_radius=8, font=customtkinter.CTkFont(size=18))
+                    #tk.Label(detalles_window, text="Materia: " + materia.nombre + "\nValor: " + str((sum(valores)) / 4), font=("Helvetica", 12))
+                    nota_label.place(x=150, y=120)
 
                 # Crear y empaquetar una nueva etiqueta con el lapso
-                lapso_label = tk.Label(detalles_window, text="Lapso: " + str(lapso), font=("Helvetica", 12, "bold"))
-                lapso_label.pack()
+                lapso_label = customtkinter.CTkLabel(master=detalles_window, text=f"Lapso: {str(lapso)}", 
+                                                          width=120, height=25, fg_color="#fff", text_color="#000", corner_radius=8, font=customtkinter.CTkFont(size=18))
+                #tk.Label(detalles_window, text="Lapso: " + str(lapso), font=("Helvetica", 12, "bold"))
+                lapso_label.place(x=220, y=190)
 
     def generar_pdf():
         pdf = PDFNotas('L', 'mm', 'A4')
@@ -180,60 +191,84 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
 
         pdf.output(f"src/pdfs/nota_de_grado{degree}_de_{estudiante.cedula}.pdf")
 
-    window.title("Control de Notas")
-    window.geometry("1280x680")
-    window.config(bd=20)
-    window.resizable(False, False)
-    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
-    verdeclaro="#b8f2ca"
-    window.config(bg=verdeclaro)
-
-    def create_label_and_entry(miFrame, text, side='left', padx=5, pady=5):
+    
+    def create_label_and_entry(rame, text, a, b, c, d):
         vcomd = window.register(is_number)
-
-        label = tk.Label(miFrame, text=text)
-        label.pack(side=side, padx=padx, pady=pady)
-        entry = tk.Entry(miFrame, validate='key', validatecommand=(vcomd, '%P'))
-        entry.pack(side=side, padx=padx, pady=pady)
+        label = customtkinter.CTkLabel(master=rame, text=text, width=120, height=25,
+                                               fg_color="#287678", text_color="#fff", corner_radius=8,
+                                               font=customtkinter.CTkFont(size=18))
+        label.place(x=a, y=b)
+        entry = customtkinter.CTkEntry(master=rame, width=150, height=30, border_width=0, corner_radius=10,
+                                       font=(0, 16), validate='key', validatecommand=(vcomd, '%P'))
+        entry.place(x=c, y=d)
         return entry
 
-    def create_button(miFrame, text, command, side='left', padx=5, pady=5):
-        button = tk.Button(miFrame, text=text, bg="white", fg="black", command=command)
-        button.pack(side=side, padx=padx, pady=pady)
+    def create_button(rame, x, y, text, command):
+        button = customtkinter.CTkButton(master=rame, width=100, height=40, text=text,
+                                              text_color="#fff", fg_color="#0d487e", command=command, font=(0, 15),
+                                              hover_color="#288a94")
+        
+        button.place(x=x, y=y)
         return button
 
-    def create_option_menu(miFrame, options, initial_option, side='left', padx=5, pady=5):
+    def create_option_menu(rame, options, initial_option, x, y):
         selected_option = tk.StringVar()
         selected_option.set(initial_option)
-        menu = tk.OptionMenu(miFrame, selected_option, *options)
-        menu.pack(side=side, padx=padx, pady=pady)
+        menu = tk.OptionMenu(rame, selected_option, *options)
+        menu.place(x=x, y=y)
         return selected_option
     
     def go_back():
         from .grados import screen_grado
         window.destroy()
         screen_grado(tk, window=tk.Toplevel(), degree=degree, rol=rol)
+        
+#///////////////////////////////////////////////////
+    window.title("Control de Notas")
+    window.geometry("1280x680")
+    window.resizable(False, False)
+    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
+    verdeclaro="#287678"
     
-    miFrame = tk.Frame(window, width=1200, height=250, bd=5, relief="groove")
-    miFrame.pack()
+    rame = tk.Frame(window, width=1280, height=350, bg="#287678")
+    rame.place(x=0, y=0)
+    
+    piza = tk.PhotoImage(file='imagen.png')
+    img = tk.Label(rame, image=piza, width="1200", height="250")
+    img.place(x=0, y=96)
+    img.image = piza
+    
+    icono= tk.PhotoImage(file='src/screens/disenos/urbaneja.png')
+    
+    cintillo = tk.Label(rame, text="Registro de Estudiantes", bd=5, bg=verdeclaro, fg="white", 
+                        font=("Calisto Mt", 16))
+    cintillo.config(image=icono)
+    cintillo.image = icono 
+    cintillo.place(x=485, y=10)
+    
+    nombre = tk.Label(rame, text="Notas de Estudiantes", bd=5, bg=verdeclaro, fg="white", 
+                        font=("Calisto Mt", 16))
+    
+    nombre.place(x=565, y=28)
+    
+#///////////////////////////////////////////////////
 
-    verificar_rol()
+    gobackboton = customtkinter.CTkButton(master=rame, width=95, height=37, text="Volver",
+                                              text_color="#fff", fg_color="#0d487e", command=go_back, font=(0, 15),
+                                              hover_color="#288a94")
+    #tk.Button(rame, text="Volver", command=go_back, bg=verdeclaro)
+    gobackboton.place(x=15,y=10)
 
-    gobackboton = tk.Button(window, text="Volver", command=go_back, bg=verdeclaro)
-    gobackboton.pack()
-    gobackboton.place(x=30,y=540)
-
-    entryNota = create_label_and_entry(miFrame, "Total de la nota:")
-    entryCedula = create_label_and_entry(miFrame, "Cedula:")
+    entryNota = create_label_and_entry(rame, "Total de la nota:", 130, 220, 280, 220)
+    entryCedula = create_label_and_entry(rame, "Cedula:", 130, 170, 280, 170)
 
     materias = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "G.H.C", "Ingles", "Matematicas", "Orientación y convivencia", "G.E.R.P", "Fisica", "Quimica"]
-    materiaSeleccionada = create_option_menu(miFrame, materias, 'Materias')
+    materiaSeleccionada = create_option_menu(rame, materias, 'Materias', 730, 170)
 
     notas = [1, 2, 3, 4]
-    notasSeleccionada = create_option_menu(miFrame, notas, 'Notas')
+    notasSeleccionada = create_option_menu(rame, notas, 'Notas', 850, 170)
 
     lapso = [1, 2, 3]
-    lapsosSeleccionada = create_option_menu(miFrame, lapso, 'Lapsos')
-
-
+    lapsosSeleccionada = create_option_menu(rame, lapso, 'Lapsos', 960, 170)
     
+    verificar_rol()

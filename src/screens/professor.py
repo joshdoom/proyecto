@@ -2,7 +2,7 @@ import tkinter
 from tkinter import Tk, ttk, messagebox
 from ttkthemes import ThemedStyle
 from sqlalchemy.orm import Session
-
+import customtkinter
 from ..services.profesor import Profesor
 from ..services.materias import Materias
 from ..models import Profesor as Model
@@ -25,9 +25,15 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
         table.pack(fill="both", expand=True)
 
     def show_professores():
-        frame = tk.Frame(window, bg="white", width="1400", height="350", bd=10)
-        frame.pack(fill="both", expand=True)
+        
         global table
+        frame = tk.Frame(window, bg="white", width="1400", height="200", bd=10)
+        frame.pack(fill="both", expand=True)
+        table = ttk.Treeview(frame, columns=('ID', 'Nombres', 'Apellidos', 'Cedula', 'Telefono', 'Titulo', 'ID Materia'), show='headings')
+        estilo_tablaB = ttk.Style()
+
+        estilo_tablaB.configure("Treeview.Heading", background="#565b5e", foreground="#000",
+                                                relief="flat", font=(None, 13))
         table = ttk.Treeview(frame, columns=('ID', 'Nombres', 'Apellidos', 'Cedula', 'Telefono', 'Titulo', 'ID Materia'), show='headings')
         table.column('ID', width=100, anchor='center')
         table.column('Nombres', width=100, anchor='center')
@@ -127,62 +133,102 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
     window.geometry("1280x680")
     window.resizable(False, False)
     window.iconbitmap('src/screens/disenos/LUMASIS.ico')
-    verdeclaro="#b8f2ca"
-    verde="#15a35b"
+    azul =  "#7beaf5"
+    blue = "#288a94"
+    verdeclaro = "#287678"
     window.config(bg=verdeclaro)
 
     icono= tk.PhotoImage(file='src/screens/disenos/urbaneja.png')
-    cintillo = tk.Label(window, text="Registros de Profesores",bd=5, bg=verdeclaro,relief="groove", fg="black", font=("Calisto Mt", 16), padx=20, pady=10)
+    cintillo = tk.Label(window, text="Registros de Profesores",bd=5, bg=verdeclaro, fg="#fff", 
+                        font=("Calisto Mt", 16), padx=20, pady=10)
     cintillo.config(image=icono, compound=tk.LEFT)  # Establecer la imagen a la izquierda del texto
     cintillo.image = icono 
     cintillo.pack(side="top")
 
 
-    miFrame = tk.Frame(window, width="1200", height="250", bd=5)
+    miFrame = tk.Frame(window, width="1200", height="250", bd=5, bg="#287678")
     miFrame.pack()
 
+    pizara = tk.PhotoImage(file='imagen.png')
+    imagen = tk.Label(miFrame, image=pizara, width="1200", height="250")
+    #cosa.config(image=pizarra)
+    imagen.place(x=0, y=0)
+    imagen.image = pizara
+    
     style = ThemedStyle (window) # Cargar el archivo de estilo personalizado
     style.set_theme("adapta")
 
     vcomd = window.register(is_number)
     labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Materia Asignada", "Grado"]
-    entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P')) if label in ["Cedula", "Telefono"] else tk.Entry(window) for label in labels]
+    
+    entries = [customtkinter.CTkEntry(master=miFrame, width=150, height=30, border_width=0, corner_radius=10, font=(0, 16), 
+                        validate='key', validatecommand=(vcomd, '%P'), ) if label in ["Cedula", "Telefono"] else customtkinter.CTkEntry(master=miFrame,  width=150, height=30, border_width=0, corner_radius=10, font=(0, 16)) 
+                        for label in labels]
+    
+    #[tk.Entry(window, validate='key', validatecommand=(vcomd, '%P')) if label in ["Cedula", "Telefono"] else tk.Entry(window) for label in labels]
 
     for i, (label, entry) in enumerate(zip(labels, entries)):
+       
         if i < 4:  # Para los primeros cuatro labels y entries
-            tk.Label(miFrame, text=label).place(x=350, y=30+i*50)
-            entry.place(x=455, y=125+i*50+7)
+            
+            tl = customtkinter.CTkLabel(master=miFrame, text=label, width=120, height=25,
+                                               fg_color="#287678", text_color="#fff", corner_radius=8,
+                                               font=customtkinter.CTkFont(size=18))
+            
+            tl.place(x=190, y=30+i*50)
+            
+            entry.place(x=325, y=21+i*50+7)
+            
+            #tk.Label(miFrame, text=label).place(x=350, y=30+i*50)
+            #entry.place(x=455, y=125+i*50+7)
+       
         elif i == 4:  # Para el quinto label y entry
             MateriaAsignada = tk.StringVar(miFrame)
             MateriaAsignada.set("Materias")
             opciones = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "G.H.C", "Ingles", "Matematicas", "Orientación y convivencia", "G.E.R.P", "Fisica", "Quimica"]
             opcion = tk.OptionMenu(miFrame, MateriaAsignada, *opciones)
-            opcion.place(x=650, y=30+(i-4)*50+7)
+            opcion.place(x=820, y=70+(i-4)*50+7)
+       
         else:  # Para el sexto label y entry
             Grado = tk.StringVar(miFrame)
             Grado.set("Grados")
             grados = [str(i) for i in range(1, 6)]
             opcion_grado = tk.OptionMenu(miFrame, Grado, *grados)
-            opcion_grado.place(x=650, y=30+(i-4)*50+7)
+            opcion_grado.place(x=720, y=20+(i-4)*50+7)
 
 
-    button_new = tk.Button(window, text="Nuevo", command=nuevo, bg=verdeclaro, fg="black")
-    button_new.pack()
-    button_new.place(x=800, y=300)
+    bc = "#0d487e" 
+    
+    button_new = customtkinter.CTkButton(master=window, width=95, height=37, text="Nuevo",
+                                              text_color="#fff", fg_color=bc, command=nuevo, font=(0, 15),
+                                              hover_color=blue)
+    
+    #tk.Button(window, text="Nuevo", command=nuevo, bg=bc, fg="#fff")
+    button_new.place(x=680, y=295)
 
-    button_save = tk.Button(window, text="Guardar", command=guardar, bg=verdeclaro, fg="black")
-    button_save.pack()
-    button_save.place(x=1000, y=300)
-
-    button_delete = tk.Button(window, text="Eliminar", command=eliminar, bg=verdeclaro, fg="black")
-    button_delete.pack()
-    button_delete.place(x=900, y=300)
-
-    miFrame13 = tk.Frame(window, width="1200", height="350", bd=1)
-    miFrame13.pack(side="bottom", anchor="w")
-
-    tk.Button(miFrame13, text="Editar", bg="white", command=editar).pack()
+    button_save = customtkinter.CTkButton(master=window, width=95, height=37, text="Guardar",
+                                              text_color="#fff", fg_color=bc, command=guardar, font=(0, 15),
+                                              hover_color=blue)
+    
+    #tk.Button(window, text="Guardar", command=guardar, bg=bc, fg="#fff")
+   
+    button_save.place(x=780, y=295)
 
     
+    button_editar = customtkinter.CTkButton(master=window, width=95, height=37, text="Editar",
+                                              text_color="#fff", fg_color="#0d487e", command=editar, font=(0, 15),
+                                              hover_color=blue)
+            
+    button_editar.place(x=880, y=295)
+    
+    
+    button_delete = customtkinter.CTkButton(master=window, width=95, height=37, text="Eliminar",
+                                              text_color="#fff", fg_color=bc, command=eliminar, font=(0, 15),
+                                              hover_color=blue)
+    
+    #tk.Button(window, text="Eliminar", command=Eliminar, bg=bc, fg="#fff")
+ 
+    button_delete.place(x=980, y=295)
+
 
     show_professores()

@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from ..models import Usuario
 from ..services.register import Usuario as UsuarioService
 from ..engine import engine
+import customtkinter
 
 def screen_register(tk: tkinter, window: Tk):
     connect = UsuarioService(engine)
@@ -38,71 +39,69 @@ def screen_register(tk: tkinter, window: Tk):
                     messagebox.showinfo("Error", "Usuario o contraseña es incorrecta")
         
     window.title("Registrar")
-    window.geometry("400x600")
+    window.geometry("800x500")
     window.resizable(0,0)
     window.iconbitmap('src/screens/disenos/LUMASIS.ico')
     verde="#15a35b"
 
-    registerFrame = tk.Frame(window)
-    registerFrame.pack()
-    fondo = tk.PhotoImage(file='src/screens/disenos/fondoregistro.png')
-    imagenfondo = tk.Label(registerFrame,image=fondo)
-    imagenfondo.pack()
-    
-    
-   
+    fondo = tk.PhotoImage(file='src/screens/disenos/fono2.png')
+    image = tk.Label(window, image=fondo, width="800", height="500")
+    image.place(x=0, y=0)
+    image.image = fondo
 
-    titulo = tk.Label(registerFrame, text="Registrar",bg="white", font=("Helvetica", 18))
-    titulo.pack()
-    titulo.place(x=150,y=20)
 
-    username_label = tk.Label(registerFrame, text="Usuario:",bg="white", font=("Helvetica", 14))
-    username_label.pack()
-    username_label.place(x=165,y=100)
+    titulo = tk.Label(window, text="Registrar",bg="white", font=("Helvetica", 20))
+    titulo.place(x=300,y=20)
 
-    username_entry = tk.Entry(registerFrame, font=("Helvetica", 12))
-    username_entry.pack()
-    username_entry.place(x=110,y=150)
+    username_label = tk.Label(window, text="Usuario:",bg="white", font=("Helvetica", 16))
+    username_label.place(x=185,y=140)
 
-    password_label = tk.Label(registerFrame, text="Clave:",bg="white", font=("Helvetica", 14))
-    password_label.pack()
-    password_label.place(x=175,y=210)
+    username_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,
+                                       font=(0, 18)) 
+    #tk.Entry(window, font=("Helvetica", 12))
+    username_entry.place(x=366,y=140)
 
-    password_entry = tk.Entry(registerFrame, show="*", font=("Helvetica", 12))
-    password_entry.pack()
-    password_entry.place(x=110,y=260)
+    password_label = tk.Label(window, text="Clave:",bg="white", font=("Helvetica", 16))
+    password_label.place(x=185,y=200)
 
-    rol = tk.StringVar(registerFrame)
+    password_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,
+                                       font=(0, 18), show="*")
+    password_entry.place(x=366,y=200)
+
+    rol = tk.StringVar(window)
     rol.set("Rol")
     seleccionrol = ['Director', 'Profesor', 'Secretaria']
-    opcion_rol = tk.OptionMenu(registerFrame, rol, *seleccionrol)
-    opcion_rol.config(font=("Helvetica", 16),bg=verde)
-    opcion_rol.pack()
-    opcion_rol.place(x=165,y=300)
+    opcion_rol = tk.OptionMenu(window, rol, *seleccionrol)
+    opcion_rol.config(font=("Helvetica", 15),bg=verde, fg="#fff")
+    opcion_rol.place(x=570,y=45)
 
-    pregunta_label = tk.Label(registerFrame, text="Pregunta de Seguridad:",bg="white", font=("Helvetica", 14))
-    pregunta_label.pack()
-    pregunta_label.place(x=100,y=360)
+    pregunta_label = tk.Label(window, text="Pregunta Seguridad:",bg="white", font=("Helvetica", 14))
+    pregunta_label.place(x=185,y=260)
 
-    pregunta_entry = tk.Entry(registerFrame, font=("Helvetica", 12))
-    pregunta_entry.pack()
-    pregunta_entry.place(x=110,y=410)
+    pregunta_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,
+                                       font=(0, 18)) 
+    #tk.Entry(window, font=("Helvetica", 12))
+    pregunta_entry.place(x=366,y=260)
 
-    respuesta_label = tk.Label(registerFrame, text="Respuesta:",bg="white", font=("Helvetica", 14))
-    respuesta_label.pack()
-    respuesta_label.place(x=150,y=460)
+    respuesta_label = tk.Label(window, text="Respuesta:",bg="white", font=("Helvetica", 16))
+    respuesta_label.place(x=185,y=320)
 
-    respuesta_entry = tk.Entry(registerFrame, show="*", font=("Helvetica", 12))
-    respuesta_entry.pack()
-    respuesta_entry.place(x=110,y=510)
+    respuesta_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,
+                                       font=(0, 18)) 
+    #tk.Entry(window, show="*", font=("Helvetica", 12))
+    respuesta_entry.place(x=366, y=320)
 
-    botonregistro = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botonesregistrar.png')
-    register_button = tk.Button(registerFrame, image=botonregistro, command=register, font=("Helvetica", 14), bg=verde)
-    register_button.pack()
-    register_button.place(x=150,y=550)
+    #botonregistro = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botonesregistrar.png')
+    register_button = customtkinter.CTkButton(master=window, width=160, height=40, text="Registrar Usuario",
+                                              text_color="#fff", fg_color=verde, command=register, font=(0, 20),
+                                              hover_color="#209c62")
+    #tk.Button(window, image=botonregistro, command=register, font=("Helvetica", 14), bg=verde)
+    register_button.place(x=330,y=420)
 
-    gobackbutton = tk.Button(registerFrame, text="regresar",command=volver,font=("Helvetica", 10), bg=verde)
-    gobackbutton.pack()
-    gobackbutton.place(x=20,y=20)
+    gobackbutton = customtkinter.CTkButton(master=window, width=140, height=40, text="Regresar",
+                                              text_color="#fff", fg_color=verde, command=volver, font=(0, 17),
+                                              hover_color="#209c62")
+    #tk.Button(window, text="regresar",command=volver,font=("Helvetica", 10), bg=verde)
+    gobackbutton.place(x=10,y=20)
     
     window.mainloop()

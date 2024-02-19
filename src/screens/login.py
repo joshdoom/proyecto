@@ -1,9 +1,12 @@
 import tkinter 
 import os
+import customtkinter
 from tkinter import RIGHT, Button, Entry, Frame, Label, Tk, messagebox
 from sqlalchemy.orm import Session
+
 from ..models import Usuario
 from ..engine import engine
+
 
 
 def screen_login(tk: tkinter, window: Tk):
@@ -48,7 +51,7 @@ def screen_login(tk: tkinter, window: Tk):
 
     loginFrameright=Frame(window)
     loginFrameright.configure(width="400", height="650")
-    loginFrameright.pack(side=RIGHT)
+    loginFrameright.pack(side=RIGHT)  
 
     Framefondo=Frame(window)
     Framefondo.pack()
@@ -56,48 +59,72 @@ def screen_login(tk: tkinter, window: Tk):
     imagenfondo = tk.Label(Framefondo,image=fondo)
     imagenfondo.pack()
 
-    loginlabel= Label(window, text="Iniciar Sesion", bg="white")
-    loginlabel.pack()
+    loginlabel= Label(window, text="Iniciar Sesión", bg="white")
     loginlabel.place(x=170, y=100)
     loginlabel.configure(font=("Calisto Mt", 30, "bold"))
 
     username_label = Label(window, text="Usuario:", bg="white")
-    username_label.pack()
     username_label.place(x=250, y=220)
     username_label.config(font=("Calisto Mt", 18, "bold"))
 
-    username_entry = Entry(window)
+    frames = Frame(window, width=450, height=55, bg="#fff")
+    frames.place(x=180, y=265)
+    
+    frames2 = Frame(window, width=450, height=55, bg="#fff")
+    frames2.place(x=180, y=400)
+    
+    verde="#3ddc8f"
+    
+    framebuttons1 = Frame(window, width=200, height=80, bg=verde)
+    framebuttons1.place(x=215, y=460)
+    
+    framebuttons2 = Frame(window, width=200, height=80, bg=verde)
+    framebuttons2.place(x=95, y=540)
+    
+    framebuttons3 = Frame(window, width=200, height=80, bg=verde)
+    framebuttons3.place(x=350, y=540)
+    
+    username_entry =  customtkinter.CTkEntry(master=frames, width=250, height=42, border_width=0,
+                                       font=(0, 18))
     username_entry.pack()
-    username_entry.place(x=185, y=290)
-    username_entry.config(font=("Arial",15))
+    #username_entry.config(font=("Arial",15))
 
 
     password_label = Label(window, text="Contraseña:", bg="white")
-    password_label.pack()
     password_label.place(x=233, y=350)
     password_label.config(font=("Calisto Mt", 18, "bold"))
 
 
     password_entry = Entry(window)
+    
+    password_entry = customtkinter.CTkEntry(master=frames2, width=250, height=42, border_width=0,
+                                       font=(0, 18), show="*")
     password_entry.pack()
-    password_entry.place(x=185, y=420)
-    password_entry.config(font=("Arial",15))
-    password_entry.config(show="*")
 
-    botoninicio = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botoninicio3.png')
-    login_button = Button(window, image=botoninicio,command=login,bg=verde)
+    #botoninicio = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botoninicio3.png')
+    login_button = customtkinter.CTkButton(master=framebuttons1, width=160, height=40, text="Iniciar Sesión",
+                                              text_color="#fff", fg_color=verde, command=login, font=(0, 20),
+                                              hover_color="#209c62")
+    
+    #login_button = Button(window, image=botoninicio,command=login,bg=verde)
+    
     login_button.pack()
-    login_button.place(x=175, y=480)
 
     botonregis = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botonesregistrar.png')
-    login_button2 = Button(window, image=botonregis,command=register,bg=verde)
+    login_button2 = customtkinter.CTkButton(master=framebuttons2, width=160, height=40, text="Crear Usuario",
+                                              text_color="#fff", fg_color=verde, command=register, font=(0, 20),
+                                              hover_color="#209c62")
+    
     login_button2.pack()
-    login_button2.place(x=95, y=550)
 
     botonrecu = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botonesrecuperar2.png')
-    login_button2 = Button(window, image=botonrecu,command=recovery,bg=verde)
-    login_button2.pack()
-    login_button2.place(x=350, y=550)
+    login_button3 = customtkinter.CTkButton(master=framebuttons3, width=160, height=40, text="Recuperar Usuario",
+                                              text_color="#fff", fg_color=verde, command=recovery, font=(0, 20),
+                                              hover_color="#209c62")
+    
+    #login_button3 = Button(window, image=botonrecu,command=recovery,bg=verde)
+    
+    login_button3.pack()
 
     botonmanu= tk.PhotoImage(file='src/screens/disenos/urbaneja.png')
     Manu_button= Button(window,image=botonmanu, command=abrir_manual,bg="white")
