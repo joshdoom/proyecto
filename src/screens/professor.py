@@ -79,7 +79,8 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
             limpiar_campos()
             update_table()
         except Exception as e:
-            messagebox.showerror("Error", str(e))
+            print("a")
+            #messagebox.showerror("Error", str(e))
 
     def eliminar():
         selected_item = table.selection()[0]
@@ -161,9 +162,10 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
     vcomd = window.register(is_number)
     labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Materia Asignada", "Grado"]
     
-    entries = [customtkinter.CTkEntry(master=miFrame, width=150, height=30, border_width=0, corner_radius=10, font=(0, 16), 
-                        validate='key', validatecommand=(vcomd, '%P'), ) if label in ["Cedula", "Telefono"] else customtkinter.CTkEntry(master=miFrame,  width=150, height=30, border_width=0, corner_radius=10, font=(0, 16)) 
-                        for label in labels]
+    entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P'), font=("Calisto Mt", 16)) if label in ["Cedula", "Telefono"] else tk.Entry(window,  font=("Calisto Mt", 16)) for label in labels]
+    #entries = [customtkinter.CTkEntry(master=miFrame, width=150, height=30, border_width=0, corner_radius=10, font=(0, 16), 
+     #                   validate=vals, validatecommand=(vcomd, '%P'), ) if label in ["Cedula", "Telefono"] else customtkinter.CTkEntry(master=miFrame,  width=150, height=30, border_width=0, corner_radius=10, font=(0, 16)) 
+      #                  for label in labels]
     
     #[tk.Entry(window, validate='key', validatecommand=(vcomd, '%P')) if label in ["Cedula", "Telefono"] else tk.Entry(window) for label in labels]
 
@@ -177,7 +179,7 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
             
             tl.place(x=190, y=30+i*50)
             
-            entry.place(x=325, y=21+i*50+7)
+            entry.place(x=370, y=125+i*50+7)
             
             #tk.Label(miFrame, text=label).place(x=350, y=30+i*50)
             #entry.place(x=455, y=125+i*50+7)

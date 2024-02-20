@@ -246,12 +246,12 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
             #messagebox.showerror("Error", "olis")
 
     def limpiar_campos():
-        for entry in entries:
+       for entry in entries:
             entry.config(validate="none")
             entry.delete(0, 'end')
             if entry in [entries[2], entries[3]]:
                 entry.config(validate="key")
-
+                
     def generar_pdf():
         pdf = PDFGrado('L', 'mm', 'A4')
         pdf.degree = degree
@@ -318,12 +318,17 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
     #cosa.config(image=pizarra)
     cosa.place(x=0, y=0)
     cosa.image = pizarra
+   
     
     vcomd = window.register(is_number)
+    
     labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Fecha de Nacimiento", "Inicio", "Fin"]
-    entries = [customtkinter.CTkEntry(master=miFrame, width=150, height=30, border_width=0, corner_radius=10, font=(0, 16), 
-                        validate='key', validatecommand=(vcomd, '%P'), ) if label in ["Cedula", "Telefono"] else customtkinter.CTkEntry(master=miFrame,  width=150, height=30, border_width=0, corner_radius=10, font=(0, 16)) 
-                        if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
+
+    entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P'), font=("Calisto Mt", 16)) if label in ["Cedula", "Telefono"] else tk.Entry(window, font=("Calisto Mt", 16)) if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
+    
+    #entries = [customtkinter.CTkEntry(master=miFrame, width=150, height=30, border_width=0, corner_radius=10, font=(0, 16), 
+     #                   validate= val, validatecommand=(vcomd, '%P'), ) if label in ["Cedula", "Telefono"] else customtkinter.CTkEntry(master=miFrame,  width=150, height=30, border_width=0, corner_radius=10, font=(0, 16)) 
+      #                  if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
     #entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P'), ) if label in ["Cedula", "Telefono"] else tk.Entry(window) if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
 
     for i, (label, entry) in enumerate(zip(labels, entries)):
@@ -332,9 +337,9 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
                                                fg_color="#287678", text_color="#fff", corner_radius=8,
                                                font=customtkinter.CTkFont(size=18))
             
-            tt.place(x=190, y=30+i*50)
+            tt.place(x=180, y=30+i*50)
             
-            entry.place(x=325, y=21+i*50+7)
+            entry.place(x=360, y=125+i*50+7)
             
         else:  # Para los siguientes labels y entries
              tt = customtkinter.CTkLabel(master=miFrame, text=label, width=120, height=25,
