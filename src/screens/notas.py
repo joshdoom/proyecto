@@ -4,7 +4,7 @@ from ttkthemes import ThemedStyle
 from sqlalchemy.orm import Session
 import customtkinter
 from ..services.nota import Nota
-from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as ModelNotas
+from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as ModelNotas, Grado as ModelGrado
 from ..engine import engine
 from ..utils.table_to_pdf import PDFNotas
 from ..utils.validate import is_number
@@ -191,18 +191,6 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
 
         pdf.output(f"src/pdfs/nota_de_grado{degree}_de_{estudiante.cedula}.pdf")
 
-    
-    def create_label_and_entry(rame, text, a, b, c, d):
-        vcomd = window.register(is_number)
-        label = customtkinter.CTkLabel(master=rame, text=text, width=120, height=25,
-                                               fg_color="#287678", text_color="#fff", corner_radius=8,
-                                               font=customtkinter.CTkFont(size=18))
-        label.place(x=a, y=b)
-        entry = customtkinter.CTkEntry(master=rame, width=150, height=30, border_width=0, corner_radius=10,
-                                       font=(0, 16), validate='key', validatecommand=(vcomd, '%P'))
-        entry.place(x=c, y=d)
-        return entry
-
     def create_button(rame, x, y, text, command):
         button = customtkinter.CTkButton(master=rame, width=100, height=40, text=text,
                                               text_color="#fff", fg_color="#0d487e", command=command, font=(0, 15),
@@ -222,6 +210,15 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
         from .grados import screen_grado
         window.destroy()
         screen_grado(tk, window=tk.Toplevel(), degree=degree, rol=rol)
+
+    def show_estudiantes_in_list():
+        lista_estudiantes = []
+
+        with Session(engine) as session:
+            for estudiante in session.query(Model).all():
+                if session.query(ModelGrado).filter_by(id_estudiante=estudiante.id).first():
+                    lista_estudiantes.append(estudiante.cedula)
+            return lista_estudiantes 
         
 #///////////////////////////////////////////////////
     window.title("Control de Notas")
@@ -229,6 +226,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
     window.resizable(False, False)
     window.iconbitmap('src/screens/disenos/LUMASIS.ico')
     verdeclaro="#287678"
+    vcomd = window.register(is_number)
     
     rame = tk.Frame(window, width=1280, height=350, bg="#287678")
     rame.place(x=0, y=0)
@@ -259,8 +257,22 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
     #tk.Button(rame, text="Volver", command=go_back, bg=verdeclaro)
     gobackboton.place(x=15,y=10)
 
-    entryNota = create_label_and_entry(rame, "Total de la nota:", 130, 220, 280, 220)
-    entryCedula = create_label_and_entry(rame, "Cedula:", 130, 170, 280, 170)
+    customtkinter.CTkLabel(master=rame, text="Cedula:", width=120, height=25,
+                                               fg_color="#287678", text_color="#fff", corner_radius=8,
+                                               font=customtkinter.CTkFont(size=18)).place(x=130, y=170)
+    
+    values = show_estudiantes_in_list()
+    entryCedula = customtkinter.CTkComboBox(master=rame, width=150, height=30, border_width=0, corner_radius=10,
+                                   font=(0, 16), values=values)
+    entryCedula.place(x=280, y=170)
+
+    customtkinter.CTkLabel(master=rame, text="Total de la nota:", width=120, height=25,
+                                               fg_color="#287678", text_color="#fff", corner_radius=8,
+                                               font=customtkinter.CTkFont(size=18)).place(x=130, y=220)
+    entryNota = customtkinter.CTkEntry(master=rame, width=150, height=30, border_width=0, corner_radius=10,
+                                       font=(0, 16), validate='key', validatecommand=(vcomd, '%P'))
+    entryNota.place(x=280, y=220)
+
 
     materias = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "G.H.C", "Ingles", "Matematicas", "Orientación y convivencia", "G.E.R.P", "Fisica", "Quimica"]
     materiaSeleccionada = create_option_menu(rame, materias, 'Materias', 730, 170)

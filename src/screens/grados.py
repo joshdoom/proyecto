@@ -23,6 +23,8 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
     connect_estudiante = Estudiante(engine)
     connect_anioescolar = AnioEscolar(engine)
 
+
+
     def verificar_rol():
         if rol == "Profesor":
             button_notas = customtkinter.customtkinter.CTkButton(master=window, width=95, height=37, text="Notas",
@@ -114,18 +116,28 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
 
                 if grado is not None and anioescolar is not None:
                     table.insert('', 'end', values=(estudiante.id, estudiante.nombres, estudiante.apellidos, estudiante.cedula, estudiante.telefono, estudiante.fecha_nacimiento, grado.inscrito, seccion, anioescolar.inicio, anioescolar.fin))
+                    
             table.pack(fill="both", expand=True)
+
+    
 
     def show_students():
         global table
+        
+
 
         frame = tk.Frame(window, bg="white", width="1400", height="200", bd=10)
         frame.pack(fill="both", expand=True)
         table = ttk.Treeview(frame, columns=('ID', 'Nombres', 'Apellidos', 'Cedula', 'Telefono', 'Fecha de Nacimiento', 'Grado', 'Seccion', 'Inicio', 'Fin'), show='headings')
+        #table.tag_configure("odd", background=verdeclaro)
+        #table.tag_configure("even",background="white")
         estilo_tablaA = ttk.Style()
 
         estilo_tablaA.configure("Treeview.Heading", background="#565b5e", foreground="#000",
-                                                relief="flat", font=(None, 13))
+                                                relief="flat", font=("Calisto mt", 13, "bold"))
+        estilo_tablaA.configure("Treeview", font=("Arial", 12, "bold"))
+    
+        
         table.column('ID', width=70, anchor='center')
         table.column('Nombres', width=100, anchor='center')
         table.column('Apellidos', width=100, anchor='center')
@@ -146,7 +158,9 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
         table.heading('Seccion', text='Seccion')
         table.heading('Inicio', text='Inicio')
         table.heading('Fin', text='Fin')
-
+        
+        
+                
         with Session(engine) as session:
             estudiantes = session.query(Model).all()
 
@@ -157,6 +171,8 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
 
                 if grado is not None and anioescolar is not None:
                     table.insert('', 'end', values=(estudiante.id, estudiante.nombres, estudiante.apellidos, estudiante.cedula, estudiante.telefono, estudiante.fecha_nacimiento, grado.inscrito, seccion, anioescolar.inicio, anioescolar.fin))
+
+            
             table.pack(fill="both", expand=True)
    
     def nuevo():
@@ -242,8 +258,7 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
             update_table()
             limpiar_campos()
         except Exception as e:
-            print("hola")
-            #messagebox.showerror("Error", "olis")
+            messagebox.showerror("Error", str(e))
 
     def limpiar_campos():
        for entry in entries:
@@ -326,16 +341,12 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
 
     entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P'), font=("Calisto Mt", 16)) if label in ["Cedula", "Telefono"] else tk.Entry(window, font=("Calisto Mt", 16)) if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
     
-    #entries = [customtkinter.CTkEntry(master=miFrame, width=150, height=30, border_width=0, corner_radius=10, font=(0, 16), 
-     #                   validate= val, validatecommand=(vcomd, '%P'), ) if label in ["Cedula", "Telefono"] else customtkinter.CTkEntry(master=miFrame,  width=150, height=30, border_width=0, corner_radius=10, font=(0, 16)) 
-      #                  if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
-    #entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P'), ) if label in ["Cedula", "Telefono"] else tk.Entry(window) if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
 
     for i, (label, entry) in enumerate(zip(labels, entries)):
         if i < 4:  # Para los primeros cuatro labels y entries
             tt = customtkinter.CTkLabel(master=miFrame, text=label, width=120, height=25,
                                                fg_color="#287678", text_color="#fff", corner_radius=8,
-                                               font=customtkinter.CTkFont(size=18))
+                                               font=customtkinter.CTkFont(size=18, weight="bold"))
             
             tt.place(x=180, y=30+i*50)
             
@@ -344,11 +355,14 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
         else:  # Para los siguientes labels y entries
              tt = customtkinter.CTkLabel(master=miFrame, text=label, width=120, height=25,
                                                fg_color="#287678", text_color="#fff", corner_radius=8,
-                                               font=customtkinter.CTkFont(size=18))
+                                               font=customtkinter.CTkFont(size=18,))
              
              tt.place(x=570, y=30+(i-4)*50)
              
              entry.place(x=810, y=120+(i-4)*50+7)
+
+    
+
 
     verificar_rol()
     show_students()
