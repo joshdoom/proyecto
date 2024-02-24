@@ -33,7 +33,8 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
         estilo_tablaB = ttk.Style()
 
         estilo_tablaB.configure("Treeview.Heading", background="#565b5e", foreground="#000",
-                                                relief="flat", font=(None, 13))
+                                                relief="flat", font=("Calisto mt", 13, "bold"))
+        estilo_tablaB.configure("Treeview", font=("Arial", 12, "bold"))
         table = ttk.Treeview(frame, columns=('ID', 'Nombres', 'Apellidos', 'Cedula', 'Telefono', 'Titulo', 'ID Materia'), show='headings')
         table.column('ID', width=100, anchor='center')
         table.column('Nombres', width=100, anchor='center')
