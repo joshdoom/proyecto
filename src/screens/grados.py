@@ -268,6 +268,8 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
                 entry.config(validate="key")
                 
     def generar_pdf():
+        from .vista_previa import screen_vista_previa
+
         pdf = PDFGrado('L', 'mm', 'A4')
         pdf.degree = degree
         pdf.add_page()
@@ -297,6 +299,8 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
                             pdf.cell(26, 5, txt = str_dato, border=1, align = 'C')
                     pdf.ln(5)
         pdf.output(f"src/pdfs/tabla_de_grado{degree}.pdf")
+        
+        screen_vista_previa(tkinter, window=tk.Toplevel(), ruta_pdf=f"src/pdfs/tabla_de_grado{degree}.pdf")
     
     def notas():
         from .notas import screen_notas
@@ -335,12 +339,22 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
     cosa.image = pizarra
    
     
-    vcomd = window.register(is_number)
+    vcomd_t = window.register(lambda value: is_number(value, max_lenght=11))
+    vcomd_c = window.register(lambda value: is_number(value, max_lenght=8))
     
     labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Fecha de Nacimiento", "Inicio", "Fin"]
 
-    entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P'), font=("Calisto Mt", 16)) if label in ["Cedula", "Telefono"] else tk.Entry(window, font=("Calisto Mt", 16)) if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else DateEntry(window) for label in labels]
-    
+    entries = [
+        tk.Entry(window, validate='key', validatecommand=(vcomd_t, '%P'), font=("Calisto Mt", 16))
+        if label == "Telefono" else
+        tk.Entry(window, validate='key', validatecommand=(vcomd_c, '%P'), font=("Calisto Mt", 16))
+        if label == "Cedula" else
+        tk.Entry(window, font=("Calisto Mt", 16))
+        if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else
+        DateEntry(window)
+        for label in labels
+    ]
+        
 
     for i, (label, entry) in enumerate(zip(labels, entries)):
         if i < 4:  # Para los primeros cuatro labels y entries

@@ -160,10 +160,18 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
     style = ThemedStyle (window) # Cargar el archivo de estilo personalizado
     style.set_theme("adapta")
 
-    vcomd = window.register(is_number)
+    vcomd_t = window.register(lambda value: is_number(value, max_lenght=11))
+    vcomd_c = window.register(lambda value: is_number(value, max_lenght=8))
     labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Materia Asignada", "Grado"]
     
-    entries = [tk.Entry(window, validate='key', validatecommand=(vcomd, '%P'), font=("Calisto Mt", 16)) if label in ["Cedula", "Telefono"] else tk.Entry(window,  font=("Calisto Mt", 16)) for label in labels]
+    entries = [
+        tk.Entry(window, validate='key', validatecommand=(vcomd_t, '%P'), font=("Calisto Mt", 16))
+        if label == "Telefono" else
+        tk.Entry(window, validate='key', validatecommand=(vcomd_c, '%P'), font=("Calisto Mt", 16))
+        if label == "Cedula" else
+        tk.Entry(window,  font=("Calisto Mt", 16)) 
+        for label in labels
+    ]
     #entries = [customtkinter.CTkEntry(master=miFrame, width=150, height=30, border_width=0, corner_radius=10, font=(0, 16), 
      #                   validate=vals, validatecommand=(vcomd, '%P'), ) if label in ["Cedula", "Telefono"] else customtkinter.CTkEntry(master=miFrame,  width=150, height=30, border_width=0, corner_radius=10, font=(0, 16)) 
       #                  for label in labels]
