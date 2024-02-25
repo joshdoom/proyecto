@@ -148,6 +148,8 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
                 lapso_label.place(x=220, y=190)
 
     def generar_pdf():
+        from .vista_previa import screen_vista_previa
+
         pdf = PDFNotas('L', 'mm', 'A4')
         pdf.degree = degree
 
@@ -190,6 +192,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
                     pdf.ln(5)
 
         pdf.output(f"src/pdfs/nota_de_grado{degree}_de_{estudiante.cedula}.pdf")
+        screen_vista_previa(tkinter, window=tk.Toplevel(), ruta_pdf=f"src/pdfs/nota_de_grado{degree}_de_{estudiante.cedula}.pdf")
 
     def create_button(rame, x, y, text, command):
         button = customtkinter.CTkButton(master=rame, width=100, height=40, text=text,
@@ -226,7 +229,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
     window.resizable(False, False)
     window.iconbitmap('src/screens/disenos/LUMASIS.ico')
     verdeclaro="#287678"
-    vcomd = window.register(is_number)
+    vcomd = window.register(lambda value: is_number(value, max_lenght=2))
     
     rame = tk.Frame(window, width=1280, height=350, bg="#287678")
     rame.place(x=0, y=0)
