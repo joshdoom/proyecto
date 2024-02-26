@@ -163,6 +163,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
             if estudiante is not None:
                 pdf.cedula = estudiante.cedula
                 pdf.estudiante = f"{estudiante.nombres} {estudiante.apellidos}"
+                pdf.lapso = f"{lapso}"
                 pdf.add_page()
                 pdf.set_font("Helvetica","", 10)
 
@@ -191,8 +192,8 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
                         pdf.cell(40, 5, txt=str(dato), border=1, align='C')
                     pdf.ln(5)
 
-        pdf.output(f"src/pdfs/nota_de_grado{degree}_de_{estudiante.cedula}.pdf")
-        screen_vista_previa(tkinter, window=tk.Toplevel(), ruta_pdf=f"src/pdfs/nota_de_grado{degree}_de_{estudiante.cedula}.pdf")
+        pdf.output(f"src/pdfs/nota_de_grado{degree}_de_{estudiante.cedula} - lapso{lapso}.pdf")
+        screen_vista_previa(tkinter, window=tk.Toplevel(), ruta_pdf=f"src/pdfs/nota_de_grado{degree}_de_{estudiante.cedula} - lapso{lapso}.pdf")
 
     def create_button(rame, x, y, text, command):
         button = customtkinter.CTkButton(master=rame, width=100, height=40, text=text,
