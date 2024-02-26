@@ -26,6 +26,7 @@ class PDFNotas(FPDF):
     degree: int
     estudiante: str
     cedula: str
+    lapso : int
 
     def header(self) -> None:
         self.image('src/assets/logo.jpeg', 10, 8, 33)
@@ -34,7 +35,7 @@ class PDFNotas(FPDF):
         self.cell(270, 30, f"Notas del Estudiante de {grado[self.degree - 1]} año", align="C")
         self.set_font("Helvetica", "B", 10)
         self.ln(20)
-        self.cell(150, 30, txt=f'Alumno(a): {self.estudiante} Cedula: {self.cedula}', align='C')
+        self.cell(150, 30, txt=f'Alumno(a): {self.estudiante} Cedula: {self.cedula} lapso: {self.lapso}', align='C')
         self.ln(20)
         self.cell(20)
         for cabecera in cabeceras_notas:
