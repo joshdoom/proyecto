@@ -197,9 +197,8 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
             
             update_table()
             limpiar_campos()
-        except Exception:
-            print("a")
-            #messagebox.showerror("Error", "olis")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
 
     def eliminar():
         selected_item = table.selection()[0]

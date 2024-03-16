@@ -80,8 +80,7 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
             limpiar_campos()
             update_table()
         except Exception as e:
-            print("a")
-            #messagebox.showerror("Error", str(e))
+            messagebox.showerror("Error", str(e))
 
     def eliminar():
         selected_item = table.selection()[0]
