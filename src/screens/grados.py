@@ -27,7 +27,7 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
 
     def verificar_rol():
         if rol == "Profesor":
-            button_notas = customtkinter.customtkinter.CTkButton(master=window, width=95, height=37, text="Notas",
+            button_notas = customtkinter.CTkButton(master=window, width=95, height=37, text="Notas",
                                               text_color="#fff", fg_color="#0d487e", command=notas, font=("bold", 15),
                                               hover_color=blue)
             
