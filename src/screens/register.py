@@ -69,7 +69,7 @@ def screen_register(tk: tkinter, window: Tk):
     password_entry.place(x=366,y=200)
 
     rol = tk.StringVar(window)
-    rol.set("Rol")
+    rol.set("Director")
     seleccionrol = ['Director', 'Profesor', 'Secretaria']
     opcion_rol = tk.OptionMenu(window, rol, *seleccionrol)
     opcion_rol.config(font=("Helvetica", 15),bg=verde, fg="#fff")
