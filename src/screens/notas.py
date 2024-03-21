@@ -18,7 +18,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
             botonBuscar = create_button(rame, 730, 280, "Buscar", buscar)
             botonDetalles = create_button(rame, "Detalles", mostrar_detalles)
         elif rol == "Secretaria":
-            botonGuardar = create_button(rame, 620, 280, "Guardar", guardar)
+            #botonGuardar = create_button(rame, 620, 280, "Guardar", guardar)
             botonBuscar = create_button(rame, 730, 280, "Buscar", buscar)
             botonDetalles = create_button(rame, 840, 280, "Detalles", mostrar_detalles)
             botonDescargar = create_button(rame, 950, 280, "Descargar", generar_pdf)
