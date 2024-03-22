@@ -4,19 +4,19 @@ from ttkthemes import ThemedStyle
 from sqlalchemy.orm import Session
 import customtkinter
 from ..services.nota import Nota
-from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as ModelNotas, Grado as ModelGrado
+from ..models import Estudiante as Model, Materias as ModelMaterias, Nota as ModelNotas, Grado as ModelGrado, Profesor
 from ..engine import engine
 from ..utils.table_to_pdf import PDFNotas
 from ..utils.validate import is_number
 
-def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
+def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor: str = None):
     connect_nota = Nota(engine)
 
     def verificar_rol():
         if rol == "Profesor":
             botonGuardar = create_button(rame, 620, 280, "Guardar", guardar)
             botonBuscar = create_button(rame, 730, 280, "Buscar", buscar)
-            botonDetalles = create_button(rame, "Detalles", mostrar_detalles)
+            botonDetalles = create_button(rame, 840, 280,"Detalles", mostrar_detalles)
         elif rol == "Secretaria":
             #botonGuardar = create_button(rame, 620, 280, "Guardar", guardar)
             botonBuscar = create_button(rame, 730, 280, "Buscar", buscar)
@@ -89,6 +89,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
                 estudiante = session.query(Model).filter_by(cedula=cedula).first()
                 materia = session.query(ModelMaterias).filter_by(nombre=materia).first()
                 connect_nota.create(nota, evaluacion, lapso, estudiante.id, materia.id)
+                messagebox.showinfo("Exito", "Se ha agregado la nota")
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
@@ -278,9 +279,21 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
     entryNota.place(x=280, y=220)
 
 
-    materias = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "G.H.C", "Ingles", "Matematicas", "Orientación y convivencia", "G.E.R.P", "Fisica", "Quimica"]
+    materias = []
+    if not cedula_profesor:
+        materias = ["Arte y patrimonio", "Castellano", "Ciencias Naturales", "Educacion Fisica", "G.H.C", "Ingles", "Matematicas", "Orientación y convivencia", "G.E.R.P", "Fisica", "Quimica"]
+    else:
+        with Session(engine) as session:
+            id_materias = session.query(Profesor).filter_by(cedula=cedula_profesor).all()
+            for materia in id_materias:
+                _ = session.query(ModelMaterias).filter_by(id=materia.id_materia).first()
+                materias.append(_.nombre)
+
     materiaSeleccionada = create_option_menu(rame, materias, 'Materias', 730, 170)
 
+    
+    
+    
     notas = [1, 2, 3, 4]
     notasSeleccionada = create_option_menu(rame, notas, 'Notas', 850, 170)
 

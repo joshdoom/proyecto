@@ -6,7 +6,7 @@ verdeoscuro="#01212e"
 verde="#15a35b"
 
 
-def screen_index(tk: tk, window: Tk, rol: str):
+def screen_index(tk: tk, window: Tk, rol: str, cedula_profesor: str = None):
 
     
     def create_button(bg, command, image):
@@ -17,19 +17,19 @@ def screen_index(tk: tk, window: Tk, rol: str):
     from .grados import screen_grado
 
     def primero():
-        screen_grado(tk, window=tk.Toplevel(), degree=1, rol=rol)
+        screen_grado(tk, window=tk.Toplevel(), degree=1, rol=rol, cedula_profesor=cedula_profesor)
 
     def segundo():
-        screen_grado(tk, window=tk.Toplevel(), degree=2, rol=rol)
+        screen_grado(tk, window=tk.Toplevel(), degree=2, rol=rol, cedula_profesor=cedula_profesor)
 
     def tercero():
-        screen_grado(tk, window=tk.Toplevel(), degree=3, rol=rol)
+        screen_grado(tk, window=tk.Toplevel(), degree=3, rol=rol, cedula_profesor=cedula_profesor)
 
     def cuarto():
-        screen_grado(tk, window=tk.Toplevel(), degree=4, rol=rol)
+        screen_grado(tk, window=tk.Toplevel(), degree=4, rol=rol, cedula_profesor=cedula_profesor)
 
     def quinto():
-        screen_grado(tk, window=tk.Toplevel(), degree=5, rol=rol)
+        screen_grado(tk, window=tk.Toplevel(), degree=5, rol=rol, cedula_profesor=cedula_profesor)
 
     def profesores():
         screen_professor(tk, window=tk.Toplevel(), rol=rol)

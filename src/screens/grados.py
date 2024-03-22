@@ -18,7 +18,7 @@ from PIL import Image
 
 grado = ["Primer", "Segundo", "Tercero", "Cuarto", "Quinto"]
 
-def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
+def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor: str = None):
     connect_grado = Grado(engine)
     connect_estudiante = Estudiante(engine)
     connect_anioescolar = AnioEscolar(engine)
@@ -304,7 +304,7 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
     def notas():
         from .notas import screen_notas
         window.destroy()
-        screen_notas(tkinter, window=tk.Toplevel(), degree=degree, rol=rol)
+        screen_notas(tkinter, window=tk.Toplevel(), degree=degree, rol=rol, cedula_profesor=cedula_profesor)
 
     window.title(f"{grado[degree - 1]} año")
     window.geometry("1280x680")

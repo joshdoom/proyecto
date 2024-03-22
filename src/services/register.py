@@ -6,7 +6,7 @@ class Usuario:
     def __init__(self, engine: Engine) -> None:
         self.session = sessionmaker(engine)
     
-    def create(self, nombre_de_usuario: str, password: str, rol: str, question: str, answer: str):
+    def create(self, nombre_de_usuario: str, password: str, rol: str, question: str, answer: str, profesor_cedula: int = None):
         with self.session() as session:
             if session.query(Model).filter_by(nombre=nombre_de_usuario).first():
                 raise Exception('Se encuentra un usuario con ese username.')
@@ -15,7 +15,8 @@ class Usuario:
                              rol=rol,
                              contrasena=password,
                              pregunta_seguridad=question,
-                             respuesta_seguridad=answer)
+                             respuesta_seguridad=answer,
+                             profesor_cedula=profesor_cedula)
             session.add(user)
             session.commit()
 
