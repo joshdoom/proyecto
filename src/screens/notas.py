@@ -89,6 +89,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
                 estudiante = session.query(Model).filter_by(cedula=cedula).first()
                 materia = session.query(ModelMaterias).filter_by(nombre=materia).first()
                 connect_nota.create(nota, evaluacion, lapso, estudiante.id, materia.id)
+                messagebox.showinfo("Exito", "Se ha agregado la nota")
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
