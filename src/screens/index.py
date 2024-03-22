@@ -7,6 +7,8 @@ verde="#15a35b"
 
 
 def screen_index(tk: tk, window: Tk, rol: str):
+
+    
     def create_button(bg, command, image):
         button = tk.Button(Frame,command=command,bg=bg,image=image)
         button.pack(pady=10)
@@ -32,7 +34,17 @@ def screen_index(tk: tk, window: Tk, rol: str):
     def profesores():
         screen_professor(tk, window=tk.Toplevel(), rol=rol)
 
-
+    #def idrol():
+     #   from .login import screen_login
+      #  if rol == "Profesor":
+       #         Urbaneja= tk.Label(barra_superior,text="Profesor", fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
+        #        Urbaneja.pack(side="right")
+       # elif rol == "Secretaria":
+        #        Urbaneja= tk.Label(barra_superior,text="Secretaria", fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
+        #        Urbaneja.pack(side="right")
+        #else:
+         #       Urbaneja= tk.Label(barra_superior,text="Director", fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
+          #      Urbaneja.pack(side="right")
     
     window.title("Menu principal")
     window.geometry("1000x650")    
@@ -46,8 +58,13 @@ def screen_index(tk: tk, window: Tk, rol: str):
     barra_superior= Frame(window)
     barra_superior.config(bg=verdeoscuro,height=60)    
     barra_superior.pack(side=TOP, fill="both")
-    Urbaneja= tk.Label(barra_superior,text="Luis Manuel Urbaneja Achepolh", fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
+    Urbaneja= tk.Label(barra_superior,text="Luis Manuel Urbaneja Achelpolh", fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
     Urbaneja.pack(side="left")
+    Urbaneja= tk.Label(barra_superior,text=rol, fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
+    Urbaneja.pack(side="right")
+
+    
+    
     
     menu_lateral= Frame(window)
     menu_lateral.config(bg=negro,width="100",height=150)
@@ -85,6 +102,7 @@ def screen_index(tk: tk, window: Tk, rol: str):
         
 #---------------------------Funciones de los botones-----------------------------
 
+    
     
     
     
