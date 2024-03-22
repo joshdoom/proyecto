@@ -22,7 +22,7 @@ def screen_login(tk: tkinter, window: Tk):
                 if username == user.nombre and password == user.contrasena:
                     messagebox.showinfo("Exito", "Iniciaste sesion")
                     window.destroy()
-                    screen_index(tk, window=Tk(), rol=user.rol)
+                    screen_index(tk, window=Tk(), rol=user.rol, cedula_profesor=user.profesor_cedula)
                     return
             else:
                 messagebox.showinfo("Error", "Usuario o contraseña es incorrecta")

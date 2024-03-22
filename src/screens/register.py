@@ -1,7 +1,7 @@
 import tkinter 
 from tkinter import Tk, messagebox
 from sqlalchemy.orm import Session
-from ..models import Usuario
+from ..models import Usuario, Profesor
 from ..services.register import Usuario as UsuarioService
 from ..engine import engine
 import customtkinter
@@ -20,8 +20,14 @@ def screen_register(tk: tkinter, window: Tk):
         username = username_entry.get()
         password = password_entry.get()
         rol_select = rol.get()
+        profesor_cedula = profesor_var.get()
         question = pregunta_entry.get()
         answer = respuesta_entry.get()
+
+        if rol_select == 'Profesor':
+            if not profesor_cedula.isdigit():
+                messagebox.showinfo("Error", "Por favor ingresa correctamente la cedula del profesor")
+                return
 
         with Session(engine) as session:
             usuarios = session.query(Usuario).all()
@@ -32,11 +38,15 @@ def screen_register(tk: tkinter, window: Tk):
                     return
             else:
                 try:
-                    connect.create(username, password, rol_select, question, answer)
+                    if profesor_cedula.isdigit() and rol_select == 'Profesor':
+                        connect.create(username, password, rol_select, question, answer, profesor_cedula)
+                    else:
+                        connect.create(username, password, rol_select, question, answer)
                     messagebox.showinfo("Exito", f"Se ha registrado un(a) {rol_select}")
                     window.destroy()
                     screen_login(tk, window=Tk())
-                except:
+                except Exception as e:
+                    print(e)
                     messagebox.showinfo("Error", "Usuario o contraseña es incorrecta")
         
     window.title("Registrar")
@@ -75,6 +85,27 @@ def screen_register(tk: tkinter, window: Tk):
     opcion_rol = tk.OptionMenu(window, rol, *seleccionrol)
     opcion_rol.config(font=("Helvetica", 15),bg=verde, fg="#fff")
     opcion_rol.place(x=570,y=45)
+
+    profesor_var = tk.StringVar(window) 
+    profesor_var.set('Cedula del Profesor')
+
+    def on_professor_selected(*args):
+        profesor_menu = None 
+        if rol.get() == 'Profesor':
+            with Session(engine) as session:
+                profesores = session.query(Profesor).all()
+                profesor_names = []
+                for profesor in profesores:
+                    if profesor.cedula not in profesor_names:
+                        profesor_names.append(profesor.cedula)
+
+                profesor_menu = tk.OptionMenu(window, profesor_var, *profesor_names)
+                profesor_menu.place(x=570, y=85)
+        else:
+            if profesor_menu is not None:
+                profesor_menu.destroy()
+
+    rol.trace('w', on_professor_selected)
 
     pregunta_label = tk.Label(window, text="Pregunta Seguridad:",bg="white", font=("Helvetica", 14))
     pregunta_label.place(x=185,y=260)

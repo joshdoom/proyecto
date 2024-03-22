@@ -14,6 +14,7 @@ class Usuario(Base):
     contrasena = Column(String(60), nullable=True)
     pregunta_seguridad= Column(String(100), nullable=True)
     respuesta_seguridad= Column(String(100), nullable=True)
+    profesor_cedula = Column(String(12), nullable=True)
 
 class Representante(Base):
     __tablename__ = 'representantes'
