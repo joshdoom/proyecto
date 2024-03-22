@@ -220,7 +220,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str):
 
         with Session(engine) as session:
             for estudiante in session.query(Model).all():
-                if session.query(ModelGrado).filter_by(id_estudiante=estudiante.id).first():
+                if session.query(ModelGrado).filter_by(id_estudiante=estudiante.id, inscrito=degree).first():
                     lista_estudiantes.append(estudiante.cedula)
             return lista_estudiantes 
         

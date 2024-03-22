@@ -8,6 +8,9 @@ class Usuario:
     
     def create(self, nombre_de_usuario: str, password: str, rol: str, question: str, answer: str):
         with self.session() as session:
+            if session.query(Model).filter_by(nombre=nombre_de_usuario).first():
+                raise Exception('Se encuentra un usuario con ese username.')
+            
             user = Model(nombre=nombre_de_usuario,
                              rol=rol,
                              contrasena=password,

@@ -17,10 +17,11 @@ def screen_recovery(tk: tkinter, window: Tk):
     def check_user():
         user = username_entry.get()
         with Session(engine) as session:
-            if session.query(Usuario).filter_by(nombre=user).first():
-                recovery()
+            user_found = session.query(Usuario).filter_by(nombre=user).first()
+            if user_found:
+                recovery(user_found.pregunta_seguridad)
             else:
-                tk.messagebox.showerror("Error", "Usuario no encontrado")
+                messagebox.showerror("Error", "Usuario no encontrado")
 
     def update():
         from .login import screen_login
@@ -33,14 +34,18 @@ def screen_recovery(tk: tkinter, window: Tk):
             user = session.query(Usuario).filter_by(nombre=user, respuesta_seguridad=answer).first()
             if user:
                 connect.update(user.id, password)
+                messagebox.showinfo("Exito", "Has recuperado tu cuenta")
                 window.destroy()
                 screen_login(tk, window=Tk())
             else:
-                tk.messagebox.showerror("Error", "Usuario no encontrado")
+                messagebox.showerror("Error", "Usuario no encontrado")
                 
-    def recovery():
+    def recovery(question: str):
         global respuesta_entry
         global password_entry
+
+        pregunta_label = tk.Label(window, text=f"{question}", bg="white", font=("Helvetica", 16))
+        pregunta_label.place(x=200,y=150)
 
         respuesta_label = tk.Label(window, text="Respuesta:", bg="white", font=("Helvetica", 16))
         respuesta_label.place(x=200,y=180)

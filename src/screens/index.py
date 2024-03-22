@@ -78,9 +78,11 @@ def screen_index(tk: tk, window: Tk, rol: str):
     imagen5 = tk.PhotoImage(file='src/screens/disenos/boton5t.png')
     buttonDashBoard5 = Button(menu_lateral,command=quinto, bg=color,image=imagen5)    
     buttonDashBoard5.pack()
-    imagen6 = tk.PhotoImage(file='src/screens/disenos/boton6t.png')
-    buttonDashBoard6 = Button(menu_lateral,command=profesores, bg=color,image=imagen6)    
-    buttonDashBoard6.pack()
+
+    if not rol == 'Profesor': 
+        imagen6 = tk.PhotoImage(file='src/screens/disenos/boton6t.png')
+        buttonDashBoard6 = Button(menu_lateral,command=profesores, bg=color,image=imagen6)    
+        buttonDashBoard6.pack()
             
 
             

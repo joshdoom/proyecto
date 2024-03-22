@@ -33,7 +33,7 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
             
             #tk.Button(window, text="Notas", command=notas, bg=verdeclaro, fg="black")
             
-            button_notas.place(x=640, y=295)
+            button_notas.place(x=1000, y=295)
             
         elif rol == "Secretaria":
             #botonew = tk.PhotoImage(file='src/screens/disenos/botones/botonestablas/botonesnuevo.png')
@@ -337,44 +337,44 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str):
     cosa.place(x=0, y=0)
     cosa.image = pizarra
    
-    
-    vcomd_t = window.register(lambda value: is_number(value, max_lenght=11))
-    vcomd_c = window.register(lambda value: is_number(value, max_lenght=8))
-    
-    labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Fecha de Nacimiento", "Inicio", "Fin"]
-
-    entries = [
-        tk.Entry(window, validate='key', validatecommand=(vcomd_t, '%P'), font=("Calisto Mt", 16))
-        if label == "Telefono" else
-        tk.Entry(window, validate='key', validatecommand=(vcomd_c, '%P'), font=("Calisto Mt", 16))
-        if label == "Cedula" else
-        tk.Entry(window, font=("Calisto Mt", 16))
-        if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else
-        DateEntry(window)
-        for label in labels
-    ]
+    if not rol == 'Profesor':
+        vcomd_t = window.register(lambda value: is_number(value, max_lenght=11))
+        vcomd_c = window.register(lambda value: is_number(value, max_lenght=8))
         
+        labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Fecha de Nacimiento", "Inicio", "Fin"]
 
-    for i, (label, entry) in enumerate(zip(labels, entries)):
-        if i < 4:  # Para los primeros cuatro labels y entries
-            tt = customtkinter.CTkLabel(master=miFrame, text=label, width=120, height=25,
-                                               fg_color="#287678", text_color="#fff", corner_radius=8,
-                                               font=customtkinter.CTkFont(size=18, weight="bold"))
+        entries = [
+            tk.Entry(window, validate='key', validatecommand=(vcomd_t, '%P'), font=("Calisto Mt", 16))
+            if label == "Telefono" else
+            tk.Entry(window, validate='key', validatecommand=(vcomd_c, '%P'), font=("Calisto Mt", 16))
+            if label == "Cedula" else
+            tk.Entry(window, font=("Calisto Mt", 16))
+            if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else
+            DateEntry(window)
+            for label in labels
+        ]
             
-            tt.place(x=180, y=30+i*50)
-            
-            entry.place(x=360, y=125+i*50+7)
-            
-        else:  # Para los siguientes labels y entries
-             tt = customtkinter.CTkLabel(master=miFrame, text=label, width=120, height=25,
-                                               fg_color="#287678", text_color="#fff", corner_radius=8,
-                                               font=customtkinter.CTkFont(size=18,))
-             
-             tt.place(x=570, y=30+(i-4)*50)
-             
-             entry.place(x=810, y=120+(i-4)*50+7)
 
-    
+        for i, (label, entry) in enumerate(zip(labels, entries)):
+            if i < 4:  # Para los primeros cuatro labels y entries
+                tt = customtkinter.CTkLabel(master=miFrame, text=label, width=120, height=25,
+                                                fg_color="#287678", text_color="#fff", corner_radius=8,
+                                                font=customtkinter.CTkFont(size=18, weight="bold"))
+                
+                tt.place(x=180, y=30+i*50)
+                
+                entry.place(x=360, y=125+i*50+7)
+                
+            else:  # Para los siguientes labels y entries
+                tt = customtkinter.CTkLabel(master=miFrame, text=label, width=120, height=25,
+                                                fg_color="#287678", text_color="#fff", corner_radius=8,
+                                                font=customtkinter.CTkFont(size=18,))
+                
+                tt.place(x=570, y=30+(i-4)*50)
+                
+                entry.place(x=810, y=120+(i-4)*50+7)
+
+        
 
 
     verificar_rol()
