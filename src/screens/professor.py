@@ -71,10 +71,8 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
                 return
 
             with Session(engine) as session:
+                connect_materias.create(titulo[0].upper(), titulo, None, grado)
                 materia = session.query(ModelMaterias).filter(ModelMaterias.nombre == titulo, ModelMaterias.id_grado == grado).first()
-                if not materia:
-                    connect_materias.create(titulo[0].upper(), titulo, None, grado)
-                    materia = session.query(ModelMaterias).filter(ModelMaterias.nombre == titulo, ModelMaterias.id_grado == grado).first()
                 
             connect.create(nombres, apellidos, cedula, telefono, titulo, materia.id)
             limpiar_campos()

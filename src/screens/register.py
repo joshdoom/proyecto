@@ -27,12 +27,13 @@ def screen_register(tk: tkinter, window: Tk):
             usuarios = session.query(Usuario).all()
 
             for usuario in usuarios:
-                if usuario.rol == rol_select:
+                if rol_select == "Director" and usuario.rol == rol_select:
                     messagebox.showinfo("Error", "No esta permitido crear mas de un director.")
                     return
             else:
                 try:
                     connect.create(username, password, rol_select, question, answer)
+                    messagebox.showinfo("Exito", f"Se ha registrado un(a) {rol_select}")
                     window.destroy()
                     screen_login(tk, window=Tk())
                 except:

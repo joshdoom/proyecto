@@ -20,6 +20,7 @@ def screen_login(tk: tkinter, window: Tk):
             users = session.query(Usuario).all()
             for user in users:
                 if username == user.nombre and password == user.contrasena:
+                    messagebox.showinfo("Exito", "Iniciaste sesion")
                     window.destroy()
                     screen_index(tk, window=Tk(), rol=user.rol)
                     return
