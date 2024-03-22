@@ -87,7 +87,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
                     return
                 
                 estudiante = session.query(Model).filter_by(cedula=cedula).first()
-                materia = session.query(ModelMaterias).filter_by(nombre=materia).first()
+                materia = session.query(ModelMaterias).filter_by(nombre=materia, id_grado=degree).first()
                 connect_nota.create(nota, evaluacion, lapso, estudiante.id, materia.id)
                 messagebox.showinfo("Exito", "Se ha agregado la nota")
         except Exception as e:
@@ -287,12 +287,10 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
             id_materias = session.query(Profesor).filter_by(cedula=cedula_profesor).all()
             for materia in id_materias:
                 _ = session.query(ModelMaterias).filter_by(id=materia.id_materia).first()
-                materias.append(_.nombre)
+                if _.id_grado == degree:
+                    materias.append(_.nombre)
 
     materiaSeleccionada = create_option_menu(rame, materias, 'Materias', 730, 170)
-
-    
-    
     
     notas = [1, 2, 3, 4]
     notasSeleccionada = create_option_menu(rame, notas, 'Notas', 850, 170)
