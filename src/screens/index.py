@@ -34,17 +34,7 @@ def screen_index(tk: tk, window: Tk, rol: str):
     def profesores():
         screen_professor(tk, window=tk.Toplevel(), rol=rol)
 
-    #def idrol():
-     #   from .login import screen_login
-      #  if rol == "Profesor":
-       #         Urbaneja= tk.Label(barra_superior,text="Profesor", fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
-        #        Urbaneja.pack(side="right")
-       # elif rol == "Secretaria":
-        #        Urbaneja= tk.Label(barra_superior,text="Secretaria", fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
-        #        Urbaneja.pack(side="right")
-        #else:
-         #       Urbaneja= tk.Label(barra_superior,text="Director", fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
-          #      Urbaneja.pack(side="right")
+    
     
     window.title("Menu principal")
     window.geometry("1000x650")    
