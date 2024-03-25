@@ -99,9 +99,10 @@ def screen_index(tk: tk, window: Tk, rol: str, cedula_profesor: str = None):
         buttonDashBoard6 = Button(menu_lateral,command=profesores, bg=color,image=imagen6)    
         buttonDashBoard6.pack()
     
-    buttonDashBoard7 = Button(menu_lateral,text="cerrar Sesion",command=ventanacerrar, bg=color)    
+    imagen7 = tk.PhotoImage(file='src/screens/disenos/botoncerrar.png')
+    buttonDashBoard7 = Button(menu_lateral,image=imagen7,command=ventanacerrar, bg=color)    
     buttonDashBoard7.pack()
-    buttonDashBoard7.place(x=0,y=390)
+    buttonDashBoard7.place(x=0,y=570)
 
             
     fondo= Frame(window)
