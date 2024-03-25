@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import LEFT, TOP, Button, Frame, Tk
+from tkinter import messagebox
 
 negro="#00292d"
 verdeoscuro="#01212e"
@@ -34,8 +35,21 @@ def screen_index(tk: tk, window: Tk, rol: str, cedula_profesor: str = None):
     def profesores():
         screen_professor(tk, window=tk.Toplevel(), rol=rol)
 
+    def cerrasesion():
+        from .login import screen_login
+        messagebox.showinfo("Exito", "Se ha cerrado la sesion")
+        window.destroy()
+        screen_login(tk, window=Tk())
     
-    
+    def ventanacerrar():
+        seguro = messagebox.askyesno("Cerrar Sesión", "¿Estás seguro de querer cerrar sesión?")
+        if seguro:
+            cerrasesion()
+        
+            
+
+        
+
     window.title("Menu principal")
     window.geometry("1000x650")    
     color = "#20232a" 
@@ -78,12 +92,16 @@ def screen_index(tk: tk, window: Tk, rol: str, cedula_profesor: str = None):
     imagen5 = tk.PhotoImage(file='src/screens/disenos/boton5t.png')
     buttonDashBoard5 = Button(menu_lateral,command=quinto, bg=color,image=imagen5)    
     buttonDashBoard5.pack()
+    
 
     if not rol == 'Profesor': 
         imagen6 = tk.PhotoImage(file='src/screens/disenos/boton6t.png')
         buttonDashBoard6 = Button(menu_lateral,command=profesores, bg=color,image=imagen6)    
         buttonDashBoard6.pack()
-            
+    
+    buttonDashBoard7 = Button(menu_lateral,text="cerrar Sesion",command=ventanacerrar, bg=color)    
+    buttonDashBoard7.pack()
+    buttonDashBoard7.place(x=0,y=390)
 
             
     fondo= Frame(window)
