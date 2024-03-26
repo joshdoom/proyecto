@@ -1,6 +1,6 @@
 import tkinter
 from datetime import datetime
-from tkinter import Tk, ttk, messagebox
+from tkinter import Tk, ttk, messagebox, Canvas, Scrollbar
 from tkcalendar import DateEntry
 from ttkthemes import ThemedStyle
 from sqlalchemy.orm import Session
@@ -123,10 +123,16 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
 
     def show_students():
         global table
-        
+        scroll_canvas = Canvas(window, background='#3a7ff6')
+        scroll_canvas.pack(side='left', fill='both', expand=True)
 
+        scrollbar = Scrollbar(window, command=scroll_canvas.yview)
+        scrollbar.pack(side='left', fill='y')
 
-        frame = tk.Frame(window, bg="white", width="1400", height="200", bd=10)
+        scroll_canvas.configure(yscrollcommand=scrollbar.set)
+        scroll_canvas.bind('<Configure>', lambda e: scroll_canvas.configure(scrollregion=scroll_canvas.bbox('all')))
+
+        frame = tk.Frame(scroll_canvas, bg="white", width="1400", height="200", bd=10)
         frame.pack(fill="both", expand=True)
         table = ttk.Treeview(frame, columns=('ID', 'Nombres', 'Apellidos', 'Cedula', 'Telefono', 'Fecha de Nacimiento', 'Grado', 'Seccion', 'Inicio', 'Fin'), show='headings')
         #table.tag_configure("odd", background=verdeclaro)

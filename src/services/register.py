@@ -20,11 +20,12 @@ class Usuario:
             session.add(user)
             session.commit()
 
-    def update(self, id: int, password: str):
+    def update(self, id: int, username: str, password: str):
         with self.session() as session:
             try:
                 session.query(Model).filter_by(id=id).update({
-                    Model.contrasena: password,
+                    Model.nombre: username,
+                    Model.contrasena: password
                 })
                 session.commit()
             except:
