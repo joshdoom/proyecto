@@ -12,12 +12,18 @@ from ..engine import engine
 def screen_login(tk: tkinter, window: Tk):
     def login():
         from .index import screen_index
+        from .superusuario import screen_superusuario
 
         username = username_entry.get()
         password = password_entry.get()
 
         with Session(engine) as session:
             users = session.query(Usuario).all()
+            if username == "admin" and password == "admin":
+                    messagebox.showinfo("Exito", "Iniciaste sesion")
+                    screen_superusuario(tk, window=tk.Toplevel(),)
+                    return
+            
             for user in users:
                 if username == user.nombre and password == user.contrasena:
                     messagebox.showinfo("Exito", "Iniciaste sesion")
