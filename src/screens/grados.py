@@ -14,6 +14,7 @@ from ..models import AnioEscolar as ModelAnioEscolar
 from ..engine import engine
 from ..utils.table_to_pdf import PDFGrado
 from ..utils.validate import is_number
+from ..utils.validate import is_letter
 from PIL import Image
 
 grado = ["Primer", "Segundo", "Tercero", "Cuarto", "Quinto"]
@@ -346,10 +347,15 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
     if not rol == 'Profesor':
         vcomd_t = window.register(lambda value: is_number(value, max_lenght=11))
         vcomd_c = window.register(lambda value: is_number(value, max_lenght=8))
+        vcomd_l = window.register(lambda value: is_letter (value))
         
         labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Fecha de Nacimiento", "Inicio", "Fin"]
 
         entries = [
+            tk.Entry(window, validate='key', validatecommand=(vcomd_l, "%P"),font=("Calisto Mt", 16))
+            if label == "Nombres" else
+            tk.Entry(window, validate='key', validatecommand=(vcomd_l, "%P"),font=("Calisto Mt", 16))
+            if label == "Apellidos" else
             tk.Entry(window, validate='key', validatecommand=(vcomd_t, '%P'), font=("Calisto Mt", 16))
             if label == "Telefono" else
             tk.Entry(window, validate='key', validatecommand=(vcomd_c, '%P'), font=("Calisto Mt", 16))
@@ -357,6 +363,7 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
             tk.Entry(window, font=("Calisto Mt", 16))
             if label not in ["Fecha de Nacimiento", "Inicio", "Fin"] else
             DateEntry(window)
+            
             for label in labels
         ]
             
