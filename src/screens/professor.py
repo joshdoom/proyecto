@@ -9,6 +9,7 @@ from ..models import Profesor as Model
 from ..models import Materias as ModelMaterias
 from ..engine import engine
 from ..utils.validate import is_number
+from ..utils.validate import is_letter
 
 def screen_professor(tk: tkinter, window: Tk, rol: str):
     connect = Profesor(engine)
@@ -168,9 +169,15 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
 
     vcomd_t = window.register(lambda value: is_number(value, max_lenght=11))
     vcomd_c = window.register(lambda value: is_number(value, max_lenght=8))
+    vcomd_l = window.register(lambda value: is_letter (value))
+
     labels = ["Nombres", "Apellidos", "Cedula", "Telefono", "Materia Asignada", "Grado"]
     
     entries = [
+        tk.Entry(window, validate='key', validatecommand=(vcomd_l, "%P"),font=("Calisto Mt", 16))
+        if label == "Nombres" else
+        tk.Entry(window, validate='key', validatecommand=(vcomd_l, "%P"),font=("Calisto Mt", 16))
+        if label == "Apellidos" else
         tk.Entry(window, validate='key', validatecommand=(vcomd_t, '%P'), font=("Calisto Mt", 16))
         if label == "Telefono" else
         tk.Entry(window, validate='key', validatecommand=(vcomd_c, '%P'), font=("Calisto Mt", 16))
