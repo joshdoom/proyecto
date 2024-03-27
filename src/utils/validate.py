@@ -3,3 +3,9 @@ def is_number(value, max_lenght: int):
         return True
     else:
         return False
+
+def is_letter(value):
+    if  value.isalpha() or value == '':
+        return True
+    else:
+        return False
