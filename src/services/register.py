@@ -20,14 +20,20 @@ class Usuario:
             session.add(user)
             session.commit()
 
-    def update(self, id: int, username: str, password: str):
+    def update(self, id: int, username: str=None, password: str=None):
         with self.session() as session:
             try:
-                session.query(Model).filter_by(id=id).update({
-                    Model.nombre: username,
+                if username:
+                    session.query(Model).filter_by(id=id).update({
+                        Model.nombre: username,
+                        Model.contrasena: password
+                    })
+                    session.commit()
+                else:
+                    session.query(Model).filter_by(id=id).update({
                     Model.contrasena: password
                 })
-                session.commit()
+                    session.commit()
             except:
                 raise ValueError("No se encuentra un usuario con este id.")
             finally:
