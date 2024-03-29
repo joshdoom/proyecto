@@ -133,10 +133,14 @@ def screen_login(tk: tkinter, window: Tk):
     
     login_button3.pack()
 
-    botonmanu= tk.PhotoImage(file='src/screens/disenos/urbaneja.png')
+    botonmanu= tk.PhotoImage(file='src/screens/disenos/logonuevomini.png')
     Manu_button= Button(window,image=botonmanu, command=abrir_manual,bg="white")
     Manu_button.pack()
     Manu_button.place(x=60,y=70)
+
+    urbanejaico = tk.PhotoImage(file='src/screens/disenos/urbaneja.png')
+    instiico = tk.Label(window, image=urbanejaico,bg=verde, relief="solid")
+    instiico.place(x=465,y=70)
 
     fondoright= Frame(window)
     fondoright.pack()
