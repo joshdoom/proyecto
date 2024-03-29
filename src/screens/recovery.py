@@ -33,7 +33,7 @@ def screen_recovery(tk: tkinter, window: Tk):
         with Session(engine) as session:
             user = session.query(Usuario).filter_by(nombre=user, respuesta_seguridad=answer).first()
             if user:
-                connect.update(user.id, password)
+                connect.update(user.id, password=password)
                 messagebox.showinfo("Exito", "Has recuperado tu cuenta")
                 window.destroy()
                 screen_login(tk, window=Tk())
