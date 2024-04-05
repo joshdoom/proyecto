@@ -6,6 +6,7 @@ from ttkthemes import ThemedTk
 
 def screen_vista_previa(tk: tkinter, window: Tk, ruta_pdf: str):
     window.title("Vista Previa")
+    window.iconbitmap('src/screens/disenos/logonuevoB.ico')
 
     paginas = convert_from_path(ruta_pdf, poppler_path=r"src\utils\poppler-24.02.0\Library\bin")
     

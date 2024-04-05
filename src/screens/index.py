@@ -37,7 +37,6 @@ def screen_index(tk: tk, window: Tk, rol: str, cedula_profesor: str = None):
 
     def cerrasesion():
         from .login import screen_login
-        messagebox.showinfo("Exito", "Se ha cerrado la sesion")
         window.destroy()
         screen_login(tk, window=Tk())
     
@@ -48,15 +47,13 @@ def screen_index(tk: tk, window: Tk, rol: str, cedula_profesor: str = None):
         
             
 
-        
-
-    window.title("Menu principal")
+    window.title("MENU PRINCIPAL")
     window.geometry("1000x650")    
     color = "#20232a" 
     color2 = "#32363f"
     window.config(bg="white")
     window.resizable(0,0)
-    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
+    window.iconbitmap('src/screens/disenos/logonuevoB.ico')
 
     
     barra_superior= Frame(window)

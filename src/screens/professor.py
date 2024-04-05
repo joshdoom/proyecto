@@ -141,7 +141,7 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
     window.title("Profesores")
     window.geometry("1280x680")
     window.resizable(False, False)
-    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
+    window.iconbitmap('src/screens/disenos/logonuevoB.ico')
     azul =  "#7beaf5"
     blue = "#288a94"
     verdeclaro = "#287678"

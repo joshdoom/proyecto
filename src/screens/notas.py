@@ -119,7 +119,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
                 materias = session.query(ModelMaterias).filter_by(id_grado=degree).all()
 
                 # Crear y empaquetar una nueva etiqueta con el nombre y la cédula del estudiante
-                estudiante_label = customtkinter.CTkLabel(master=detalles_window, text=f"Nombre del Estudiante: {estudiante.nombres}\n\nCédula: {estudiante.cedula}", 
+                estudiante_label = customtkinter.CTkLabel(master=detalles_window, text=f"Nombre del Estudiante:\n\n{estudiante.nombres} {estudiante.apellidos}\n\nCédula: {estudiante.cedula}", 
                                                           width=120, height=25, fg_color="#fff", text_color="#000", corner_radius=8, font=customtkinter.CTkFont(size=18))
             
                 estudiante_label.place(x=150,y=50)
@@ -137,7 +137,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
                         elif nota_obj.unidad == 4:
                             valores.append(nota_obj.nota4)
 
-                    nota_label = customtkinter.CTkLabel(master=detalles_window, text=f"Materia: {materia.nombre}\n\nValor: {str((sum(valores)) / 4)}", 
+                    nota_label = customtkinter.CTkLabel(master=detalles_window, text=f"Materia: {materia.nombre}\n\nPromedio: {str((sum(valores)) / 4)}", 
                                                           width=120, height=25, fg_color="#fff", text_color="#000", corner_radius=8, font=customtkinter.CTkFont(size=18))
                     #tk.Label(detalles_window, text="Materia: " + materia.nombre + "\nValor: " + str((sum(valores)) / 4), font=("Helvetica", 12))
                     nota_label.place(x=150, y=120)
@@ -214,7 +214,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
     def go_back():
         from .grados import screen_grado
         window.destroy()
-        screen_grado(tk, window=tk.Toplevel(), degree=degree, rol=rol)
+        screen_grado(tk, window=tk.Toplevel(), degree=degree, rol=rol,cedula_profesor=cedula_profesor)
 
     def show_estudiantes_in_list():
         lista_estudiantes = []
@@ -226,10 +226,10 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
             return lista_estudiantes 
         
 #///////////////////////////////////////////////////
-    window.title("Control de Notas")
+    window.title("REGISTRO DE NOTAS")
     window.geometry("1280x680")
     window.resizable(False, False)
-    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
+    window.iconbitmap('src/screens/disenos/logonuevoB.ico')
     verdeclaro="#287678"
     vcomd = window.register(lambda value: is_number(value, max_lenght=2))
     
@@ -267,7 +267,7 @@ def screen_notas(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
                                                font=customtkinter.CTkFont(size=18)).place(x=130, y=170)
     
     values = show_estudiantes_in_list()
-    entryCedula = customtkinter.CTkComboBox(master=rame, width=150, height=30, border_width=0, corner_radius=10,
+    entryCedula = customtkinter.CTkComboBox(master=rame, width=150, height=30, border_width=0, corner_radius=10,bg_color=verdeclaro,
                                    font=(0, 16), values=values)
     entryCedula.place(x=280, y=170)
 

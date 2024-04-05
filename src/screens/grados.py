@@ -316,7 +316,7 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
     window.title(f"{grado[degree - 1]} año")
     window.geometry("1280x680")
     window.resizable(False, False)
-    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
+    window.iconbitmap('src/screens/disenos/logonuevoB.ico')
     azul =  "#7beaf5"
     blue = "#288a94"
     verdeclaro="#287678"

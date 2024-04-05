@@ -52,7 +52,7 @@ def screen_login(tk: tkinter, window: Tk):
     window.title("Login")    
     window.geometry("1000x650")    
     window.resizable(0,0)
-    window.iconbitmap('src/screens/disenos/LUMASIS.ico')   
+    window.iconbitmap('src/screens/disenos/logonuevoB.ico')   
     window.config(bg=verdeoscuro)
     
 
@@ -91,7 +91,7 @@ def screen_login(tk: tkinter, window: Tk):
     framebuttons3 = Frame(window, width=200, height=80, bg=verde)
     framebuttons3.place(x=350, y=540)
     
-    username_entry =  customtkinter.CTkEntry(master=frames, width=250, height=42, border_width=0,
+    username_entry =  customtkinter.CTkEntry(master=frames, width=250, height=42, border_width=0,bg_color=verde,
                                        font=(0, 18))
     username_entry.pack()
     #username_entry.config(font=("Arial",15))
@@ -104,7 +104,7 @@ def screen_login(tk: tkinter, window: Tk):
 
     password_entry = Entry(window)
     
-    password_entry = customtkinter.CTkEntry(master=frames2, width=250, height=42, border_width=0,
+    password_entry = customtkinter.CTkEntry(master=frames2, width=250, height=42, border_width=0,bg_color=verde,
                                        font=(0, 18), show="*")
     password_entry.pack()
 

@@ -52,7 +52,7 @@ def screen_register(tk: tkinter, window: Tk):
     window.title("Registrar")
     window.geometry("800x500")
     window.resizable(0,0)
-    window.iconbitmap('src/screens/disenos/LUMASIS.ico')
+    window.iconbitmap('src/screens/disenos/logonuevoB.ico')
     verde="#15a35b"
 
     fondo = tk.PhotoImage(file='src/screens/disenos/fono2.png')
@@ -67,7 +67,7 @@ def screen_register(tk: tkinter, window: Tk):
     username_label = tk.Label(window, text="Usuario:",bg="white", font=("Helvetica", 16))
     username_label.place(x=185,y=140)
 
-    username_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,
+    username_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,bg_color=verde,
                                        font=(0, 18)) 
     #tk.Entry(window, font=("Helvetica", 12))
     username_entry.place(x=366,y=140)
@@ -75,7 +75,7 @@ def screen_register(tk: tkinter, window: Tk):
     password_label = tk.Label(window, text="Clave:",bg="white", font=("Helvetica", 16))
     password_label.place(x=185,y=200)
 
-    password_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,
+    password_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,bg_color=verde,
                                        font=(0, 18), show="*")
     password_entry.place(x=366,y=200)
 
@@ -110,7 +110,7 @@ def screen_register(tk: tkinter, window: Tk):
     pregunta_label = tk.Label(window, text="Pregunta Seguridad:",bg="white", font=("Helvetica", 14))
     pregunta_label.place(x=185,y=260)
 
-    pregunta_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,
+    pregunta_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,bg_color=verde,
                                        font=(0, 18)) 
     #tk.Entry(window, font=("Helvetica", 12))
     pregunta_entry.place(x=366,y=260)
@@ -118,7 +118,7 @@ def screen_register(tk: tkinter, window: Tk):
     respuesta_label = tk.Label(window, text="Respuesta:",bg="white", font=("Helvetica", 16))
     respuesta_label.place(x=185,y=320)
 
-    respuesta_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,
+    respuesta_entry = customtkinter.CTkEntry(master=window, width=200, height=36, border_width=0,bg_color=verde,
                                        font=(0, 18)) 
     #tk.Entry(window, show="*", font=("Helvetica", 12))
     respuesta_entry.place(x=366, y=320)
