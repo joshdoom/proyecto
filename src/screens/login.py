@@ -1,6 +1,7 @@
 import tkinter 
 import os
 import customtkinter
+import bcrypt
 from tkinter import RIGHT, Button, Entry, Frame, Label, Tk, messagebox
 from sqlalchemy.orm import Session
 
@@ -8,7 +9,7 @@ from ..models import Usuario
 from ..engine import engine
 
 
-
+ 
 def screen_login(tk: tkinter, window: Tk):
     def login():
         from .index import screen_index
@@ -16,22 +17,37 @@ def screen_login(tk: tkinter, window: Tk):
 
         username = username_entry.get()
         password = password_entry.get()
+        
 
         with Session(engine) as session:
-            users = session.query(Usuario).all()
+            users =session.query(Usuario).filter_by(nombre=username).first() #session.query(Usuario).all()
             if username == "admin" and password == "admin":
                     messagebox.showinfo("Exito", "Iniciaste sesion")
                     screen_superusuario(tk, window=tk.Toplevel(),)
                     return
+            user = session.query(Usuario).filter_by(nombre=username).first()
+
+            if user:
+                # Verificar la contraseña usando bcrypt.checkpw
+                if bcrypt.checkpw(password.encode('utf-8'), user.contrasena):
+                    messagebox.showinfo("Éxito", "Iniciaste sesión")
+                    window.destroy()  # Cerrar la ventana actual
+                    screen_index(tk, window=tk.Tk(), rol=user.rol, cedula_profesor=user.profesor_cedula)  # Abrir la nueva ventana
+                else:
+                    messagebox.showinfo("Error", "Usuario o contraseña incorrecta")
+            else:
+                messagebox.showinfo("Error", "Usuario no encontrado")
+
             
+                
             for user in users:
                 if username == user.nombre and password == user.contrasena:
-                    messagebox.showinfo("Exito", "Iniciaste sesion")
-                    window.destroy()
-                    screen_index(tk, window=Tk(), rol=user.rol, cedula_profesor=user.profesor_cedula)
-                    return
+                        messagebox.showinfo("Exito", "Iniciaste sesion")
+                        window.destroy()
+                        screen_index(tk, window=Tk(), rol=user.rol, cedula_profesor=user.profesor_cedula)
+                        return
             else:
-                messagebox.showinfo("Error", "Usuario o contraseña es incorrecta")
+               messagebox.showinfo("Error", "Usuario o contraseña es incorrecta")
     
     def register():
         from .register import screen_register
@@ -46,7 +62,9 @@ def screen_login(tk: tkinter, window: Tk):
     def abrir_manual():
         os.startfile('src\\pdfs\\Manual_de_usuario.pdf')
 
-
+    
+    azul="#b2dbeb"
+    azuloscuro="#84c1e6"
     verde="#15a35b"
     verdeoscuro="#01212e"    
     window.title("Login")    
@@ -80,7 +98,7 @@ def screen_login(tk: tkinter, window: Tk):
     frames2 = Frame(window, width=450, height=55, bg="#fff")
     frames2.place(x=180, y=400)
     
-    verde="#3ddc8f"
+    #verde="#3ddc8f"
     
     framebuttons1 = Frame(window, width=200, height=80, bg=verde)
     framebuttons1.place(x=215, y=460)
@@ -110,8 +128,8 @@ def screen_login(tk: tkinter, window: Tk):
 
     #botoninicio = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botoninicio3.png')
     login_button = customtkinter.CTkButton(master=framebuttons1, width=160, height=40, text="Iniciar Sesión",
-                                              text_color="#fff", fg_color=verde, command=login, font=(0, 20),
-                                              hover_color="#209c62")
+                                              text_color="#12090b", fg_color=azul, command=login, font=(0, 20),
+                                              hover_color=azuloscuro)#209c62")
     
     #login_button = Button(window, image=botoninicio,command=login,bg=verde)
     
@@ -119,15 +137,15 @@ def screen_login(tk: tkinter, window: Tk):
 
     botonregis = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botonesregistrar.png')
     login_button2 = customtkinter.CTkButton(master=framebuttons2, width=160, height=40, text="Crear Usuario",
-                                              text_color="#fff", fg_color=verde, command=register, font=(0, 20),
-                                              hover_color="#209c62")
+                                              text_color="#12090b", fg_color=azul, command=register, font=(0, 20),
+                                              hover_color=azuloscuro)
     
     login_button2.pack()
 
     botonrecu = tk.PhotoImage(file='src/screens/disenos/botones/botoneslogin/botonesrecuperar2.png')
     login_button3 = customtkinter.CTkButton(master=framebuttons3, width=160, height=40, text="Recuperar Usuario",
-                                              text_color="#fff", fg_color=verde, command=recovery, font=(0, 20),
-                                              hover_color="#209c62")
+                                              text_color="#12090b", fg_color=azul, command=recovery, font=(0, 20),
+                                              hover_color=azuloscuro)
     
     #login_button3 = Button(window, image=botonrecu,command=recovery,bg=verde)
     
