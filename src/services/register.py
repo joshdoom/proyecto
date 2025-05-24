@@ -1,3 +1,4 @@
+import bcrypt
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.engine import Engine
 from ..models import Usuario as Model
@@ -11,9 +12,11 @@ class Usuario:
             if session.query(Model).filter_by(nombre=nombre_de_usuario).first():
                 raise Exception('Se encuentra un usuario con ese username.')
             
+            hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            
             user = Model(nombre=nombre_de_usuario,
                              rol=rol,
-                             contrasena=password,
+                             contrasena=hashed_password,
                              pregunta_seguridad=question,
                              respuesta_seguridad=answer,
                              profesor_cedula=profesor_cedula)
@@ -21,6 +24,7 @@ class Usuario:
             session.commit()
 
     def update(self, id: int, username: str=None, password: str=None):
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         with self.session() as session:
             try:
                 if username:
