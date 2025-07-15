@@ -1,6 +1,6 @@
 import tkinter
 from datetime import datetime
-from tkinter import Tk, ttk, messagebox, Canvas, Scrollbar
+from tkinter import Tk, ttk, messagebox, Canvas, Scrollbar, Button
 from tkcalendar import DateEntry
 from ttkthemes import ThemedStyle
 from sqlalchemy.orm import Session
@@ -35,6 +35,11 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
             #tk.Button(window, text="Notas", command=notas, bg=verdeclaro, fg="black")
             
             button_notas.place(x=1000, y=295)
+
+            button_retro = customtkinter.CTkButton(master=window, width=95, height=37, text="volver",
+                                              text_color="#fff", fg_color="#0d487e", command=go_back, font=(0, 15),
+                                              hover_color=blue)
+            button_retro.place(x=15, y=10)
             
         elif rol == "Secretaria":
             #botonew = tk.PhotoImage(file='src/screens/disenos/botones/botonestablas/botonesnuevo.png')
@@ -67,6 +72,13 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
                                               hover_color=blue)
             
             button_descargar.place(x=1040, y=295)
+
+            button_retro = customtkinter.CTkButton(master=window, width=95, height=37, text="volver",
+                                              text_color="#fff", fg_color="#0d487e", command=go_back, font=(0, 15),
+                                              hover_color=blue)
+            button_retro.place(x=15, y=10)
+
+    
 
         else:
             
@@ -101,7 +113,10 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
                                               hover_color=blue)
             button_descargar.place(x=1140, y=295)
 
-            
+            button_retro = customtkinter.CTkButton(master=window, width=95, height=37, text="volver",
+                                              text_color="#fff", fg_color="#0d487e", command=go_back, font=(0, 15),
+                                              hover_color=blue)
+            button_retro.place(x=15, y=10)
 
     def update_table():
         for i in table.get_children():
@@ -313,6 +328,13 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
         window.destroy()
         screen_notas(tkinter, window=tk.Toplevel(), degree=degree, rol=rol, cedula_profesor=cedula_profesor)
 
+    def go_back():
+        from .index import screen_index
+        window.destroy()
+        screen_index(tkinter, window=tk.Tk(),rol=rol, cedula_profesor=cedula_profesor)
+        
+
+
     window.title(f"{grado[degree - 1]} año")
     window.geometry("1280x680")
     window.resizable(False, False)
@@ -322,6 +344,9 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
     verdeclaro="#287678"
     verde="#fff"
     window.config(bg=verdeclaro)
+    
+    
+    
 
     icono= tk.PhotoImage(file='src/screens/disenos/urbaneja.png')
     
@@ -330,6 +355,9 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
     cintillo.config(image=icono, compound=tk.LEFT)  # Establecer la imagen a la izquierda del texto
     cintillo.image = icono 
     cintillo.pack(side="top")
+
+    
+    
     
     miFrame = tk.Frame(window, width="1200", height="250", bd=5, bg="#287678")
     miFrame.pack()
@@ -386,6 +414,8 @@ def screen_grado(tk: tkinter, window: Tk, degree: int, rol: str, cedula_profesor
                 tt.place(x=570, y=30+(i-4)*50)
                 
                 entry.place(x=810, y=120+(i-4)*50+7)
+
+        
 
         
 

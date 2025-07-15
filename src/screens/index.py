@@ -18,22 +18,28 @@ def screen_index(tk: tk, window: Tk, rol: str, cedula_profesor: str = None):
     from .grados import screen_grado
 
     def primero():
-        screen_grado(tk, window=tk.Toplevel(), degree=1, rol=rol, cedula_profesor=cedula_profesor)
+        window.destroy()
+        screen_grado(tk, window=tk.Tk(), degree=1, rol=rol, cedula_profesor=cedula_profesor)
 
     def segundo():
-        screen_grado(tk, window=tk.Toplevel(), degree=2, rol=rol, cedula_profesor=cedula_profesor)
+        window.destroy()
+        screen_grado(tk, window=tk.Tk(), degree=2, rol=rol, cedula_profesor=cedula_profesor)
 
     def tercero():
-        screen_grado(tk, window=tk.Toplevel(), degree=3, rol=rol, cedula_profesor=cedula_profesor)
+        window.destroy()
+        screen_grado(tk, window=tk.Tk(), degree=3, rol=rol, cedula_profesor=cedula_profesor)
 
     def cuarto():
-        screen_grado(tk, window=tk.Toplevel(), degree=4, rol=rol, cedula_profesor=cedula_profesor)
+        window.destroy()
+        screen_grado(tk, window=tk.Tk(), degree=4, rol=rol, cedula_profesor=cedula_profesor)
 
     def quinto():
-        screen_grado(tk, window=tk.Toplevel(), degree=5, rol=rol, cedula_profesor=cedula_profesor)
+        window.destroy()
+        screen_grado(tk, window=tk.Tk(), degree=5, rol=rol, cedula_profesor=cedula_profesor)
 
     def profesores():
-        screen_professor(tk, window=tk.Toplevel(), rol=rol)
+        window.destroy()
+        screen_professor(tk, window=tk.Tk(), rol=rol)
 
     def cerrasesion():
         from .login import screen_login
@@ -59,7 +65,7 @@ def screen_index(tk: tk, window: Tk, rol: str, cedula_profesor: str = None):
     barra_superior= Frame(window)
     barra_superior.config(bg=verdeoscuro,height=60)    
     barra_superior.pack(side=TOP, fill="both")
-    Urbaneja= tk.Label(barra_superior,text="Luis Manuel Urbaneja Achelpolh", fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
+    Urbaneja= tk.Label(barra_superior,text="Luis Manuel Urbaneja Achelpohl", fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
     Urbaneja.pack(side="left")
     Urbaneja= tk.Label(barra_superior,text=rol, fg="white", bg=verdeoscuro,font=("Bodoni", 18, ))    
     Urbaneja.pack(side="right")
@@ -104,7 +110,7 @@ def screen_index(tk: tk, window: Tk, rol: str, cedula_profesor: str = None):
             
     fondo= Frame(window)
     fondo.pack()
-    imagenfondo = tk.PhotoImage(file='src/screens/disenos/menu.png')    
+    imagenfondo = tk.PhotoImage(file='src/screens/disenos/menu2.png')    
     etiquetafondo = tk.Label(fondo, image=imagenfondo)
     etiquetafondo.pack()
         
@@ -124,19 +130,4 @@ def screen_index(tk: tk, window: Tk, rol: str, cedula_profesor: str = None):
     
     
     
-    #window.title("Ventana Principal")
-    #window.geometry("400x600")
-    #window.resizable(0,0)
-
-    #loginFrame = tk.Frame(window)
-    #loginFrame.pack()
-
-    #titulo = tk.Label(loginFrame, text="Selecciona a donde quieras ir", font=("Helvetica", 16))
-    #titulo.pack(pady=20)
-
-    #create_button("Primer año", command=primero)
-    #create_button("Segundo año", command=segundo)
-    #create_button("Tercer año", command=tercero)
-    #create_button("Cuarto año", command=cuarto)
-    #create_button("Quinto año", command=quinto)
-    #create_button("Profesores", command=profesores)
+    

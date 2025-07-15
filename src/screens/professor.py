@@ -138,6 +138,11 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
             if entry in [entries[2], entries[3]]:
                 entry.config(validate="key")
 
+    def go_back():
+        from .index import screen_index
+        window.destroy()
+        screen_index(tkinter, window=tk.Tk(),rol=rol)
+
     window.title("Profesores")
     window.geometry("1280x680")
     window.resizable(False, False)
@@ -253,6 +258,13 @@ def screen_professor(tk: tkinter, window: Tk, rol: str):
     #tk.Button(window, text="Eliminar", command=Eliminar, bg=bc, fg="#fff")
  
     button_delete.place(x=980, y=295)
+
+    button_retro = customtkinter.CTkButton(master=window, width=95, height=37, text="volver",
+                                              text_color="#fff", fg_color="#0d487e", command=go_back, font=(0, 15),
+                                              hover_color=blue)
+    button_retro.place(x=15, y=10)
+
+    
 
 
     show_professores()
